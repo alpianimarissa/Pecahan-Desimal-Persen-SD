@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pecahan, Desimal, dan Persen - Glosheina</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons for premium visual depth -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Inter & Quicksand for clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, h4, h5, .font-display {
+            font-family: 'Quicksand', sans-serif;
+        }
+        .transition-all-300 {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Premium Navbar -->
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-indigo-200">
+                    <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800 tracking-tight">Algonova Learning</h1>
+                    <p class="text-xs text-indigo-600 font-medium -mt-1">Personalized Lesson Plan</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="hidden md:flex flex-col items-end">
+                    <span class="text-sm font-semibold text-slate-700">Glosheina</span>
+                    <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Sesi Aktif: Matematika
+                    </span>
+                </div>
+                <div class="w-10 h-10 bg-indigo-50 border-2 border-indigo-200 rounded-full flex items-center justify-center text-indigo-700 font-bold">
+                    G
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Sidebar Navigation (Responsive) -->
+        <aside class="lg:col-span-3 flex flex-col gap-2 order-2 lg:order-1">
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm sticky top-24">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Langkah Pelajaran</h3>
+                <nav class="space-y-1">
+                    <button onclick="switchTab('tujuan')" id="tab-tujuan" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-3 transition-all-300 bg-indigo-50 text-indigo-700">
+                        <i data-lucide="target" class="w-4 h-4"></i>
+                        <span>Tujuan Belajar</span>
+                    </button>
+                    <button onclick="switchTab('warmup')" id="tab-warmup" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-3 transition-all-300 text-slate-600 hover:bg-slate-50">
+                        <i data-lucide="flame" class="w-4 h-4"></i>
+                        <span>1. Diagnostic Warm-up</span>
+                    </button>
+                    <button onclick="switchTab('realworld')" id="tab-realworld" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-3 transition-all-300 text-slate-600 hover:bg-slate-50">
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        <span>2. Real-World Connect</span>
+                    </button>
+                    <button onclick="switchTab('concept')" id="tab-concept" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-3 transition-all-300 text-slate-600 hover:bg-slate-50">
+                        <i data-lucide="layers" class="w-4 h-4"></i>
+                        <span>3. Konsep Segitiga Emas</span>
+                    </button>
+                    <button onclick="switchTab('guided')" id="tab-guided" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-3 transition-all-300 text-slate-600 hover:bg-slate-50">
+                        <i data-lucide="compass" class="w-4 h-4"></i>
+                        <span>4. Latihan Terbimbing</span>
+                    </button>
+                    <button onclick="switchTab('independent')" id="tab-independent" class="nav-btn w-full text-left px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-3 transition-all-300 text-slate-600 hover:bg-slate-50">
+                        <i data-lucide="award" class="w-4 h-4"></i>
+                        <span>5. Latihan Mandiri</span>
+                    </button>
+                </nav>
+
+                <div class="mt-6 pt-6 border-t border-slate-100">
+                    <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50">
+                        <h4 class="text-xs font-bold text-indigo-900 mb-1 flex items-center gap-1">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
+                            Progress Belajar
+                        </h4>
+                        <div class="mt-2 w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                            <div id="sidebar-progress" class="bg-indigo-600 h-1.5 rounded-full transition-all-300" style="width: 15%;"></div>
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-1.5" id="sidebar-progress-text">15% Selesai</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Lesson Screen Area -->
+        <section class="lg:col-span-9 order-1 lg:order-2">
+            
+            <!-- GOALS TAB -->
+            <div id="content-tujuan" class="tab-content block">
+                <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
+                            <i data-lucide="target" class="w-8 h-8"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-500">Target Hari Ini</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Rencana Pembelajaran Glosheina</h2>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Halo Glosheina! Di bawah ini adalah target pembelajaran kita hari ini. Kita akan melatih pemahamanmu dalam mengubah-ubah bentuk angka dari pecahan, desimal, hingga persen agar ujian kelas 6-mu mendapat nilai yang maksimal! 🚀
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                            <div class="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900 text-sm">Konversi Akurat</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Mengonversi nilai antara pecahan, desimal, dan persen dengan akurasi minimal 80%.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                            <div class="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900 text-sm">Membandingkan Nilai</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Membandingkan besaran nilai dari berbagai bentuk representasi bilangan untuk mengurutkannya secara tepat.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                            <div class="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900 text-sm">Operasi Campuran</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Mengoperasikan penjumlahan dan pengurangan campuran antara desimal dan persen dalam soal cerita.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                            <div class="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg mt-0.5">
+                                <i data-lucide="check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900 text-sm">Penyederhanaan Pecahan</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Memformulasikan strategi menyederhanaan pecahan yang dihasilkan dari konversi persen secara cepat.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Script Box -->
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3">
+                        <span class="text-2xl mt-1">👩‍🏫</span>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-800">Skrip Guru</h5>
+                            <p class="text-sm italic text-slate-700 mt-1">
+                                "Halo Glosheina! Senang sekali bisa belajar bersamamu hari ini. Karena target kita adalah meningkatkan nilai matematikamu, kita akan mulai dengan tantangan cepat untuk melihat sejauh mana kamu ingat dasar-dasar pecahan. Jangan khawatir, ini hanya pemanasan agar kakak tahu bagian mana yang perlu kita pertajam. Siap?"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="switchTab('warmup')" class="px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium shadow-md shadow-indigo-100 hover:bg-indigo-700 transition-all-300 flex items-center gap-2">
+                            Mulai Warm-up
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIAGNOSTIC WARM-UP TAB -->
+            <div id="content-warmup" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-3 bg-rose-50 text-rose-600 rounded-2xl">
+                            <i data-lucide="flame" class="w-8 h-8"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-rose-500">Bagian 1: Diagnostic Warm-up</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Tantangan Cepat (10 Menit)</h2>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Warmup Quiz -->
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Soal 1: Ubah 1/2 menjadi desimal!</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                <button onclick="selectWarmup(1, '0.2', this)" class="warmup-q1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,2</button>
+                                <button onclick="selectWarmup(1, '0.5', this)" class="warmup-q1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,5</button>
+                                <button onclick="selectWarmup(1, '0.12', this)" class="warmup-q1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,12</button>
+                                <button onclick="selectWarmup(1, '1.2', this)" class="warmup-q1 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">1,2</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Soal 2: Ubah 0,25 menjadi persen!</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                <button onclick="selectWarmup(2, '2.5%', this)" class="warmup-q2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">2,5%</button>
+                                <button onclick="selectWarmup(2, '0.25%', this)" class="warmup-q2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,25%</button>
+                                <button onclick="selectWarmup(2, '25%', this)" class="warmup-q2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">25%</button>
+                                <button onclick="selectWarmup(2, '250%', this)" class="warmup-q2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">250%</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Soal 3: Ubah 75% menjadi pecahan biasa!</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                <button onclick="selectWarmup(3, '1/4', this)" class="warmup-q3 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">1/4</button>
+                                <button onclick="selectWarmup(3, '1/2', this)" class="warmup-q3 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">1/2</button>
+                                <button onclick="selectWarmup(3, '3/4', this)" class="warmup-q3 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">3/4</button>
+                                <button onclick="selectWarmup(3, '7/5', this)" class="warmup-q3 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">7/5</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Soal 4: Manakah bentuk desimal dari 3/10?</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                <button onclick="selectWarmup(4, '0.03', this)" class="warmup-q4 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,03</button>
+                                <button onclick="selectWarmup(4, '0.3', this)" class="warmup-q4 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,3</button>
+                                <button onclick="selectWarmup(4, '3.0', this)" class="warmup-q4 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">3,0</button>
+                                <button onclick="selectWarmup(4, '0.003', this)" class="warmup-q4 px-4 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:border-indigo-500 hover:bg-indigo-50/30 transition-all-300">0,003</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-between items-center">
+                        <div id="warmup-feedback" class="text-sm font-bold text-slate-500">
+                            Belum ada jawaban yang dikirimkan.
+                        </div>
+                        <button onclick="checkWarmupAnswers()" class="px-5 py-2.5 bg-rose-600 text-white rounded-xl font-medium shadow-md shadow-rose-100 hover:bg-rose-700 transition-all-300">
+                            Periksa Jawaban
+                        </button>
+                    </div>
+
+                    <!-- Teacher Script Box -->
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3 mt-8">
+                        <span class="text-2xl mt-1">👩‍🏫</span>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-800">Skrip Guru</h5>
+                            <p class="text-sm italic text-slate-700 mt-1">
+                                "Bagaimana pemanasannya, Glosheina? Mudah sekali, kan? Ini membantu menyalakan sensor fokus matematika di otakmu!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button onclick="switchTab('tujuan')" class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 transition-all-300 flex items-center gap-2">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                        </button>
+                        <button onclick="switchTab('realworld')" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-all-300 flex items-center gap-2">
+                            Lanjut ke Hubungan Nyata <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REAL-WORLD CONNECTION TAB -->
+            <div id="content-realworld" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
+                            <i data-lucide="shopping-bag" class="w-8 h-8"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-500">Bagian 2: Introduction & Real-World Connection</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Diskon di Mall: Pecahan vs Persen</h2>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Mall Discount Simulation -->
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 mb-6">
+                        <p class="text-sm text-slate-600 mb-6">
+                            Bayangkan Glosheina sedang berbelanja tas sekolah baru di mall dengan uang tabungan sendiri. Ada dua toko bersebelahan yang menjual tas idamanmu dengan harga awal sama-sama <strong>Rp200.000</strong>:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Shop A Card -->
+                            <div class="bg-white p-5 rounded-xl border border-slate-200 text-center shadow-sm">
+                                <div class="w-12 h-12 bg-rose-50 rounded-full flex items-center justify-center text-rose-600 font-bold mx-auto mb-3 text-lg">A</div>
+                                <h4 class="font-bold text-slate-800 text-lg">Toko Mentari</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">Potongan Harga langsung</p>
+                                <div class="my-4 py-2 px-4 bg-rose-50 text-rose-700 font-bold text-2xl rounded-lg inline-block">35%</div>
+                                <div class="mt-4 pt-4 border-t border-slate-100">
+                                    <button onclick="calculateDiscount('A')" class="px-4 py-2 bg-rose-600 text-white rounded-lg text-xs font-medium hover:bg-rose-700 transition-all-300">Hitung Potongan</button>
+                                    <p id="calc-A" class="text-sm font-semibold text-rose-700 mt-2 hidden"></p>
+                                </div>
+                            </div>
+
+                            <!-- Shop B Card -->
+                            <div class="bg-white p-5 rounded-xl border border-slate-200 text-center shadow-sm">
+                                <div class="w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600 font-bold mx-auto mb-3 text-lg">B</div>
+                                <h4 class="font-bold text-slate-800 text-lg">Toko Bintang</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">Potongan Harga langsung</p>
+                                <div class="my-4 py-2 px-4 bg-indigo-50 text-indigo-700 font-bold text-2xl rounded-lg inline-block">1/3 Bagian</div>
+                                <div class="mt-4 pt-4 border-t border-slate-100">
+                                    <button onclick="calculateDiscount('B')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition-all-300">Hitung Potongan</button>
+                                    <p id="calc-B" class="text-sm font-semibold text-indigo-700 mt-2 hidden"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini Question Box -->
+                        <div class="mt-8 bg-indigo-50 rounded-xl p-4 border border-indigo-100">
+                            <p class="text-sm font-semibold text-indigo-950 mb-3 flex items-center gap-2">
+                                <i data-lucide="help-circle" class="w-4 h-4 text-indigo-600"></i>
+                                Berdasarkan hitungan di atas, toko mana yang menawarkan diskon paling menguntungkan?
+                            </p>
+                            <div class="flex gap-3">
+                                <button onclick="answerDiscountShop('Toko Mentari (35%)')" class="px-4 py-2 bg-white border border-indigo-200 text-indigo-700 rounded-lg text-sm font-medium hover:bg-indigo-100 transition-all-300">Toko Mentari (35%)</button>
+                                <button onclick="answerDiscountShop('Toko Bintang (1/3)')" class="px-4 py-2 bg-white border border-indigo-200 text-indigo-700 rounded-lg text-sm font-medium hover:bg-indigo-100 transition-all-300">Toko Bintang (1/3)</button>
+                            </div>
+                            <p id="shop-answer-feedback" class="text-sm font-medium mt-3 text-emerald-700 hidden"></p>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Script Box -->
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3 mt-8">
+                        <span class="text-2xl mt-1">👩‍🏫</span>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-800">Skrip Guru</h5>
+                            <p class="text-sm italic text-slate-700 mt-1">
+                                "Glosheina, tahu tidak kenapa materi ini kunci utama untuk menaikkan nilai matematikamu? Karena di ujian kelas 6, soal konversi ini muncul di hampir semua bab! Bayangkan kamu sedang belanja di mall dan ada diskon 35%, sementara di toko sebelah ada potongan harga sepertiga (1/3). Kalau kamu jago konversi, kamu bisa langsung tahu toko mana yang lebih murah dalam sedetik!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button onclick="switchTab('warmup')" class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 transition-all-300 flex items-center gap-2">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                        </button>
+                        <button onclick="switchTab('concept')" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-all-300 flex items-center gap-2">
+                            Mulai Belajar Konsep <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONCEPT INTRODUCTION TAB -->
+            <div id="content-concept" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-3 bg-amber-50 text-amber-600 rounded-2xl">
+                            <i data-lucide="layers" class="w-8 h-8"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-500">Bagian 3: Concept & Strategy</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Segitiga Emas Matematika</h2>
+                        </div>
+                    </div>
+
+                    <!-- Triangular Concept Interactive Mapping -->
+                    <div class="bg-gradient-to-br from-indigo-900 to-indigo-950 rounded-2xl p-6 text-white mb-6">
+                        <h4 class="text-center text-lg font-bold text-yellow-300 mb-2">"Satu Wajah, Tiga Gaya Busana!"</h4>
+                        <p class="text-center text-xs text-indigo-200 max-w-lg mx-auto mb-6">
+                            Pecahan, Desimal, dan Persen sebenarnya adalah bilangan yang bernilai persis sama, hanya cara penulisannya saja yang berbeda.
+                        </p>
+
+                        <!-- Concept Diagram -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
+                            <!-- Point 1 -->
+                            <div onclick="selectConceptNode('pecahan')" id="node-pecahan" class="cursor-pointer border-2 border-indigo-500/50 hover:border-yellow-400 bg-indigo-800/50 p-4 rounded-xl text-center transition-all-300 transform hover:scale-[1.02]">
+                                <span class="text-xs font-bold uppercase text-indigo-300">Mode 1</span>
+                                <h5 class="text-xl font-bold mt-1 text-white">Pecahan</h5>
+                                <p class="text-2xl font-bold text-yellow-300 my-2">a/b</p>
+                                <span class="text-[10px] text-indigo-200">Menyatakan bagian dari keseluruhan keseluruhan</span>
+                            </div>
+                            
+                            <!-- Point 2 -->
+                            <div onclick="selectConceptNode('desimal')" id="node-desimal" class="cursor-pointer border-2 border-indigo-500/50 hover:border-yellow-400 bg-indigo-800/50 p-4 rounded-xl text-center transition-all-300 transform hover:scale-[1.02]">
+                                <span class="text-xs font-bold uppercase text-indigo-300">Mode 2</span>
+                                <h5 class="text-xl font-bold mt-1 text-white">Desimal</h5>
+                                <p class="text-2xl font-bold text-yellow-300 my-2">0,ab</p>
+                                <span class="text-[10px] text-indigo-200">Menyatakan nilai dengan tanda koma (per sepuluh, ratus)</span>
+                            </div>
+
+                            <!-- Point 3 -->
+                            <div onclick="selectConceptNode('persen')" id="node-persen" class="cursor-pointer border-2 border-indigo-500/50 hover:border-yellow-400 bg-indigo-800/50 p-4 rounded-xl text-center transition-all-300 transform hover:scale-[1.02]">
+                                <span class="text-xs font-bold uppercase text-indigo-300">Mode 3</span>
+                                <h5 class="text-xl font-bold mt-1 text-white">Persen</h5>
+                                <p class="text-2xl font-bold text-yellow-300 my-2">ab%</p>
+                                <span class="text-[10px] text-indigo-200">Menyatakan nilai perseratus (selalu berpenyebut 100)</span>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Explanation Box -->
+                        <div class="mt-6 p-4 bg-indigo-950/60 rounded-xl border border-indigo-700/50">
+                            <h4 class="text-sm font-bold text-yellow-300 flex items-center gap-1">
+                                <i data-lucide="info" class="w-4 h-4"></i>
+                                <span id="concept-title">Klik salah satu bentuk di atas untuk melihat trik rahasia konversi!</span>
+                            </h4>
+                            <p id="concept-desc" class="text-sm text-slate-200 mt-2">
+                                Pembelajaran yang bermakna dimulai dari memahami konsep inti. Klik tombol Pecahan, Desimal, atau Persen di atas untuk mengaktifkan taktik cerdas mengubah antar format bilangan tersebut.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Script Box -->
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3 mt-8">
+                        <span class="text-2xl mt-1">👩‍🏫</span>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-800">Skrip Guru</h5>
+                            <p class="text-sm italic text-slate-700 mt-1">
+                                "Mari kita ingat 'Segitiga Emas' kita: Pecahan, Desimal, dan Persen. Mereka adalah orang yang sama tapi memakai baju berbeda. Untuk mengubah Pecahan ke Desimal, kita gunakan pembagian 'pistol'. Untuk Desimal ke Persen, cukup geser koma dua kali ke kanan karena kita kali 100. Contoh: 0,45 menjadi 45%. Kalau dari Persen ke Pecahan, ingatlah bahwa % selalu artinya per 100, lalu kita sederhanakan."
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button onclick="switchTab('realworld')" class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 transition-all-300 flex items-center gap-2">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                        </button>
+                        <button onclick="switchTab('guided')" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-all-300 flex items-center gap-2">
+                            Lanjut ke Latihan Bersama <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GUIDED PRACTICE TAB -->
+            <div id="content-guided" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-3 bg-purple-50 text-purple-600 rounded-2xl">
+                            <i data-lucide="compass" class="w-8 h-8"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-500">Bagian 4: Guided Practice</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Mari Kita Selesaikan Bersama! (15 Menit)</h2>
+                        </div>
+                    </div>
+
+                    <!-- Step-by-Step Guided Workspace -->
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-150">
+                            <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs">1</span>
+                                Ubah pecahan 3/5 Menjadi Bentuk Desimal & Persen
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 ml-8">Mari pecahkan: Pertama, kita ubah ke desimal dengan pembagian bersusun (pistol), lalu geser koma untuk menjadikannya persen.</p>
+                            
+                            <div class="mt-4 ml-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-400 font-medium">Bentuk Desimal:</span>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <input id="guided-step1-des" type="number" step="0.1" placeholder="..." class="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-semibold text-center focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200">
+                                        <button onclick="checkGuidedStep(1)" class="px-3 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-all-300">Cek Desimal</button>
+                                    </div>
+                                    <p id="guided-feedback-1a" class="text-xs mt-2 font-semibold hidden"></p>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-400 font-medium">Bentuk Persen:</span>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <input id="guided-step1-per" type="number" placeholder="..." class="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-semibold text-center focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200">
+                                        <span class="text-sm font-bold text-slate-600">%</span>
+                                        <button onclick="checkGuidedStep(2)" class="px-3 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-all-300">Cek Persen</button>
+                                    </div>
+                                    <p id="guided-feedback-1b" class="text-xs mt-2 font-semibold hidden"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-150">
+                            <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs">2</span>
+                                Ubah Desimal 0,125 Menjadi Pecahan Paling Sederhana
+                            </h4>
+                            <p class="text-xs text-slate-500 mt-1 ml-8">Ingat triknya: 3 angka di belakang koma berarti per 1000 (125/1000). Lalu, sederhanakan pembilang dan penyebut!</p>
+
+                            <div class="mt-4 ml-8 bg-white p-4 rounded-xl border border-slate-200">
+                                <div class="flex flex-col md:flex-row items-center gap-4">
+                                    <div class="flex items-center gap-2">
+                                        <input id="guided-step2-num" type="number" placeholder="Pembilang" class="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-semibold text-center">
+                                        <span class="text-slate-400">/</span>
+                                        <input id="guided-step2-den" type="number" placeholder="Penyebut" class="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-semibold text-center">
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button onclick="checkGuidedStep(3)" class="px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition-all-300">Periksa Pecahan</button>
+                                        <button onclick="showGuidedHint()" class="px-3 py-1.5 border border-slate-200 text-slate-600 text-xs font-semibold rounded-lg hover:bg-slate-50 transition-all-300">Bantuan Petunjuk</button>
+                                    </div>
+                                </div>
+                                <p id="guided-feedback-2" class="text-xs mt-3 font-semibold hidden"></p>
+                            </div>
+                        </div>
+
+                        <!-- Trap Analysis Box -->
+                        <div class="bg-rose-50 border border-rose-100 p-4 rounded-xl">
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-rose-800 flex items-center gap-1">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                Analisis Soal Jebakan!
+                            </h5>
+                            <p class="text-sm font-semibold text-slate-800 mt-2">Apakah 0,5 sama dengan 5% atau 50%?</p>
+                            <div class="flex gap-3 mt-3">
+                                <button onclick="answerTrap('5%')" class="px-4 py-2 bg-white border border-rose-200 text-rose-700 rounded-lg text-sm font-medium hover:bg-rose-100 transition-all-300">Sama dengan 5%</button>
+                                <button onclick="answerTrap('50%')" class="px-4 py-2 bg-white border border-rose-200 text-rose-700 rounded-lg text-sm font-medium hover:bg-rose-100 transition-all-300">Sama dengan 50%</button>
+                            </div>
+                            <p id="trap-feedback" class="text-sm font-medium mt-3 text-emerald-700 hidden"></p>
+                        </div>
+                    </div>
+
+                    <!-- Teacher Script Box -->
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3 mt-8">
+                        <span class="text-2xl mt-1">👩‍🏫</span>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-800">Skrip Guru</h5>
+                            <p class="text-sm italic text-slate-700 mt-1">
+                                "Sekarang, mari kita kerjakan bersama di papan tulis digital. Kita punya angka 3/5. Pertama, ayo kita jadikan desimal dulu. 3 dibagi 5 jadi berapa? Betul, 0,6. Nah, kalau 0,6 dijadikan persen, geser komanya dua langkah... jadi 60%! Hebat. Sekarang coba kamu pandu kakak mengubah 0,125 menjadi pecahan paling sederhana."
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button onclick="switchTab('concept')" class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 transition-all-300 flex items-center gap-2">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                        </button>
+                        <button onclick="switchTab('independent')" class="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-all-300 flex items-center gap-2">
+                            Lanjut ke Latihan Mandiri <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INDEPENDENT PRACTICE TAB (Merged with Homework/Review) -->
+            <div id="content-independent" class="tab-content hidden">
+                <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
+                            <i data-lucide="award" class="w-8 h-8"></i>
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-500">Bagian 5: Latihan Mandiri</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Uji Pemahamanmu & Bersinarlah!</h2>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-600 mb-6">Silakan pilih menu tingkat kesulitan latihan di bawah ini untuk memulai latihan mandiri secara interaktif.</p>
+
+                    <!-- Nested Tab Buttons inside Latihan Mandiri -->
+                    <div class="flex flex-wrap border-b border-slate-200 mb-6 gap-1">
+                        <button onclick="switchIndSubTab('tantangan')" id="ind-subtab-tantangan" class="ind-sub-btn px-4 py-2.5 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 flex items-center gap-2 transition-all-300">
+                            <i data-lucide="zap" class="w-4 h-4"></i> Tantangan Kelas
+                        </button>
+                        <button onclick="switchIndSubTab('sedang')" id="ind-subtab-sedang" class="ind-sub-btn px-4 py-2.5 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 flex items-center gap-2 transition-all-300">
+                            <i data-lucide="star" class="w-4 h-4"></i> Tingkat Sedang
+                        </button>
+                        <button onclick="switchIndSubTab('sulit')" id="ind-subtab-sulit" class="ind-sub-btn px-4 py-2.5 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 flex items-center gap-2 transition-all-300">
+                            <i data-lucide="flame" class="w-4 h-4"></i> Tingkat Sulit
+                        </button>
+                    </div>
+
+                    <!-- AREA SUBTAB 1: TANTANGAN UTAMA -->
+                    <div id="ind-area-tantangan" class="ind-area-content block space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <button onclick="activeIndTask(1)" id="btn-ind-1" class="ind-task-btn p-4 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 text-left transition-all-300">
+                                <span class="text-xs font-bold text-indigo-600">TANTANGAN 1</span>
+                                <h5 class="font-bold text-slate-800 text-sm mt-1">Mengurutkan Berbagai Bentuk Nilai</h5>
+                            </button>
+                            <button onclick="activeIndTask(2)" id="btn-ind-2" class="ind-task-btn p-4 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition-all-300">
+                                <span class="text-xs font-bold text-slate-400">TANTANGAN 2</span>
+                                <h5 class="font-bold text-slate-800 text-sm mt-1">Penjumlahan Desimal-Persen</h5>
+                            </button>
+                            <button onclick="activeIndTask(3)" id="btn-ind-3" class="ind-task-btn p-4 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition-all-300">
+                                <span class="text-xs font-bold text-slate-400">TANTANGAN 3</span>
+                                <h5 class="font-bold text-slate-800 text-sm mt-1">Soal Cerita Sisa Kue</h5>
+                            </button>
+                        </div>
+
+                        <!-- Task 1 Content -->
+                        <div id="ind-task-1" class="ind-task-content block bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                            <h4 class="font-bold text-slate-800 mb-2">Tantangan 1: Urutkan 0,7; 3/4; dan 65% dari yang terkecil!</h4>
+                            <p class="text-xs text-slate-500 mb-4">Tips: Ubah semuanya terlebih dahulu menjadi bentuk yang sejenis (disarankan berbentuk desimal atau persen).</p>
+                            
+                            <div class="space-y-3">
+                                <label class="block text-sm font-medium text-slate-700">Pilih Urutan yang Benar:</label>
+                                <div class="flex flex-col gap-2">
+                                    <button onclick="checkIndAnswer(1, 'A', this)" class="ans-opt-1 p-3 bg-white border border-slate-200 rounded-xl text-left text-sm hover:border-indigo-500 transition-all-300 flex items-center gap-1">
+                                        <span>A. </span> 65% &rarr; 0,7 &rarr; 3/4
+                                    </button>
+                                    <button onclick="checkIndAnswer(1, 'B', this)" class="ans-opt-1 p-3 bg-white border border-slate-200 rounded-xl text-left text-sm hover:border-indigo-500 transition-all-300 flex items-center gap-1">
+                                        <span>B. </span> 0,7 &rarr; 65% &rarr; 3/4
+                                    </button>
+                                    <button onclick="checkIndAnswer(1, 'C', this)" class="ans-opt-1 p-3 bg-white border border-slate-200 rounded-xl text-left text-sm hover:border-indigo-500 transition-all-300 flex items-center gap-1">
+                                        <span>C. </span> 3/4 &rarr; 0,7 &rarr; 65%
+                                    </button>
+                                </div>
+                                <div id="ind-feedback-1" class="p-3 bg-emerald-50 text-emerald-800 text-sm font-medium rounded-xl border border-emerald-100 hidden"></div>
+                            </div>
+                        </div>
+
+                        <!-- Task 2 Content -->
+                        <div id="ind-task-2" class="ind-task-content hidden bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                            <h4 class="font-bold text-slate-800 mb-2">Tantangan 2: Hitunglah hasil dari 0,5 + 25% (Tulis jawaban akhir dalam bentuk desimal!)</h4>
+                            <p class="text-xs text-slate-500 mb-4">Tips: Ubah terlebih dahulu persen (25%) menjadi bentuk desimal, kemudian operasikan penjumlahannya secara teliti.</p>
+
+                            <div class="flex items-center gap-3">
+                                <input id="ind-task-2-ans" type="number" step="0.01" placeholder="Masukkan desimal..." class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold w-48">
+                                <button onclick="checkIndAnswer(2, 'submit')" class="px-5 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="ind-feedback-2" class="p-3 bg-emerald-50 text-emerald-800 text-sm font-medium rounded-xl border border-emerald-100 mt-4 hidden"></div>
+                        </div>
+
+                        <!-- Task 3 Content -->
+                        <div id="ind-task-3" class="ind-task-content hidden bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                            <h4 class="font-bold text-slate-800 mb-2">Tantangan 3: Soal Cerita Sisa Kue</h4>
+                            <p class="text-sm text-slate-600 mb-4">Ibu memiliki satu loyang kue bolu utuh (1 bagian). Kakak memakan 40% dari bolu tersebut, sedangkan adik memakan bagian sebanyak 0,25. Berapa sisa bagian kue loyang Ibu sekarang dalam bentuk pecahan paling sederhana?</p>
+
+                            <div class="space-y-3">
+                                <label class="block text-sm font-medium text-slate-700">Pilih Jawaban:</label>
+                                <div class="flex flex-col gap-2">
+                                    <button onclick="checkIndAnswer(3, 'A', this)" class="ans-opt-3 p-3 bg-white border border-slate-200 rounded-xl text-left text-sm hover:border-indigo-500 transition-all-300">
+                                        A. 1/2 Loyang
+                                    </button>
+                                    <button onclick="checkIndAnswer(3, 'B', this)" class="ans-opt-3 p-3 bg-white border border-slate-200 rounded-xl text-left text-sm hover:border-indigo-500 transition-all-300">
+                                        B. 7/20 Loyang
+                                    </button>
+                                    <button onclick="checkIndAnswer(3, 'C', this)" class="ans-opt-3 p-3 bg-white border border-slate-200 rounded-xl text-left text-sm hover:border-indigo-500 transition-all-300">
+                                        C. 13/20 Loyang
+                                    </button>
+                                </div>
+                                <div id="ind-feedback-3" class="p-3 bg-emerald-50 text-emerald-800 text-sm font-medium rounded-xl border border-emerald-100 hidden"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AREA SUBTAB 2: SOAL TINGKAT SEDANG -->
+                    <div id="ind-area-sedang" class="ind-area-content hidden space-y-6">
+                        <!-- Q1 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">1. Ubah pecahan 4/5 menjadi bentuk persen!</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <input id="hw-m-q1-ans" type="number" placeholder="Jawaban" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-36 focus:ring-2 focus:ring-indigo-100 focus:outline-none"> <span class="text-sm font-bold text-slate-500">%</span>
+                                <button onclick="checkHWAnswer('m1')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-m-q1-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">2. Ubahlah 0,35 menjadi pecahan paling sederhana!</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <input id="hw-m-q2-num" type="number" placeholder="Pembilang" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-24 text-center focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                <span class="text-slate-400">/</span>
+                                <input id="hw-m-q2-den" type="number" placeholder="Penyebut" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-24 text-center focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                <button onclick="checkHWAnswer('m2')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-m-q2-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">3. Hitunglah: 0,8 + 15% = ... (dalam bentuk desimal)</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <input id="hw-m-q3-ans" type="number" step="0.01" placeholder="Jawaban desimal" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-44 focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                <button onclick="checkHWAnswer('m3')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-m-q3-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">4. Manakah yang lebih besar: 0,62 atau 5/8?</p>
+                            <div class="mt-2 flex gap-2">
+                                <button onclick="checkHWAnswer('m4', '0.62')" class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold hover:border-indigo-500 transition-all-300">0,62</button>
+                                <button onclick="checkHWAnswer('m4', '5/8')" class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold hover:border-indigo-500 transition-all-300">5/8</button>
+                            </div>
+                            <div id="hw-m-q4-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- AREA SUBTAB 3: SOAL TINGKAT SULIT -->
+                    <div id="ind-area-sulit" class="ind-area-content hidden space-y-6">
+                        <!-- Q1 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">1. Urutkan dari yang terbesar: 1,25; 120%; 1 1/4; 6/5.</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Pilihlah urutan yang paling benar setelah mengonversinya secara setara.</p>
+                            <div class="mt-3 flex flex-col gap-2">
+                                <button onclick="checkHWAnswer('h1', 'A')" class="p-3 bg-white border border-slate-200 rounded-xl text-left text-xs hover:border-indigo-500 transition-all-300">
+                                    A. 1,25 = 1 1/4 &gt; 6/5 = 120%
+                                </button>
+                                <button onclick="checkHWAnswer('h1', 'B')" class="p-3 bg-white border border-slate-200 rounded-xl text-left text-xs hover:border-indigo-500 transition-all-300">
+                                    B. 1,25 &gt; 120% &gt; 1 1/4 = 6/5
+                                </button>
+                            </div>
+                            <div id="hw-h-q1-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">2. Ayah memiliki uang Rp100.000. Sebanyak 2/5 diberikan kepada adik dan 30% ditabung. Berapa sisa uang ayah?</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <span class="text-sm font-semibold text-slate-500">Rp</span>
+                                <input id="hw-h-q2-ans" type="number" placeholder="Sisa Uang" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-44 focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                <button onclick="checkHWAnswer('h2')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-h-q2-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">3. Hasil dari 2 1/2 - 0,75 + 20% adalah... (Nyatakan dalam bentuk pecahan paling sederhana!)</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <input id="hw-h-q3-num" type="number" placeholder="Pembilang" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-24 text-center focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                <span class="text-slate-400">/</span>
+                                <input id="hw-h-q3-den" type="number" placeholder="Penyebut" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-24 text-center focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                <button onclick="checkHWAnswer('h3')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-h-q3-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">4. Dalam lomba, Glosheina menjawab benar 18 dari 25 soal. Berapa persentase nilai Glosheina?</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <input id="hw-h-q4-ans" type="number" placeholder="Persentase" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-36 focus:ring-2 focus:ring-indigo-100 focus:outline-none"> <span class="text-sm font-bold text-slate-500">%</span>
+                                <button onclick="checkHWAnswer('h4')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-h-q4-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q5 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">5. Ubahlah pecahan 1/8 menjadi bentuk desimal & persen!</p>
+                            <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-400 font-medium">Bentuk Desimal:</span>
+                                    <input id="hw-h-q5-des" type="number" step="0.001" placeholder="..." class="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-semibold block mt-1 focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <span class="text-xs text-slate-400 font-medium">Bentuk Persen (%):</span>
+                                    <input id="hw-h-q5-per" type="number" step="0.1" placeholder="..." class="w-24 px-3 py-1.5 border border-slate-200 rounded-lg text-sm font-semibold block mt-1 focus:ring-2 focus:ring-indigo-100 focus:outline-none">
+                                </div>
+                            </div>
+                            <button onclick="checkHWAnswer('h5')" class="mt-3 px-4 py-2 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa Gabungan</button>
+                            <div id="hw-h-q5-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+
+                        <!-- Q6 -->
+                        <div class="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-sm font-semibold text-slate-800">6. Jika 0,4 + x = 3/4, berapakah nilai x dalam bentuk persen?</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <input id="hw-h-q6-ans" type="number" placeholder="Nilai x (%)" class="px-3 py-1.5 border border-slate-200 rounded-lg text-sm w-36 focus:ring-2 focus:ring-indigo-100 focus:outline-none"> <span class="text-sm font-bold text-slate-500">%</span>
+                                <button onclick="checkHWAnswer('h6')" class="px-3.5 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition-all-300">Periksa</button>
+                            </div>
+                            <div id="hw-h-q6-feedback" class="text-xs mt-2 font-semibold hidden"></div>
+                        </div>
+                    </div>
+
+                    <!-- Parent Report Generator Section -->
+                    <div class="mt-12 bg-slate-900 text-slate-100 rounded-2xl p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="p-2 bg-indigo-500/20 text-indigo-400 rounded-lg">
+                                <i data-lucide="bell" class="w-5 h-5"></i>
+                            </span>
+                            <h3 class="font-bold text-lg">Catatan Orang Tua & Laporan Kemajuan</h3>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4 leading-relaxed">Fitur ini membantu mengirimkan performa pengerjaan Glosheina hari ini kepada orang tua secara instan sebagai laporan pemantauan belajar mandiri.</p>
+                        
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 mb-4">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pesan Pembelajaran Glosheina</h4>
+                            <p class="text-sm italic text-slate-200 mt-2">
+                                "Hari ini Glosheina belajar review konversi Pecahan, Desimal, dan Persen. Dia menunjukkan pemahaman yang baik dalam metode 'geser koma'. Mohon bantu diingatkan untuk mengerjakan PR di platform kami agar pemahamannya semakin kuat untuk nilai ujian yang lebih baik!"
+                            </p>
+                        </div>
+                        <button onclick="downloadReport()" class="px-4 py-2.5 bg-indigo-600 text-white font-medium text-xs rounded-xl hover:bg-indigo-700 transition-all-300 flex items-center gap-2">
+                            <i data-lucide="download" class="w-4 h-4"></i> Simpan & Bagikan Laporan Belajar
+                        </button>
+                    </div>
+
+                    <!-- Teacher Script Box -->
+                    <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3 mt-8">
+                        <span class="text-2xl mt-1">👩‍🏫</span>
+                        <div>
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-amber-800">Skrip Guru</h5>
+                            <p class="text-sm italic text-slate-700 mt-1">
+                                "Luar biasa, Glosheina! Hari ini kamu sudah berhasil menguasai trik 'geser koma' dan 'pistol pembagian'. Nilai matematikamu pasti akan naik jika fokus dan teliti seperti tadi. Jangan lupa untuk terus berlatih dengan soal-soal latihan mandiri tingkat sedang dan sulit yang sudah Kakak siapkan ya. Ingat untuk bergabung ke https://learn.algonova.id/login dan periksa bagian pelajaran untuk melihat materi hari ini. Sampai jumpa di sesi berikutnya!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-between">
+                        <button onclick="switchTab('guided')" class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 transition-all-300 flex items-center gap-2">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 mt-auto py-6">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-400">
+            &copy; 2026 Algonova Learning Platform. Dibuat khusus untuk Pembelajaran Glosheina.
+        </div>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Application State Management
+        let appState = {
+            completedWarmups: 0,
+            warmupAnswers: {},
+            tabProgress: {
+                tujuan: 15,
+                warmup: 30,
+                realworld: 45,
+                concept: 65,
+                guided: 85,
+                independent: 100
+            }
+        };
+
+        // Navigation Tab Switching
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show target
+            const targetEl = document.getElementById(`content-${tabId}`);
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+            }
+
+            // Reset navigation tab states
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-50', 'text-indigo-700');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-50');
+            });
+            // Highlight current tab
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+                activeBtn.classList.add('bg-indigo-50', 'text-indigo-700');
+            }
+
+            // Update Progress UI
+            const progressVal = appState.tabProgress[tabId] || 15;
+            document.getElementById('sidebar-progress').style.width = `${progressVal}%`;
+            document.getElementById('sidebar-progress-text').innerText = `${progressVal}% Selesai`;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Sub-Tab Navigation for Independent Practice (Tantangan / Sedang / Sulit)
+        function switchIndSubTab(subTabId) {
+            // Hide all sub tab contents
+            document.querySelectorAll('.ind-area-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show target
+            const targetEl = document.getElementById(`ind-area-${subTabId}`);
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+            }
+
+            // Reset nav styles
+            document.querySelectorAll('.ind-sub-btn').forEach(btn => {
+                btn.classList.remove('text-indigo-600', 'border-indigo-600');
+                btn.classList.add('text-slate-500', 'border-transparent');
+            });
+
+            // Highlight current
+            const activeBtn = document.getElementById(`ind-subtab-${subTabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('text-indigo-600', 'border-indigo-600');
+                activeBtn.classList.remove('text-slate-500', 'border-transparent');
+            }
+        }
+
+        // --- Diagnostic Warm-up Quiz ---
+        function selectWarmup(questionNum, val, element) {
+            appState.warmupAnswers[questionNum] = val;
+            
+            // Toggle highlight styling classes
+            document.querySelectorAll(`.warmup-q${questionNum}`).forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+                btn.classList.add('bg-white', 'text-slate-800', 'border-slate-200');
+            });
+            element.classList.remove('bg-white', 'text-slate-800', 'border-slate-200');
+            element.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+        }
+
+        function checkWarmupAnswers() {
+            const answers = {
+                1: '0.5',
+                2: '25%',
+                3: '3/4',
+                4: '0.3'
+            };
+            
+            let correctCount = 0;
+            for (let q in answers) {
+                if (appState.warmupAnswers[q] === answers[q]) {
+                    correctCount++;
+                }
+            }
+
+            const feedback = document.getElementById('warmup-feedback');
+            feedback.classList.remove('text-slate-500', 'text-emerald-600', 'text-rose-600');
+            
+            if (Object.keys(appState.warmupAnswers).length < 4) {
+                feedback.innerText = "Selesaikan keempat pertanyaan pemanasan di atas terlebih dahulu!";
+                feedback.classList.add('text-rose-600');
+                return;
+            }
+
+            if (correctCount >= 3) {
+                feedback.innerHTML = `Luar biasa Glosheina! Kamu menjawab ${correctCount} dari 4 soal dengan benar 🎉`;
+                feedback.classList.add('text-emerald-600');
+            } else {
+                feedback.innerHTML = `Ayo coba ingat kembali! Kamu berhasil menjawab ${correctCount} dari 4 soal dengan benar.`;
+                feedback.classList.add('text-rose-600');
+            }
+        }
+
+        // --- Introduction Real World Connection ---
+        function calculateDiscount(shop) {
+            if (shop === 'A') {
+                const discA = 0.35 * 200000;
+                const resultA = 200000 - discA;
+                const el = document.getElementById('calc-A');
+                el.innerHTML = `Potongan: Rp${discA.toLocaleString('id-ID')}<br>Harga Akhir: Rp${resultA.toLocaleString('id-ID')}`;
+                el.classList.remove('hidden');
+            } else if (shop === 'B') {
+                const discB = Math.round((1/3) * 200000);
+                const resultB = 200000 - discB;
+                const el = document.getElementById('calc-B');
+                el.innerHTML = `Potongan: Rp${discB.toLocaleString('id-ID')}<br>Harga Akhir: Rp${resultB.toLocaleString('id-ID')}`;
+                el.classList.remove('hidden');
+            }
+        }
+
+        function answerDiscountShop(answer) {
+            const el = document.getElementById('shop-answer-feedback');
+            el.classList.remove('hidden');
+            if (answer.includes('Bintang')) {
+                el.innerHTML = `⭐ <strong>Tepat sekali, Glosheina!</strong> Potongan 1/3 bagian sama dengan sekitar 33,3%. Sehingga Toko Mentari (dengan diskon 35%) menawarkan diskon lebih besar yang membuat harganya lebih murah! Jago sekali analisis belanjamu!`;
+            } else {
+                el.innerHTML = `✨ <strong>Luar Biasa, Glosheina!</strong> Diskon 35% di Toko Mentari lebih murah dibanding 1/3 di Toko Bintang (33,3%). Kamu jago belanja hemat!`;
+            }
+        }
+
+        // --- Concept Node Selections ---
+        function selectConceptNode(nodeId) {
+            document.querySelectorAll('#node-pecahan, #node-desimal, #node-persen').forEach(el => {
+                el.classList.remove('border-yellow-400', 'bg-indigo-900/50');
+            });
+            document.getElementById(`node-${nodeId}`).classList.add('border-yellow-400', 'bg-indigo-900/50');
+
+            const title = document.getElementById('concept-title');
+            const desc = document.getElementById('concept-desc');
+
+            if (nodeId === 'pecahan') {
+                title.innerText = "Rahasia Mengubah Pecahan ke Desimal";
+                desc.innerHTML = "Gunakan metode pembagian bersusun (pembagian pistol) atau ubah penyebut pecahan menjadi kelipatan 10, 100, atau 1000. Contoh: 3/5 = 6/10 sehingga langsung didapat desimal <strong>0,6</strong>.";
+            } else if (nodeId === 'desimal') {
+                title.innerText = "Trik Mengubah Desimal ke Persen";
+                desc.innerHTML = "Sangat mudah! Cukup geser tanda koma sebanyak <strong>dua langkah ke arah kanan</strong> karena dikalikan dengan 100. Contoh: 0,125 &rarr; geser koma dua kali &rarr; menjadi <strong>12,5%</strong>.";
+            } else if (nodeId === 'persen') {
+                title.innerText = "Trik Mengubah Persen ke Pecahan";
+                desc.innerHTML = "Ingat selalu bahwa lambang persen (%) berarti <strong>per 100</strong>. Tulis bilangan persen tersebut di atas penyebut 100, lalu sederhanakan nilainya sampai sekecil mungkin. Contoh: 75% = 75/100 &rarr; diperkecil dengan dibagi 25 menjadi <strong>3/4</strong>.";
+            }
+        }
+
+        // --- Guided Step Checker ---
+        function checkGuidedStep(step) {
+            if (step === 1) {
+                const val = parseFloat(document.getElementById('guided-step1-des').value);
+                const feedback = document.getElementById('guided-feedback-1a');
+                feedback.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 0.6) {
+                    feedback.innerText = "Hebat! Jawabanmu benar, yaitu 0,6.";
+                    feedback.classList.add('text-emerald-600');
+                } else {
+                    feedback.innerText = "Belum tepat. Coba lagi! Ingat, 3 dibagi 5.";
+                    feedback.classList.add('text-rose-600');
+                }
+            } else if (step === 2) {
+                const val = parseInt(document.getElementById('guided-step1-per').value);
+                const feedback = document.getElementById('guided-feedback-1b');
+                feedback.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 60) {
+                    feedback.innerText = "Betul! Geser dua kali ke kanan menjadi 60%.";
+                    feedback.classList.add('text-emerald-600');
+                } else {
+                    feedback.innerText = "Coba lagi! Ingat geser koma dua langkah dari 0,6.";
+                    feedback.classList.add('text-rose-600');
+                }
+            } else if (step === 3) {
+                const num = parseInt(document.getElementById('guided-step2-num').value);
+                const den = parseInt(document.getElementById('guided-step2-den').value);
+                const feedback = document.getElementById('guided-feedback-2');
+                feedback.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (num === 1 && den === 8) {
+                    feedback.innerHTML = "Luar biasa! Kamu berhasil menyederhanakan pecahan sampai ke bentuk terkecilnya yaitu 1/8.";
+                    feedback.classList.add('text-emerald-600');
+                } else {
+                    feedback.innerHTML = "Hampir benar! Sederhanakan lagi pembilang dan penyebut dengan membaginya menggunakan angka yang sama.";
+                    feedback.classList.add('text-rose-600');
+                }
+            }
+        }
+
+        function showGuidedHint() {
+            const feedback = document.getElementById('guided-feedback-2');
+            feedback.classList.remove('hidden', 'text-rose-600');
+            feedback.classList.add('text-emerald-600');
+            feedback.innerHTML = "Petunjuk: Pecahan awal adalah 125/1000. Coba bagikan pembilang dan penyebutnya langsung dengan angka 125!";
+        }
+
+        // Trap Answer Check
+        function answerTrap(val) {
+            const feedback = document.getElementById('trap-feedback');
+            feedback.classList.remove('hidden');
+            if (val === '50%') {
+                feedback.innerHTML = "🎉 Betul sekali! 0,5 jika digeser komanya dua kali ke kanan menjadi 50%, sedangkan 5% nilainya sama dengan 0,05. Jangan sampai terjebak saat ujian ya!";
+            } else {
+                feedback.innerHTML = "❌ Ups, hampir terjebak! Ingat, 0,5 adalah setengah, yang berarti 50%. Sedangkan 5% nilainya sama dengan 0,05.";
+            }
+        }
+
+        // --- Independent Practice Actions ---
+        function activeIndTask(num) {
+            document.querySelectorAll('.ind-task-content').forEach(el => el.classList.add('hidden'));
+            
+            const targetEl = document.getElementById(`ind-task-${num}`);
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+            }
+
+            document.querySelectorAll('.ind-task-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-600', 'bg-indigo-50/50');
+                btn.classList.add('border-slate-200');
+                btn.querySelector('span').classList.remove('text-indigo-600');
+                btn.querySelector('span').classList.add('text-slate-400');
+            });
+
+            const activeBtn = document.getElementById(`btn-ind-${num}`);
+            activeBtn.classList.remove('border-slate-200');
+            activeBtn.classList.add('border-indigo-600', 'bg-indigo-50/50');
+            activeBtn.querySelector('span').classList.remove('text-slate-400');
+            activeBtn.querySelector('span').classList.add('text-indigo-600');
+        }
+
+        function checkIndAnswer(task, ans, element) {
+            if (task === 1) {
+                document.querySelectorAll('.ans-opt-1').forEach(btn => {
+                    btn.classList.remove('border-emerald-600', 'bg-emerald-50');
+                });
+                element.classList.add('border-emerald-600', 'bg-emerald-50');
+                
+                const el = document.getElementById('ind-feedback-1');
+                el.classList.remove('hidden');
+                if (ans === 'A') {
+                    el.innerHTML = "✅ Benar sekali! 65% (0,65) < 0,7 (0,70) < 3/4 (0,75). Urutanmu sempurna!";
+                } else {
+                    el.innerHTML = "❌ Urutan belum tepat. Coba konversi ketiganya menjadi bentuk desimal terlebih dahulu (0,7; 0,75; dan 0,65).";
+                }
+            } else if (task === 2) {
+                const val = parseFloat(document.getElementById('ind-task-2-ans').value);
+                const el = document.getElementById('ind-feedback-2');
+                el.classList.remove('hidden');
+                if (val === 0.75) {
+                    el.innerHTML = "✅ Hebat! 0,5 + 25% = 0,5 + 0,25 = 0,75. Perhitunganmu sangat teliti!";
+                } else {
+                    el.innerHTML = "❌ Jawaban belum tepat. Ingat, ubah 25% menjadi 0,25 sebelum dijumlahkan dengan 0,5.";
+                }
+            } else if (task === 3) {
+                document.querySelectorAll('.ans-opt-3').forEach(btn => {
+                    btn.classList.remove('border-emerald-600', 'bg-emerald-50');
+                });
+                element.classList.add('border-emerald-600', 'bg-emerald-50');
+
+                const el = document.getElementById('ind-feedback-3');
+                el.classList.remove('hidden');
+                if (ans === 'B') {
+                    el.innerHTML = "✅ Fantastis Glosheina! Kakak makan 40% (0,4), Adik makan 0,25. Total dimakan = 0,65 bagian. Sisa bolu Ibu = 1 - 0,65 = 0,35 = 35/100 = 7/20 bagian. Hebat!";
+                } else {
+                    el.innerHTML = "❌ Kurang tepat. Coba hitung total bolu yang sudah dimakan lalu kurangkan dari 1 bagian utuh.";
+                }
+            }
+        }
+
+        // --- Medium & Hard Homework/Latihan Checks ---
+        function checkHWAnswer(id, extra) {
+            // Medium Answers
+            if (id === 'm1') {
+                const val = parseInt(document.getElementById('hw-m-q1-ans').value);
+                const el = document.getElementById('hw-m-q1-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 80) {
+                    el.innerHTML = "Benar! (80%)";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. Petunjuk: Kalikan pembilang dan penyebut dengan 20.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'm2') {
+                const num = parseInt(document.getElementById('hw-m-q2-num').value);
+                const den = parseInt(document.getElementById('hw-m-q2-den').value);
+                const el = document.getElementById('hw-m-q2-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (num === 7 && den === 20) {
+                    el.innerHTML = "Tepat sekali! (7/20)";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. 0,35 = 35/100, sederhanakan dengan membagi pembilang dan penyebut dengan angka 5.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'm3') {
+                const val = parseFloat(document.getElementById('hw-m-q3-ans').value);
+                const el = document.getElementById('hw-m-q3-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 0.95) {
+                    el.innerHTML = "Betul! (0,95)";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. Ubah 15% menjadi 0,15 sebelum menjumlahkannya.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'm4') {
+                const el = document.getElementById('hw-m-q4-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (extra === '5/8') {
+                    el.innerHTML = "Tepat! 5/8 = 0,625, yang mana nilainya lebih besar dibanding 0,62.";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. Ubah 5/8 menjadi desimal terlebih dahulu untuk melihat besaran nilainya.";
+                    el.classList.add('text-rose-600');
+                }
+            }
+            
+            // Hard Answers
+            if (id === 'h1') {
+                const el = document.getElementById('hw-h-q1-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (extra === 'A') {
+                    el.innerHTML = "Benar! 1,25 = 1 1/4 (1,25) > 6/5 (1,20) = 120% (1,20).";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. Pastikan semua angka diubah ke desimal terlebih dahulu.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'h2') {
+                const val = parseInt(document.getElementById('hw-h-q2-ans').value);
+                const el = document.getElementById('hw-h-q2-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 30000) {
+                    el.innerHTML = "Hebat! Sisa uang Ayah adalah Rp30.000.";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Kurang tepat. Uang Adik: Rp40.000 (2/5), Ditabung: Rp30.000 (30%). Hitung sisanya kembali.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'h3') {
+                const num = parseInt(document.getElementById('hw-h-q3-num').value);
+                const den = parseInt(document.getElementById('hw-h-q3-den').value);
+                const el = document.getElementById('hw-h-q3-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if ((num === 39 && den === 20) || (num === 1 && den === 19)) {
+                    el.innerHTML = "Benar! Hasilnya adalah 39/20 atau 1 19/20.";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. Ubah semua angka ke pecahan biasa dan samakan penyebutnya.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'h4') {
+                const val = parseInt(document.getElementById('hw-h-q4-ans').value);
+                const el = document.getElementById('hw-h-q4-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 72) {
+                    el.innerHTML = "Betul! Persentasenya adalah 72%.";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. Hitung dengan cara 18/25 x 100%.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'h5') {
+                const des = parseFloat(document.getElementById('hw-h-q5-des').value);
+                const per = parseFloat(document.getElementById('hw-h-q5-per').value);
+                const el = document.getElementById('hw-h-q5-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (des === 0.125 && per === 12.5) {
+                    el.innerHTML = "Sempurna! 1/8 = 0,125 atau sama dengan 12,5%.";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Kurang tepat. Coba gunakan trik pembagian bersusun untuk mencari nilai desimalnya.";
+                    el.classList.add('text-rose-600');
+                }
+            } else if (id === 'h6') {
+                const val = parseInt(document.getElementById('hw-h-q6-ans').value);
+                const el = document.getElementById('hw-h-q6-feedback');
+                el.classList.remove('hidden', 'text-rose-600', 'text-emerald-600');
+                if (val === 35) {
+                    el.innerHTML = "Luar biasa! Nilai x dalam bentuk persen adalah 35%.";
+                    el.classList.add('text-emerald-600');
+                } else {
+                    el.innerHTML = "Salah. 3/4 = 0,75. Berarti x = 0,75 - 0,40 = 0,35 atau 35%.";
+                    el.classList.add('text-rose-600');
+                }
+            }
+        }
+
+        // --- Laporan Kemajuan Belajar ---
+        function downloadReport() {
+            const reportText = `
+--------------------------------------------------
+      LAPORAN KEMAJUAN BELAJAR GLOSHEINA
+--------------------------------------------------
+Topik Belajar : Pecahan, Desimal dan Persen
+Tanggal Sesi  : 9 Juni 2026
+Status        : Selesai / Completed
+
+Update Belajar Hari Ini:
+Hari ini Glosheina belajar review konversi Pecahan, Desimal, dan Persen. Dia menunjukkan pemahaman yang baik dalam metode 'geser koma'. Mohon bantu diingatkan untuk mengerjakan PR di platform kami agar pemahamannya semakin kuat untuk nilai ujian yang lebih baik!
+
+Terima kasih telah belajar bersama Algonova Learning.
+--------------------------------------------------
+            `;
+            
+            const element = document.createElement("a");
+            const file = new Blob([reportText], {type: 'text/plain'});
+            element.href = URL.createObjectURL(file);
+            element.download = `Laporan_Belajar_Glosheina_2026-06-09.txt`;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+    </script>
+</body>
+</html>

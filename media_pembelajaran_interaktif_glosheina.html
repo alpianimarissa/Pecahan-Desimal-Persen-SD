@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pecahan, Desimal & Persen - Belajar Bersama Glosheina</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- MathJax for rendering math equations beautifully -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #edd8fc 100%);
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.15);
+        }
+        .step-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-6 px-4 md:px-8">
+
+    <!-- Top Profile & Progress Header -->
+    <header class="w-full max-w-5xl bg-white rounded-3xl p-6 mb-6 custom-shadow border border-purple-100 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-purple-200">
+                G
+            </div>
+            <div>
+                <h1 class="text-xl font-extrabold text-slate-800">Ruang Belajar Glosheina</h1>
+                <p class="text-sm text-purple-600 font-bold flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+                    Misi: Menguasai Pecahan, Desimal & Persen
+                </p>
+            </div>
+        </div>
+        
+        <!-- Live Progress Tracker -->
+        <div class="flex flex-col items-end w-full md:w-auto gap-1">
+            <div class="flex justify-between w-full md:w-64 text-sm font-bold text-slate-600">
+                <span>Progress Belajar</span>
+                <span id="progress-percentage">14%</span>
+            </div>
+            <div class="w-full md:w-64 bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-50">
+                <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full transition-all duration-500" style="width: 14%;"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- Sidebar Navigation (Steps Pathway) -->
+        <nav class="lg:col-span-3 bg-white rounded-3xl p-5 custom-shadow border border-purple-100 space-y-2">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest px-3 mb-3">Langkah Pelajaran</h3>
+            <div id="step-buttons-container" class="space-y-1">
+                <!-- Buttons dynamically loaded -->
+            </div>
+        </nav>
+
+        <!-- Dynamic Lesson Box -->
+        <main class="lg:col-span-9 bg-white rounded-[2rem] p-6 md:p-8 custom-shadow border border-purple-100 min-h-[500px] flex flex-col justify-between relative overflow-hidden">
+            
+            <!-- Confetti Canvas (Simple Reward effect) -->
+            <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-50 hidden"></canvas>
+
+            <div id="lesson-content-area" class="step-transition">
+                <!-- Content will be injected here dynamically based on the active step -->
+            </div>
+
+            <!-- Global Step Controls -->
+            <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                <button id="prev-step-btn" class="px-5 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-600 font-bold hover:bg-slate-100 hover:text-slate-800 transition-colors flex items-center gap-2">
+                    ← Sebelumnya
+                </button>
+                <div class="text-xs font-bold text-slate-400">
+                    Sesi: 9 Juni 2026 &bull; Algonova Learn
+                </div>
+                <button id="next-step-btn" class="px-6 py-3 rounded-2xl bg-indigo-600 text-white font-extrabold hover:bg-indigo-700 shadow-md shadow-indigo-100 hover:shadow-indigo-200 transition-all flex items-center gap-2">
+                    Lanjut →
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script Application Logic -->
+    <script>
+        // Trigger MathJax typesetting helper
+        function triggerMathTypeset() {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        // --- Data Pelajaran Glosheina ---
+        const lessonSteps = [
+            {
+                id: 1,
+                title: "Tujuan Pembelajaran",
+                progress: 14,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-purple-50 text-purple-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 1: TARGET</div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">Apa Target Misi Kita Hari ini?</h2>
+                        <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                            Halo <strong>Glosheina</strong>! Senang sekali bisa belajar bersamamu hari ini. Kita memiliki target besar untuk menguasai konsep-konsep krusial berikut ini. Klik setiap target di bawah ini untuk menandai kesiapanmu!
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="p-5 rounded-2xl border-2 border-purple-100 hover:border-purple-300 bg-purple-50/20 transition-all cursor-pointer flex gap-4 items-start" onclick="this.classList.toggle('bg-emerald-50'); this.classList.toggle('border-emerald-300')">
+                                <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-extrabold flex items-center justify-center flex-shrink-0">1</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Akurasi Konversi</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Mengonversi nilai antara bentuk pecahan, desimal, dan persen dengan sangat akurat.</p>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded-2xl border-2 border-purple-100 hover:border-purple-300 bg-purple-50/20 transition-all cursor-pointer flex gap-4 items-start" onclick="this.classList.toggle('bg-emerald-50'); this.classList.toggle('border-emerald-300')">
+                                <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-extrabold flex items-center justify-center flex-shrink-0">2</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Membandingkan Nilai</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Membandingkan besaran nilai dari dua atau lebih representasi angka (pecahan vs desimal vs persen).</p>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded-2xl border-2 border-purple-100 hover:border-purple-300 bg-purple-50/20 transition-all cursor-pointer flex gap-4 items-start" onclick="this.classList.toggle('bg-emerald-50'); this.classList.toggle('border-emerald-300')">
+                                <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-extrabold flex items-center justify-center flex-shrink-0">3</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Mengurutkan Campuran</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Mengurutkan rangkaian angka campuran dari yang terkecil ke terbesar.</p>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded-2xl border-2 border-purple-100 hover:border-purple-300 bg-purple-50/20 transition-all cursor-pointer flex gap-4 items-start" onclick="this.classList.toggle('bg-emerald-50'); this.classList.toggle('border-emerald-300')">
+                                <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-extrabold flex items-center justify-center flex-shrink-0">4</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Masalah Kontekstual</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Memecahkan masalah sehari-hari yang melibatkan berbagai bentuk bilangan secara praktis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "Diagnostic Warm-up",
+                progress: 28,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-amber-50 text-amber-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 2: DIAGNOSTIC WARM-UP (10 MENIT)</div>
+                        
+                        <!-- Teacher Speech box -->
+                        <div class="flex items-start gap-4 p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100">
+                            <span class="text-3xl">👩‍🏫</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs text-indigo-700 uppercase tracking-wider">Skrip Guru Algonova</h4>
+                                <p class="text-sm text-slate-600 italic leading-relaxed mt-1">
+                                    "Halo Glosheina! Sebelum kita masuk ke materi utama, ayo kita cek 'pemanasan' otak dulu ya. Coba jawab 4 pertanyaan cepat ini langsung di layar gademu:"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Questions -->
+                        <div class="space-y-4 mt-6">
+                            <!-- Q1 -->
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <span class="font-bold text-slate-800 text-sm">1) Berapa desimal dari $1/2$?</span>
+                                <div class="flex gap-2">
+                                    <input id="wu-1" type="text" placeholder="..." class="px-4 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 w-32 text-center">
+                                    <button onclick="checkWarmUp('wu-1', ['0.5', '0,5'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                            </div>
+                            <!-- Q2 -->
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <span class="font-bold text-slate-800 text-sm">2) Tuliskan 0,75 dalam bentuk pecahan paling sederhana.</span>
+                                <div class="flex gap-2">
+                                    <input id="wu-2" type="text" placeholder="..." class="px-4 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 w-32 text-center">
+                                    <button onclick="checkWarmUp('wu-2', ['3/4'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                            </div>
+                            <!-- Q3 -->
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <span class="font-bold text-slate-800 text-sm">3) Apa arti dari 50% jika ditulis dalam pecahan sederhana?</span>
+                                <div class="flex gap-2">
+                                    <input id="wu-3" type="text" placeholder="..." class="px-4 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 w-32 text-center">
+                                    <button onclick="checkWarmUp('wu-3', ['1/2'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                            </div>
+                            <!-- Q4 -->
+                            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <span class="font-bold text-slate-800 text-sm">4) Mana yang lebih besar, 0,2 atau 0,15?</span>
+                                <div class="flex gap-2">
+                                    <input id="wu-4" type="text" placeholder="..." class="px-4 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 w-32 text-center">
+                                    <button onclick="checkWarmUp('wu-4', ['0.2', '0,2'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Real-World Connection",
+                progress: 42,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-blue-50 text-blue-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 3: KONEKSI DUNIA NYATA (5 MENIT)</div>
+                        
+                        <div class="flex items-start gap-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100">
+                            <span class="text-3xl">🛒</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs text-blue-700 uppercase tracking-wider">Skrip Guru Algonova</h4>
+                                <p class="text-sm text-slate-600 italic leading-relaxed mt-1">
+                                    "Wah, pemanasan yang hebat! Bayangkan kamu sedang belanja di mal dan melihat diskon 25%, sementara di toko sebelah ada promo 'potongan $1/4$ harga'. Mana yang lebih murah? Atau saat kamu melihat baterai HP tinggal 0,15, apakah itu lebih banyak atau lebih sedikit dari 20%?"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Real World Interactive Widgets -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            
+                            <!-- Widget 1: Battery HP Simulator -->
+                            <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-black text-slate-800 text-sm mb-3">🔋 Perbandingan Baterai HP</h4>
+                                    <p class="text-xs text-slate-500 mb-4">Geser slider di bawah ini untuk mengubah level baterai HP (Desimal) dan bandingkan dengan Persen!</p>
+                                </div>
+                                <div class="space-y-4 my-auto">
+                                    <div class="w-48 h-20 border-4 border-slate-700 rounded-2xl mx-auto p-1.5 relative flex items-center overflow-hidden">
+                                        <div id="battery-fill" class="h-full bg-emerald-500 rounded-lg transition-all duration-300" style="width: 15%;"></div>
+                                        <div class="absolute inset-0 flex items-center justify-center font-black text-slate-800 text-sm" id="battery-text">0,15</div>
+                                        <div class="absolute -right-3 top-1/2 -translate-y-1/2 w-2 h-4 bg-slate-700 rounded-r-sm"></div>
+                                    </div>
+                                    <input id="battery-slider" type="range" min="0" max="1" step="0.05" value="0.15" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                                    <div class="text-center font-bold text-xs text-indigo-800" id="battery-compare-text">
+                                        Level Baterai: 0,15 sama nilainya dengan 15% (Lebih kecil dari 20%)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Widget 2: Mall Promo Simulator -->
+                            <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-black text-slate-800 text-sm mb-3">🛍️ Mana Promo Lebih Hemat?</h4>
+                                    <p class="text-xs text-slate-500 mb-4">Coba klik salah satu gantungan baju diskon di bawah ini untuk melihat 'bahasa' matematika di balik promo tersebut!</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <!-- Store A -->
+                                    <div onclick="toggleStorePromo('A')" id="promo-a" class="p-4 bg-white border-2 border-dashed border-purple-300 rounded-2xl text-center cursor-pointer hover:bg-purple-50/50 transition-all">
+                                        <span class="block text-2xl mb-1">🏷️</span>
+                                        <span class="block text-xs font-bold text-slate-400 uppercase">Toko Sebelah</span>
+                                        <span class="block text-lg font-black text-purple-600">Diskon 25%</span>
+                                        <span class="hidden mt-2 text-xs text-slate-500 font-medium" id="promo-a-desc">Diskon 25% = Potongan 0,25 bagian harga asli.</span>
+                                    </div>
+                                    <!-- Store B -->
+                                    <div onclick="toggleStorePromo('B')" id="promo-b" class="p-4 bg-white border-2 border-dashed border-indigo-300 rounded-2xl text-center cursor-pointer hover:bg-indigo-50/50 transition-all">
+                                        <span class="block text-2xl mb-1">🏷️</span>
+                                        <span class="block text-xs font-bold text-slate-400 uppercase">Butik Algonova</span>
+                                        <span class="block text-lg font-black text-indigo-600">Potongan $1/4$</span>
+                                        <span class="hidden mt-2 text-xs text-slate-500 font-medium" id="promo-b-desc">Potongan 1/4 = 0,25 bagian harga asli.</span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 p-3 bg-indigo-50 border border-indigo-100 rounded-xl text-center text-xs font-bold text-indigo-900 hidden" id="promo-conclusion">
+                                    Kedua promo ini sama nilainya! $25\% = \\frac{1}{4} = 0,25$.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "Materi & Konsep",
+                progress: 56,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-emerald-50 text-emerald-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 4: JEMBATAN KONVERSI (10 MENIT)</div>
+                        
+                        <div class="flex items-start gap-4 p-4 bg-emerald-50/50 rounded-2xl border border-emerald-100">
+                            <span class="text-3xl">🌉</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs text-emerald-700 uppercase tracking-wider">Skrip Guru Algonova</h4>
+                                <p class="text-sm text-slate-600 italic leading-relaxed mt-1">
+                                    "Inti dari bab ini adalah 'Jembatan Konversi'. Bayangkan angka itu seperti bahasa. Pecahan adalah Bahasa Indonesia, Desimal adalah Bahasa Inggris, dan Persen adalah Bahasa Mandarin. Nilainya sama, bajunya saja yang beda. Strategi utama: Ubah semuanya ke bentuk yang sama (paling mudah ke Desimal) sebelum membandingkan."
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Conversion Flow Simulator -->
+                        <div class="p-6 bg-slate-50 border border-slate-100 rounded-[2rem]">
+                            <h3 class="font-black text-slate-800 text-sm mb-4 text-center">🧮 Kalkulator Simulasi Jembatan Konversi</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                                
+                                <!-- Input Pecahan -->
+                                <div class="bg-white p-4 rounded-2xl border border-slate-100 text-center shadow-sm">
+                                    <span class="block text-xs font-black text-purple-500 uppercase mb-2">Pecahan</span>
+                                    <div class="flex justify-center items-center gap-2">
+                                        <input id="frac-num" type="number" value="4" class="w-12 p-2 border border-slate-200 rounded-lg text-center font-bold text-sm">
+                                        <span class="font-extrabold text-slate-400">/</span>
+                                        <input id="frac-den" type="number" value="5" class="w-12 p-2 border border-slate-200 rounded-lg text-center font-bold text-sm">
+                                    </div>
+                                    <button onclick="calculateLiveConversion()" class="mt-3 w-full py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-xs transition-colors">Convert</button>
+                                </div>
+
+                                <!-- Arrow / Bridge -->
+                                <div class="text-center text-slate-400 font-extrabold text-sm hidden md:block">
+                                    <span class="block">Bagian Atas &divide; Bawah</span>
+                                    <span>➔</span>
+                                </div>
+
+                                <!-- Live Results -->
+                                <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm col-span-1 md:col-span-1 grid grid-cols-2 gap-2 text-center">
+                                    <div>
+                                        <span class="block text-[10px] font-black text-indigo-500 uppercase">Desimal</span>
+                                        <span id="live-dec" class="block font-black text-slate-800 text-lg mt-1">0,8</span>
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] font-black text-emerald-500 uppercase">Persen</span>
+                                        <span id="live-pct" class="block font-black text-slate-800 text-lg mt-1">80%</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Anchored Key numbers grid -->
+                        <div>
+                            <h4 class="font-black text-slate-800 text-xs uppercase tracking-wider mb-3">📌 Angka Kunci yang Wajib Diingat Glosheina:</h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="p-3 bg-white border border-slate-200 rounded-2xl text-center hover:border-purple-300 transition-colors">
+                                    <span class="block font-bold text-xs text-slate-400">Seperempat</span>
+                                    <span class="block font-black text-purple-600 mt-1">$\\frac{1}{4} = 0,25 = 25\\%$</span>
+                                </div>
+                                <div class="p-3 bg-white border border-slate-200 rounded-2xl text-center hover:border-purple-300 transition-colors">
+                                    <span class="block font-bold text-xs text-slate-400">Setengah</span>
+                                    <span class="block font-black text-purple-600 mt-1">$\\frac{1}{2} = 0,5 = 50\\%$</span>
+                                </div>
+                                <div class="p-3 bg-white border border-slate-200 rounded-2xl text-center hover:border-purple-300 transition-colors">
+                                    <span class="block font-bold text-xs text-slate-400">Tiga Perempat</span>
+                                    <span class="block font-black text-purple-600 mt-1">$\\frac{3}{4} = 0,75 = 75\\%$</span>
+                                </div>
+                                <div class="p-3 bg-white border border-slate-200 rounded-2xl text-center hover:border-purple-300 transition-colors">
+                                    <span class="block font-bold text-xs text-slate-400">Satu Perlima</span>
+                                    <span class="block font-black text-purple-600 mt-1">$\\frac{1}{5} = 0,2 = 20\\%$</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Latihan Terbimbing",
+                progress: 70,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-purple-50 text-purple-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 5: LUASAN GUIDED PRACTICE (15 MENIT)</div>
+                        
+                        <div class="flex items-start gap-4 p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+                            <span class="text-3xl">🧭</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs text-purple-700 uppercase tracking-wider">Skrip Guru Algonova</h4>
+                                <p class="text-sm text-slate-600 italic leading-relaxed mt-1">
+                                    "Sekarang, mari kita kerjakan misi pertama bersama-sama di layar. Kita punya tiga angka: $\\frac{3}{4}$, 0,7, dan 65%. Pertanyaannya: Urutkan dari yang terkecil. Ayo kita lakukan langkah demi langkah bersama ya!"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Step by Step Wizard -->
+                        <div class="p-6 bg-slate-50 border border-slate-100 rounded-[2rem] space-y-6">
+                            <h3 class="font-black text-slate-800 text-sm text-center">🗺️ Panduan Langkah Urutan Angka</h3>
+                            
+                            <!-- Wizard Step 1 -->
+                            <div class="flex gap-4 items-start bg-white p-4 rounded-2xl border border-slate-100">
+                                <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center flex-shrink-0 text-sm">1</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Ubah $\\frac{3}{4}$ Menjadi Desimal</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Glosheina, berapa desimal dari $\\frac{3}{4}$?</p>
+                                    <div class="flex gap-2 mt-3">
+                                        <input id="gp-step1" type="text" placeholder="..." class="px-3 py-1.5 rounded-lg border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs w-28 text-center">
+                                        <button onclick="checkWarmUp('gp-step1', ['0.75', '0,75'])" class="px-3 py-1.5 bg-indigo-600 text-white font-bold rounded-lg text-[10px] hover:bg-indigo-700 transition-colors">Periksa</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Wizard Step 2 -->
+                            <div class="flex gap-4 items-start bg-white p-4 rounded-2xl border border-slate-100">
+                                <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center flex-shrink-0 text-sm">2</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Ubah $65\\%$ Menjadi Desimal</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Kita geser koma dua kali ke kiri. Berapa nilainya?</p>
+                                    <div class="flex gap-2 mt-3">
+                                        <input id="gp-step2" type="text" placeholder="..." class="px-3 py-1.5 rounded-lg border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs w-28 text-center">
+                                        <button onclick="checkWarmUp('gp-step2', ['0.65', '0,65'])" class="px-3 py-1.5 bg-indigo-600 text-white font-bold rounded-lg text-[10px] hover:bg-indigo-700 transition-colors">Periksa</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Wizard Step 3 -->
+                            <div class="flex gap-4 items-start bg-white p-4 rounded-2xl border border-slate-100">
+                                <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center flex-shrink-0 text-sm">3</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wide">Pilih Urutan Terkecil ke Terbesar</h4>
+                                    <p class="text-xs text-slate-500 mt-1">Sekarang kita punya tiga desimal: 0,75 ($\\frac{3}{4}$), 0,70 (0,7), dan 0,65 (65%). Urutan yang benar adalah...</p>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">
+                                        <button onclick="checkSelectedOption(this, false)" class="p-2 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 bg-white hover:bg-slate-50">0.7 ; 65% ; 3/4</button>
+                                        <button onclick="checkSelectedOption(this, true)" class="p-2 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 bg-white hover:bg-slate-50">65% ; 0.7 ; 3/4</button>
+                                        <button onclick="checkSelectedOption(this, false)" class="p-2 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 bg-white hover:bg-slate-50">3/4 ; 65% ; 0.7</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "Latihan Mandiri & Misi PR",
+                progress: 85,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-indigo-50 text-indigo-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 6: LATIHAN MANDIRI & MISI PR (TERINTEGRASI)</div>
+                        
+                        <div class="flex items-start gap-4 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                            <span class="text-3xl">📝</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs text-indigo-700 uppercase tracking-wider">Skrip Guru Algonova</h4>
+                                <p class="text-sm text-slate-600 italic leading-relaxed mt-1">
+                                    "Hebat! Sekarang semua misi mandiri dan Pekerjaan Rumah (PR) telah disatukan di sini. Kerjakan satu per satu secara tenang, gunakan 'Jembatan Konversi' kita, dan periksa progres belajarmu!"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Independent Tasks Section -->
+                        <div class="space-y-6">
+                            
+                            <!-- Subtitle Kelas -->
+                            <div class="border-b-2 border-indigo-100 pb-2">
+                                <h3 class="text-md font-extrabold text-indigo-900">💻 Tantangan Belajar Mandiri</h3>
+                            </div>
+
+                            <!-- Task 1: Compare sign -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-indigo-500 uppercase tracking-wide block">Tantangan 1: Bandingkan Tanda</span>
+                                <p class="text-sm font-bold text-slate-800">Bandingkan menggunakan tanda $ < $ atau $ > $ antara $\\frac{2}{5}$ .... $0,35$</p>
+                                <div class="flex gap-2">
+                                    <button onclick="checkSelectedOption(this, true)" class="px-5 py-2 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 hover:bg-slate-100">&gt;</button>
+                                    <button onclick="checkSelectedOption(this, false)" class="px-5 py-2 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 hover:bg-slate-100">&lt;</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-class-1')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-class-1" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> $\\frac{2}{5}$ diubah ke desimal adalah $0,4$. Karena $0,4 > 0,35$, maka tanda yang benar adalah $>$.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Task 2: Dec to Pct -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-indigo-500 uppercase tracking-wide block">Tantangan 2: Konversi Desimal ke Persen</span>
+                                <p class="text-sm font-bold text-slate-800">Ubah bilangan desimal $0,45$ menjadi bentuk persen!</p>
+                                <div class="flex gap-2 max-w-xs">
+                                    <input id="ind-t2" type="text" placeholder="..." class="px-3 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm flex-grow text-center">
+                                    <button onclick="checkWarmUp('ind-t2', ['45%', '45'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-class-2')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-class-2" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> Kalikan $0,45$ dengan $100\\%$ sehingga bergeser koma dua kali ke kanan menjadi $45\\%$.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Task 3: Pct to Simplest Fraction -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-indigo-500 uppercase tracking-wide block">Tantangan 3: Persen ke Pecahan Sederhana</span>
+                                <p class="text-sm font-bold text-slate-800">Tuliskan $120\\%$ dalam bentuk pecahan paling sederhana!</p>
+                                <div class="flex gap-2 max-w-xs">
+                                    <input id="ind-t3" type="text" placeholder="misal: a/b" class="px-3 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm flex-grow text-center">
+                                    <button onclick="checkWarmUp('ind-t3', ['6/5', '1 1/5'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-class-3')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-class-3" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> $120\\% = \\frac{120}{100}$. Jika disederhanakan dengan membagi pembilang dan penyebut dengan $20$, diperoleh $\\frac{6}{5}$ atau pecahan campuran $1\\frac{1}{5}$.
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Subtitle PR Rumah -->
+                            <div class="border-b-2 border-indigo-100 pt-4 pb-2">
+                                <h3 class="text-md font-extrabold text-rose-800">🏠 Misi Pekerjaan Rumah (PR)</h3>
+                            </div>
+
+                            <!-- PR 1: 3/8 to dec -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-rose-500 uppercase tracking-wide block">PR 1: Pecahan ke Desimal</span>
+                                <p class="text-sm font-bold text-slate-800">Ubah $\\frac{3}{8}$ menjadi bentuk desimal!</p>
+                                <div class="flex gap-2 max-w-xs">
+                                    <input id="pr-t1" type="text" placeholder="..." class="px-3 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm flex-grow text-center">
+                                    <button onclick="checkWarmUp('pr-t1', ['0.375', '0,375'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-pr-1')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-pr-1" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> $\\frac{3}{8}$ dihitung dengan membagi pembilang ($3$) dengan penyebut ($8$), diperoleh hasil bagi tepat yaitu $0,375$.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PR 2: Order Largest to Smallest -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-rose-500 uppercase tracking-wide block">PR 2: Mengurutkan Bilangan Campuran</span>
+                                <p class="text-sm font-bold text-slate-800">Urutkan nilai berikut dari yang terbesar ke terkecil: $0,85$ ; $\\frac{4}{5}$ ; $75\\%$ ; $0,825$</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">
+                                    <button onclick="checkSelectedOption(this, false)" class="p-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 bg-white hover:bg-slate-50">75% ; 4/5 ; 0.825 ; 0.85</button>
+                                    <button onclick="checkSelectedOption(this, true)" class="p-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 bg-white hover:bg-slate-50">0.85 ; 0.825 ; 4/5 ; 75%</button>
+                                    <button onclick="checkSelectedOption(this, false)" class="p-2.5 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 bg-white hover:bg-slate-50">4/5 ; 0.85 ; 0.825 ; 75%</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-pr-2')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-pr-2" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> Ubah semua angka ke desimal terlebih dahulu:<br>
+                                        &bull; $0,85 = 0,850$<br>
+                                        &bull; $\\frac{4}{5} = 0,800$<br>
+                                        &bull; $75\\% = 0,750$<br>
+                                        &bull; $0,825$<br>
+                                        Maka urutan dari terbesar ke terkecil adalah: $0,85$ ; $0,825$ ; $\\frac{4}{5}$ ; $75\\%$.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PR 3: Classroom Percent -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-rose-500 uppercase tracking-wide block">PR 3: Masalah Persentase Kelas</span>
+                                <p class="text-sm font-bold text-slate-800">Di sebuah kelas, $\\frac{3}{5}$ siswa adalah perempuan. Berapa persen siswa laki-laki di kelas tersebut?</p>
+                                <div class="flex gap-2 max-w-xs">
+                                    <input id="pr-t3" type="text" placeholder="..." class="px-3 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm flex-grow text-center">
+                                    <button onclick="checkWarmUp('pr-t3', ['40%', '40'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-pr-3')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-pr-3" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> Total satu kelas penuh adalah $1$ bagian. Sisa bagian laki-laki adalah $1 - \\frac{3}{5} = \\frac{2}{5}$. Mengonversi $\\frac{2}{5}$ ke persen: $\\frac{2}{5} \\times 100\\% = 40\\%$.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PR 4: Math problem success -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-rose-500 uppercase tracking-wide block">PR 4: Konversi Tingkat Keberhasilan</span>
+                                <p class="text-sm font-bold text-slate-800">Glosheina menyelesaikan $18$ dari $25$ soal matematika. Tuliskan tingkat keberhasilan Glosheina dalam bentuk desimal!</p>
+                                <div class="flex gap-2 max-w-xs">
+                                    <input id="pr-t4" type="text" placeholder="..." class="px-3 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm flex-grow text-center">
+                                    <button onclick="checkWarmUp('pr-t4', ['0.72', '0,72'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-pr-4')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-pr-4" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> Tingkat keberhasilan dinyatakan dalam pecahan $\\frac{18}{25}$. Bentuk desimal diperoleh dengan pembagian $\\frac{18}{25} = 0,72$ (atau sama dengan $72\\%$).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PR 5: Complex operation -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-rose-500 uppercase tracking-wide block">PR 5: Hitung Hasil Operasi Campuran</span>
+                                <p class="text-sm font-bold text-slate-800">Hitunglah hasil dari $0,5 + \\frac{1}{4} - 20\\%$ dalam bentuk desimal!</p>
+                                <div class="flex gap-2 max-w-xs">
+                                    <input id="pr-t5" type="text" placeholder="..." class="px-3 py-2 rounded-xl border border-slate-200 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm flex-grow text-center">
+                                    <button onclick="checkWarmUp('pr-t5', ['0.55', '0,55'])" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl text-xs hover:bg-indigo-700 transition-colors">Periksa</button>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-pr-5')" class="px-3 py-1 bg-indigo-50 text-indigo-700 font-bold rounded-lg text-[10px] hover:bg-indigo-100">Tampilkan Pembahasan</button>
+                                    <div id="expl-pr-5" class="hidden mt-3 p-3 bg-indigo-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan:</strong> Ubah semua suku ke desimal terlebih dahulu:<br>
+                                        &bull; $\\frac{1}{4} = 0,25$<br>
+                                        &bull; $20\\% = 0,20$<br>
+                                        Maka: $0,5 + 0,25 - 0,20 = 0,75 - 0,20 = 0,55$.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "Tantangan Berpikir Kritis",
+                progress: 100,
+                html: `
+                    <div class="fade-in space-y-6">
+                        <div class="p-3 bg-amber-50 text-amber-700 text-xs font-extrabold rounded-xl inline-block">BAGIAN 7: DISKUSI & BERPIKIR KRITIS</div>
+                        
+                        <div class="flex items-start gap-4 p-4 bg-amber-50/50 rounded-2xl border border-amber-100">
+                            <span class="text-3xl">🧐</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-xs text-amber-700 uppercase tracking-wider">Skrip Guru Algonova</h4>
+                                <p class="text-sm text-slate-600 italic leading-relaxed mt-1">
+                                    "Luar biasa, Glosheina! Tahap terakhir adalah tantangan konsep tingkat tinggi. Tulis jawaban dan argumenmu di kotak esai di bawah ini, kemudian klik 'Tinjau Pembahasan' untuk membandingkan logikamu!"
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Critical Thinking Tasks -->
+                        <div class="space-y-6">
+                            
+                            <!-- Question 1: Closeness to 1 -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-amber-600 uppercase tracking-wide block">Tantangan 1: Mana Lebih Dekat ke Angka 1?</span>
+                                <p class="text-sm font-bold text-slate-800">Mana yang lebih mendekati angka 1: $90\\%$ atau $\\frac{11}{10}$? Berikan penjelasan logismu!</p>
+                                <textarea placeholder="Tulis analisis logismu di sini..." class="w-full h-24 p-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-crit-1')" class="px-4 py-2 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 transition-colors">Tinjau Pembahasan</button>
+                                    <div id="expl-crit-1" class="hidden mt-3 p-3 bg-amber-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan Logis:</strong> <br>
+                                        &bull; $90\\% = 0,9$. Jaraknya ke angka $1$ adalah $|1 - 0,9| = 0,1$.<br>
+                                        &bull; $\\frac{11}{10} = 1,1$. Jaraknya ke angka $1$ adalah $|1 - 1,1| = 0,1$.<br>
+                                        <strong>Kesimpulan:</strong> Keduanya memiliki jarak yang <strong>sama dekatnya</strong> terhadap angka $1$, hanya saja posisinya mendekati dari arah yang berbeda ($90\\%$ kurang dari $1$, sedangkan $\\frac{11}{10}$ lebih dari $1$).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Question 2: Diagnostic on 1/3 -->
+                            <div class="p-5 bg-white border border-slate-200 rounded-3xl space-y-3">
+                                <span class="text-xs font-black text-amber-600 uppercase tracking-wide block">Tantangan 2: Mengapa Desimal 1/3 Berulang Tanpa Batas?</span>
+                                <p class="text-sm font-bold text-slate-800">Jika $\\frac{1}{3}$ diubah ke desimal, mengapa hasilnya tidak pernah berhenti ($0,333...$)? Coba jelaskan pemahamanmu.</p>
+                                <textarea placeholder="Tulis analisis logismu di sini..." class="w-full h-24 p-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                                <div class="mt-2">
+                                    <button onclick="toggleExpl('expl-crit-2')" class="px-4 py-2 bg-amber-500 text-white font-bold rounded-xl text-xs hover:bg-amber-600 transition-colors">Tinjau Pembahasan</button>
+                                    <div id="expl-crit-2" class="hidden mt-3 p-3 bg-amber-50/50 text-xs text-slate-700 rounded-xl leading-relaxed">
+                                        <strong>Pembahasan Logis:</strong> <br>
+                                        Saat kita melakukan pembagian bersusun panjang $1 \\div 3$, kita mengalikan pembilang dengan kelipatan $10$ secara berulang: <br>
+                                        &bull; $10 \\div 3 = 3$ sisa $1$. <br>
+                                        &bull; Tambahkan $0$ lagi pada sisa menjadi $10 \\div 3 = 3$ sisa $1$. <br>
+                                        Karena angka $10$ tidak pernah habis dibagi oleh angka $3$, sisa pembagian akan selalu $1$ dan hasil bagi akan selalu menghasilkan angka $3$ berulang tanpa pernah berhenti.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Final Celebration Button -->
+                            <div class="text-center pt-4">
+                                <button onclick="triggerConfetti()" class="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black rounded-2xl shadow-xl shadow-teal-100 hover:scale-105 active:scale-95 transition-all">🎉 Selesaikan Sesi & Rayakan!</button>
+                            </div>
+
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let activeStepIndex = 0;
+
+        // Render Navigation Step Buttons on Left Sidebar
+        function renderSidebar() {
+            const container = document.getElementById('step-buttons-container');
+            container.innerHTML = '';
+            
+            lessonSteps.forEach((step, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-4 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-between group ${
+                    idx === activeStepIndex 
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-100' 
+                    : 'text-slate-600 hover:bg-slate-50'
+                }`;
+                btn.innerHTML = `
+                    <span>${idx + 1}. ${step.title}</span>
+                    <span class="opacity-0 group-hover:opacity-100 transition-opacity text-[10px]">&rarr;</span>
+                `;
+                btn.onclick = () => {
+                    activeStepIndex = idx;
+                    loadActiveStep();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        // Load the currently selected lesson step to the layout
+        function loadActiveStep() {
+            const step = lessonSteps[activeStepIndex];
+            const contentArea = document.getElementById('lesson-content-area');
+            
+            // Fade effect
+            contentArea.style.opacity = 0;
+            setTimeout(() => {
+                contentArea.innerHTML = step.html;
+                contentArea.style.opacity = 1;
+                
+                // Set Global Progress
+                document.getElementById('progress-percentage').innerText = `${step.progress}%`;
+                document.getElementById('progress-bar-fill').style.width = `${step.progress}%`;
+                
+                // Initialize specific triggers for widgets if present
+                if (step.id === 3) {
+                    initBatteryWidget();
+                }
+                
+                // Typeset math equation beautifully
+                triggerMathTypeset();
+            }, 200);
+
+            renderSidebar();
+        }
+
+        // Global Navigation Click Listeners
+        document.getElementById('prev-step-btn').onclick = () => {
+            if (activeStepIndex > 0) {
+                activeStepIndex--;
+                loadActiveStep();
+            }
+        };
+
+        document.getElementById('next-step-btn').onclick = () => {
+            if (activeStepIndex < lessonSteps.length - 1) {
+                activeStepIndex++;
+                loadActiveStep();
+            } else {
+                triggerConfetti();
+            }
+        };
+
+        // --- Interactive WarmUp Validations ---
+        function checkWarmUp(inputId, correctAnswers) {
+            const input = document.getElementById(inputId);
+            const val = input.value.trim().toLowerCase();
+            
+            const isMatch = correctAnswers.some(ans => val === ans.trim().toLowerCase());
+            
+            if (isMatch) {
+                input.className = "px-4 py-2 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 w-32 text-center";
+            } else {
+                input.className = "px-4 py-2 rounded-xl border border-rose-300 bg-rose-50 text-rose-800 font-bold focus:outline-none focus:ring-2 focus:ring-rose-500 w-32 text-center";
+            }
+        }
+
+        function checkSelectedOption(btnElement, isCorrect) {
+            const parent = btnElement.parentElement;
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.className = "p-2 border border-slate-200 rounded-xl font-bold text-xs text-slate-400 bg-slate-50 cursor-not-allowed";
+            });
+            
+            if (isCorrect) {
+                btnElement.className = "p-2 border-2 border-emerald-500 bg-emerald-50 rounded-xl font-black text-xs text-emerald-800";
+            } else {
+                btnElement.className = "p-2 border-2 border-rose-500 bg-rose-50 rounded-xl font-black text-xs text-rose-800";
+            }
+        }
+
+        // --- Interactive Widget 1: Battery HP Level ---
+        function initBatteryWidget() {
+            const slider = document.getElementById('battery-slider');
+            const fill = document.getElementById('battery-fill');
+            const text = document.getElementById('battery-text');
+            const compareText = document.getElementById('battery-compare-text');
+
+            slider.oninput = function() {
+                const val = parseFloat(this.value);
+                const pct = Math.round(val * 100);
+                
+                fill.style.width = `${pct}%`;
+                text.innerText = val.toString().replace('.', ',');
+                
+                // Adjust colors based on battery limits
+                if (pct <= 20) {
+                    fill.className = "h-full bg-rose-500 rounded-lg transition-all duration-300";
+                } else if (pct <= 50) {
+                    fill.className = "h-full bg-amber-500 rounded-lg transition-all duration-300";
+                } else {
+                    fill.className = "h-full bg-emerald-500 rounded-lg transition-all duration-300";
+                }
+
+                // Dynamic comparison string
+                if (pct < 20) {
+                    compareText.innerHTML = `Level Baterai: ${val.toString().replace('.', ',')} sama nilainya dengan ${pct}% (<span class="text-rose-600 font-bold">Lebih kecil</span> dari 20%)`;
+                } else if (pct > 20) {
+                    compareText.innerHTML = `Level Baterai: ${val.toString().replace('.', ',')} sama nilainya dengan ${pct}% (<span class="text-emerald-600 font-bold">Lebih besar</span> dari 20%)`;
+                } else {
+                    compareText.innerHTML = `Level Baterai: ${val.toString().replace('.', ',')} sama nilainya dengan ${pct}% (<span class="text-slate-600 font-bold">Sama persis</span> dengan 20%)`;
+                }
+            };
+        }
+
+        // --- Interactive Widget 2: Mall Promos ---
+        function toggleStorePromo(store) {
+            const a = document.getElementById('promo-a');
+            const b = document.getElementById('promo-b');
+            const aDesc = document.getElementById('promo-a-desc');
+            const bDesc = document.getElementById('promo-b-desc');
+            const conclusion = document.getElementById('promo-conclusion');
+
+            if (store === 'A') {
+                a.className = "p-4 bg-purple-50 border-2 border-purple-500 rounded-2xl text-center cursor-pointer transition-all";
+                aDesc.classList.remove('hidden');
+            } else {
+                b.className = "p-4 bg-indigo-50 border-2 border-indigo-500 rounded-2xl text-center cursor-pointer transition-all";
+                bDesc.classList.remove('hidden');
+            }
+
+            if (!aDesc.classList.contains('hidden') && !bDesc.classList.contains('hidden')) {
+                conclusion.classList.remove('hidden');
+                triggerMathTypeset();
+            }
+        }
+
+        // --- Interactive Widget 3: Live Conversion Bridge ---
+        function calculateLiveConversion() {
+            const num = parseFloat(document.getElementById('frac-num').value);
+            const den = parseFloat(document.getElementById('frac-den').value);
+            const liveDec = document.getElementById('live-dec');
+            const livePct = document.getElementById('live-pct');
+
+            if (!isNaN(num) && !isNaN(den) && den !== 0) {
+                const decVal = num / den;
+                const roundedDec = Math.round(decVal * 1000) / 1000;
+                const pctVal = Math.round(decVal * 100);
+
+                liveDec.innerText = roundedDec.toString().replace('.', ',');
+                livePct.innerText = `${pctVal}%`;
+            } else {
+                liveDec.innerText = "Error";
+                livePct.innerText = "Error";
+            }
+        }
+
+        // --- Homework Accordion ---
+        function toggleExpl(id) {
+            const panel = document.getElementById(id);
+            panel.classList.toggle('hidden');
+            triggerMathTypeset();
+        }
+
+        // --- Confetti celebration reward animation ---
+        function triggerConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.classList.remove('hidden');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            let particles = [];
+            const colors = ['#8b5cf6', '#a78bfa', '#f43f5e', '#38bdf8', '#34d399'];
+
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 4 + 4,
+                    d: Math.random() * canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, i) => {
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                    ctx.stroke();
+
+                    p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                    p.tilt = Math.sin(p.d - i) * 3;
+
+                    if (p.y > canvas.height) {
+                        particles[i] = {
+                            x: Math.random() * canvas.width,
+                            y: -20,
+                            r: p.r,
+                            d: p.d,
+                            color: p.color,
+                            tilt: p.tilt
+                        };
+                    }
+                });
+            }
+
+            let interval = setInterval(draw, 20);
+            setTimeout(() => {
+                clearInterval(interval);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Initial launch
+        window.onload = function() {
+            loadActiveStep();
+        };
+    </script>
+</body>
+</html>
