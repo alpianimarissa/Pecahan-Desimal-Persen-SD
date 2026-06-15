@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Petualangan Operasi Campuran FDP Kelas 6 SD</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- MathJax Configuration for Perfect Non-Formula Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        .kids-font {
+            font-family: 'Fredoka', sans-serif;
+        }
+        @keyframes subtle-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .subtle-bounce {
+            animation: subtle-bounce 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-[#FFFBEB] via-[#F0FDF4] to-[#EFF6FF] min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="bg-white/90 backdrop-blur-md border-b-4 border-emerald-400 py-3.5 px-6 flex justify-between items-center sticky top-0 z-40 shadow-sm">
+        <div class="flex items-center gap-3">
+            <span class="text-3xl animate-bounce">🎒</span>
+            <div>
+                <h1 class="kids-font text-lg md:text-2xl font-black text-emerald-600">Duel Operasi Campuran FDP</h1>
+                <p class="text-[10px] text-emerald-500 font-extrabold tracking-widest uppercase">Kurikulum Merdeka • Kelas 6 SD</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <!-- XP Score Badge -->
+            <div class="bg-amber-100 border-2 border-amber-400 rounded-full px-4 py-1.5 flex items-center gap-1.5 shadow-sm">
+                <span class="text-base">⭐</span>
+                <span id="header-score" class="font-black text-amber-800 text-xs md:text-sm">0 XP</span>
+            </div>
+            
+            <!-- Scratchpad Toggle Button -->
+            <button onclick="toggleScratchpad()" class="bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-400 active:scale-95 transition text-indigo-700 font-black rounded-full px-4 py-1.5 flex items-center gap-1 text-xs md:text-sm shadow-sm">
+                ✏️ <span>Papan Cakar</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- SCRATCHPAD DRAWING OVERLAY -->
+    <div id="scratchpad" class="hidden fixed inset-0 z-50 bg-white/95 flex flex-col p-4">
+        <div class="flex justify-between items-center mb-2 border-b-2 border-gray-100 pb-2">
+            <h3 class="kids-font text-lg font-bold text-indigo-600 flex items-center gap-2">
+                ✏️ Papan Coret Hitung Cakar Bebas
+            </h3>
+            <div class="flex items-center gap-2">
+                <button onclick="clearCanvas()" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-3 py-1.5 rounded-lg text-xs">Hapus</button>
+                <button onclick="toggleScratchpad()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-4 py-1.5 rounded-lg text-xs">Kembali ke Soal</button>
+            </div>
+        </div>
+        <div class="flex-1 bg-amber-50/30 border-4 border-dashed border-indigo-300 rounded-2xl relative cursor-crosshair overflow-hidden">
+            <canvas id="scratch-canvas" class="absolute inset-0 w-full h-full"></canvas>
+        </div>
+        <p class="text-xs text-gray-400 mt-2 text-center">Gunakan jarimu atau mouse komputer untuk menghitung bersusun, menyamakan penyebut, atau menyusun desimal!</p>
+    </div>
+
+    <!-- MAIN INTERACTIVE DISPLAY -->
+    <main class="flex-1 flex flex-col items-center justify-center p-4 md:p-8">
+        
+        <!-- DASHBOARD / START SCREEN -->
+        <div id="dashboard-screen" class="w-full max-w-2xl bg-white rounded-3xl border-8 border-emerald-200 shadow-xl p-6 md:p-10 text-center relative overflow-hidden subtle-bounce">
+            <span class="text-7xl block mb-4 animate-bounce">🧠</span>
+            <h2 class="kids-font text-3xl md:text-5xl font-extrabold text-slate-800 mb-2">Misi Utama FDP</h2>
+            <p class="text-sm md:text-base text-emerald-600 font-black mb-8">Taklukkan 10 Misi Campuran Pecahan, Desimal, dan Persen!</p>
+            
+            <div class="grid md:grid-cols-2 gap-4 mb-8 text-left text-xs md:text-sm">
+                <!-- Info Box 1 -->
+                <div class="bg-[#F0FDF4] border-2 border-emerald-300 rounded-2xl p-4">
+                    <span class="text-2xl block mb-1">⚡</span>
+                    <h3 class="font-extrabold text-[#065F46]">7 Soal Kilat Langsung</h3>
+                    <p class="text-gray-500 mt-0.5 font-semibold">Uji kecepatan menyamakan jenis bilangan dan urutan operasi hitung (+, -, ×, ÷).</p>
+                </div>
+                <!-- Info Box 2 -->
+                <div class="bg-[#EFF6FF] border-2 border-blue-300 rounded-2xl p-4">
+                    <span class="text-2xl block mb-1">💼</span>
+                    <h3 class="font-extrabold text-[#1E40AF]">3 Kasus Cerita</h3>
+                    <p class="text-gray-500 mt-0.5 font-semibold">Terapkan operasi FDP untuk memecahkan urusan belanja, sisa tanah, dan takaran bahan.</p>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-600 hover:to-teal-500 text-white font-black text-lg py-4 px-10 rounded-2xl shadow-lg hover:shadow-xl active:scale-95 transition duration-300">
+                MULAI MISI SEKARANG! 🚀
+            </button>
+        </div>
+
+        <!-- GAMEPLAY / QUIZ SCREEN -->
+        <div id="quiz-screen" class="hidden w-full max-w-2xl bg-white rounded-3xl border-8 border-emerald-200 shadow-xl overflow-hidden flex flex-col justify-between min-h-[460px] md:min-h-[500px]">
+            <!-- Top Progress Information -->
+            <div class="bg-[#F8FAFC] px-6 py-4 flex justify-between items-center border-b-2 border-gray-100">
+                <span id="quiz-badge" class="bg-emerald-500 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">Perhitungan</span>
+                <span class="font-black text-slate-700 text-xs md:text-sm">Misi: <span id="q-counter">1/10</span></span>
+            </div>
+
+            <!-- Question Box -->
+            <div class="p-6 md:p-10 flex-1 flex flex-col justify-center">
+                <div id="question-text" class="text-lg md:text-2xl font-bold text-slate-800 text-center leading-relaxed">
+                    <!-- Inserted dynamically -->
+                </div>
+            </div>
+
+            <!-- Multiple Choice Option Grid (Full-width responsive rows) -->
+            <div class="px-6 md:px-10 pb-8 grid grid-cols-1 gap-3" id="options-container">
+                <!-- Inserted dynamically -->
+            </div>
+
+            <!-- Bottom Fluid Progress Bar -->
+            <div class="w-full bg-slate-100 h-3">
+                <div id="quiz-progress" class="bg-gradient-to-r from-emerald-400 to-teal-400 h-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- RESULTS / REPORT SCREEN -->
+        <div id="result-screen" class="hidden w-full max-w-2xl bg-white rounded-3xl border-8 border-emerald-300 shadow-xl p-6 md:p-10 text-center">
+            <span id="result-emoji" class="text-7xl block mb-3 animate-bounce">🎉</span>
+            <h2 class="kids-font text-3xl md:text-4xl font-extrabold text-slate-800 mb-1" id="result-title">Misi Selesai!</h2>
+            <p class="text-sm text-gray-500 font-bold mb-6" id="result-rank">Gelar: Master Operasi FDP Cilik</p>
+
+            <!-- Score Summary Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-8 max-w-md mx-auto text-xs md:text-sm">
+                <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3 text-center">
+                    <span class="text-emerald-800 font-bold block">BENAR</span>
+                    <span id="score-correct" class="text-2xl font-black text-emerald-600">0</span>
+                </div>
+                <div class="bg-red-50 border-2 border-red-200 rounded-2xl p-3 text-center">
+                    <span class="text-red-800 font-bold block">SALAH</span>
+                    <span id="score-wrong" class="text-2xl font-black text-red-500">0</span>
+                </div>
+                <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 text-center">
+                    <span class="text-amber-800 font-bold block">TOTAL XP</span>
+                    <span id="score-total" class="text-2xl font-black text-amber-600">0</span>
+                </div>
+            </div>
+
+            <!-- Detailed Explanation list toggle -->
+            <div class="mb-6">
+                <button onclick="toggleReviewList()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 border-2 border-slate-300 font-bold rounded-xl px-5 py-2 text-xs transition">
+                    🔍 Lihat Detail Pembahasan Kuis
+                </button>
+                <div id="review-container" class="hidden mt-4 max-h-52 overflow-y-auto text-left space-y-2 border-t pt-3">
+                    <!-- Loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Action button -->
+            <button onclick="resetQuiz()" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold py-3 px-8 rounded-xl shadow-md active:scale-95 transition">
+                🔄 Ulangi Misi Kuis
+            </button>
+        </div>
+
+    </main>
+
+    <!-- FLOATING TOAST FEEDBACK -->
+    <div id="toast" class="hidden fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce">
+        <span id="toast-icon">✨</span> <span id="toast-text">Luar biasa!</span>
+    </div>
+
+    <!-- CELEBRATION CONFETTI CANVAS -->
+    <canvas id="confetti" class="fixed inset-0 pointer-events-none z-50 w-full h-full hidden"></canvas>
+
+    <!-- INTERACTIVE GAMEPLAY SCRIPT -->
+    <script>
+        // --- 1. SOUND EFFECTS (Web Audio API Synthesizer) ---
+        let audioCtx;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2); // G5
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.45);
+                } else if (type === 'incorrect') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.35);
+                    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.35);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(350, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.08);
+                }
+            } catch (e) {
+                console.log("Audio contexts require user interaction first.");
+            }
+        }
+
+        // --- 2. 10 SOLID FDP QUESTIONS DATABASE (LaTeX Double Escaped) ---
+        const questions = [
+            // Direct Questions (1-7)
+            {
+                type: "Perhitungan",
+                text: "Berapakah hasil dari operasi campuran: $ \\frac{3}{4} + 0,5 \\times 20\\% $?",
+                options: ["$ 0,75 $", "$ 0,85 $", "$ 0,95 $", "$ 1,15 $"],
+                answer: "$ 0,85 $",
+                explanation: "Selesaikan perkalian dulu: $0,5 \\times 20\\% = 0,5 \\times 0,2 = 0,10$. Kemudian tambahkan dengan pecahan: $\\frac{3}{4} + 0,10 = 0,75 + 0,10 = 0,85$."
+            },
+            {
+                type: "Perhitungan",
+                text: "Tentukan hasil akhir dari: $ 1,2 - \\frac{2}{5} \\div 50\\% $!",
+                options: ["$ \\frac{1}{5} $", "$ 0,6 $", "$ \\frac{2}{5} $", "$ 1,0 $"],
+                answer: "$ \\frac{2}{5} $",
+                explanation: "Hitung pembagian dulu: $\\frac{2}{5} \\div 50\\% = 0,4 \\div 0,5 = 0,8$. Selanjutnya, lakukan pengurangan: $1,2 - 0,8 = 0,4$, yang setara dengan pecahan $\\frac{2}{5}$."
+            },
+            {
+                type: "Perhitungan",
+                text: "Berapakah nilai dari: $ 75\\% \\times (0,8 - \\frac{1}{5}) $?",
+                options: ["$ 0,45 $", "$ 0,35 $", "$ 0,50 $", "$ \\frac{3}{5} $"],
+                answer: "$ 0,45 $",
+                explanation: "Hitung operasi dalam kurung dulu: $0,8 - \\frac{1}{5} = 0,8 - 0,2 = 0,6$. Kemudian kalikan dengan persen: $75\\% \\times 0,6 = 0,75 \\times 0,6 = 0,45$."
+            },
+            {
+                type: "Perhitungan",
+                text: "Hasil perhitungan dari: $ 2\\frac{1}{2} \\div 0,5 \\times 20\\% $ adalah...",
+                options: ["$ 0,5 $", "$ 1 $", "$ 1,5 $", "$ 2 $"],
+                answer: "$ 1 $",
+                explanation: "Konversikan ke desimal dulu: $2,5 \\div 0,5 \\times 0,2$. Kerjakan berurutan dari kiri: $2,5 \\div 0,5 = 5$. Terakhir: $5 \\times 0,2 = 1$."
+            },
+            {
+                type: "Perhitungan",
+                text: "Tentukan hasil dari operasi campuran: $ (0,6 + \\frac{2}{5}) \\div 25\\% $!",
+                options: ["$ 2 $", "$ 3 $", "$ 4 $", "$ 5 $"],
+                answer: "$ 4 $",
+                explanation: "Hitung penjumlahan dalam kurung: $0,6 + 0,4 = 1,0$. Selanjutnya bagikan dengan persen: $1 \\div 25\\% = 1 \\div 0,25 = 4$."
+            },
+            {
+                type: "Perhitungan",
+                text: "Berapakah hasil akhir dari: $ \\frac{3}{5} \\times 1,5 - 60\\% $?",
+                options: ["$ \\frac{3}{10} $", "$ 0,4 $", "$ \\frac{1}{5} $", "$ 0,5 $"],
+                answer: "$ \\frac{3}{10} $",
+                explanation: "Lakukan perkalian dahulu: $\\frac{3}{5} \\times 1,5 = 0,6 \\times 1,5 = 0,9$. Kurangkan dengan persen: $0,9 - 60\\% = 0,9 - 0,6 = 0,3$, yang setara dengan pecahan $\\frac{3}{10}$."
+            },
+            {
+                type: "Perhitungan",
+                text: "Nilai dari operasi hitung: $ 1,8 \\div (30\\% + \\frac{3}{5}) $ adalah...",
+                options: ["$ 1,5 $", "$ 2 $", "$ 2,5 $", "$ 3 $"],
+                answer: "$ 2 $",
+                explanation: "Kerjakan operasi dalam kurung: $30\\% + \\frac{3}{5} = 0,3 + 0,6 = 0,9$. Selesaikan pembagian akhir: $1,8 \\div 0,9 = 2$."
+            },
+            // Story Questions (8-10)
+            {
+                type: "Soal Cerita",
+                text: "🍳 <strong>Kasus 1: Adonan Kue Ibu</strong><br>Ibu membeli $1,5\\text{ kg}$ telur. Sebanyak $40\\%$ dari telur tersebut digunakan untuk membuat kue bolu. Esoknya, Ibu membeli lagi sebanyak $ \\frac{3}{4}\\text{ kg} $ telur. Berapa kg telur yang dimiliki Ibu sekarang?",
+                options: ["$ 1,50\\text{ kg} $", "$ 1,65\\text{ kg} $", "$ 1,85\\text{ kg} $", "$ 2,25\\text{ kg} $"],
+                answer: "$ 1,65\\text{ kg} $",
+                explanation: "Telur mula-mula = $1,5\\text{ kg}$.<br>Telur yang dipakai kue = $40\\% \\times 1,5 = 0,6\\text{ kg}$.<br>Sisa telur Ibu = $1,5 - 0,6 = 0,9\\text{ kg}$.<br>Setelah membeli lagi: $0,9 + \\frac{3}{4} = 0,9 + 0,75 = 1,65\\text{ kg}$."
+            },
+            {
+                type: "Soal Cerita",
+                text: "🌱 <strong>Kasus 2: Tanah Paman</strong><br>Paman memiliki tanah seluas $300\\text{ m}^2$. Sebanyak $ \\frac{1}{3} $ bagian ditanami jagung, dan $25\\%$ bagian ditanami singkong. Sisa tanah Paman ditanami sayuran. Berapakah luas tanah yang ditanami sayuran?",
+                options: ["$ 100\\text{ m}^2 $", "$ 115\\text{ m}^2 $", "$ 125\\text{ m}^2 $", "$ 150\\text{ m}^2 $"],
+                answer: "$ 125\\text{ m}^2 $",
+                explanation: "Tanah jagung = $ \\frac{1}{3} \\times 300 = 100\\text{ m}^2 $.<br>Tanah singkong = $25\\% \\times 300 = 75\\text{ m}^2$.<br>Total tanah terpakai = $100 + 75 = 175\\text{ m}^2$.<br>Sisa untuk sayuran = $300 - 175 = 125\\text{ m}^2$."
+            },
+            {
+                type: "Soal Cerita",
+                text: "🛍️ <strong>Kasus 3: Tabungan Celengan Andi</strong><br>Andi memiliki uang sebesar Rp50.000,00. Sebanyak $0,25$ bagian dari uangnya dibelikan buku tulis, dan $30\\%$ dari uangnya dibelikan es krim. Berapakah sisa uang Andi yang disimpan ke dalam celengan?",
+                options: ["$ \\text{Rp22.500,00} $", "$ \\text{Rp25.000,00} $", "$ \\text{Rp27.500,00} $", "$ \\text{Rp32.500,00} $"],
+                answer: "$ \\text{Rp22.500,00} $",
+                explanation: "Uang buku = $0,25 \\times 50.000 = 12.500$.<br>Uang es krim = $30\\% \\times 50.000 = 15.000$.<br>Total belanja = $12.500 + 15.000 = 27.500$.<br>Sisa uang di celengan = $50.000 - 27.500 = \\text{Rp22.500,00}$."
+            }
+        ];
+
+        // --- 3. SYSTEM STATE ---
+        let currentIdx = 0;
+        let score = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let attemptCount = 0;
+        let reviewList = [];
+
+        // Canvas Sketchpad
+        const canvas = document.getElementById('scratch-canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+        // Confetti Context
+        const confettiCanvas = document.getElementById('confetti');
+        const confettiCtx = confettiCanvas.getContext('2d');
+        let confettiActive = false;
+        let particles = [];
+
+        // --- 4. ENGINE INITIALIZATION ---
+        window.onload = function() {
+            initCanvas();
+        };
+
+        function startQuiz() {
+            playSound('correct');
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            
+            // Reset state
+            currentIdx = 0;
+            score = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            reviewList = [];
+            
+            document.getElementById('header-score').innerText = `0 XP`;
+            loadQuestion(0);
+        }
+
+        // --- 5. QUESTION CONTROLLER ---
+        function loadQuestion(idx) {
+            attemptCount = 0;
+            const q = questions[idx];
+
+            // Progress tracking
+            const progress = (idx / questions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progress}%`;
+            document.getElementById('q-counter').innerText = `${idx + 1} / ${questions.length}`;
+
+            // Category badge styling
+            const badge = document.getElementById('quiz-badge');
+            badge.innerText = q.type;
+            if (q.type === 'Perhitungan') {
+                badge.className = "bg-emerald-500 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider";
+            } else {
+                badge.className = "bg-blue-500 text-white font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider";
+            }
+
+            // Load texts
+            document.getElementById('question-text').innerHTML = q.text;
+
+            // Generate option buttons
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            // Unique non-monotonous styling colors
+            const btnStyles = [
+                'bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border-emerald-300',
+                'bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border-indigo-300',
+                'bg-sky-50 hover:bg-sky-100 text-sky-800 border-sky-300',
+                'bg-amber-50 hover:bg-amber-100 text-amber-800 border-amber-300'
+            ];
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = `border-2 p-4 rounded-2xl font-black text-sm md:text-base active:scale-95 transition flex justify-between items-center ${btnStyles[i % btnStyles.length]}`;
+                btn.innerHTML = `<span>${opt}</span><span class="opacity-40 text-xs">PILIH 👉</span>`;
+                btn.onclick = () => selectAnswer(btn, opt);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Trigger MathJax typesetting instantly
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // --- 6. USER INTERACTION & VALIDATION ---
+        function selectAnswer(btn, selected) {
+            attemptCount++;
+            const q = questions[currentIdx];
+            const isCorrect = selected === q.answer;
+
+            if (isCorrect) {
+                // Freeze other option buttons
+                const container = document.getElementById('options-container');
+                Array.from(container.children).forEach(b => {
+                    b.disabled = true;
+                    b.classList.add('opacity-50');
+                });
+
+                btn.classList.remove('opacity-50');
+                btn.className = "border-2 border-emerald-500 bg-emerald-100 text-emerald-800 p-4 rounded-2xl font-black text-sm md:text-base flex justify-between items-center";
+                btn.innerHTML = `<span>${selected}</span> <span>🎉 BENAR!</span>`;
+
+                // Re-typeset this button so MathJax renders the inside properly
+                if (window.MathJax) {
+                    MathJax.typesetPromise([btn]);
+                }
+
+                playSound('correct');
+                triggerConfetti();
+
+                let addedScore = 0;
+                if (attemptCount === 1) {
+                    addedScore = 15;
+                    correctCount++;
+                    showToast("✨ Hebat, kamu langsung menjawab benar!", "bg-[#10B981]");
+                } else {
+                    addedScore = 5;
+                    wrongCount++;
+                    showToast("🌟 Pantang menyerah! Jawaban kamu benar sekarang!", "bg-blue-500");
+                }
+
+                score += addedScore;
+                document.getElementById('header-score').innerText = `${score} XP`;
+
+                // Add to review lists
+                reviewList.push({
+                    text: q.text,
+                    category: q.type,
+                    userAnswer: selected,
+                    correctAnswer: q.answer,
+                    explanation: q.explanation,
+                    directSuccess: attemptCount === 1
+                });
+
+                // Transition with delay to let sound & confetti run
+                setTimeout(() => {
+                    currentIdx++;
+                    if (currentIdx < questions.length) {
+                        loadQuestion(currentIdx);
+                    } else {
+                        finishQuiz();
+                    }
+                }, 1800);
+
+            } else {
+                playSound('incorrect');
+                btn.disabled = true;
+                btn.className = "border-2 border-red-300 bg-red-100 text-red-500 p-4 rounded-2xl font-black text-sm md:text-base flex justify-between items-center opacity-60 cursor-not-allowed";
+                btn.innerHTML = `<span>${selected}</span> <span>❌ Salah, Coba Lagi!</span>`;
+                
+                // Re-typeset
+                if (window.MathJax) {
+                    MathJax.typesetPromise([btn]);
+                }
+
+                showToast("💡 Kurang tepat. Cakar kembali angkanya dan pilih opsi lain!", "bg-red-500");
+            }
+        }
+
+        // --- 7. FINISH QUIZ SCREEN ---
+        function finishQuiz() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-wrong').innerText = wrongCount;
+            document.getElementById('score-total').innerText = score;
+
+            const emoji = document.getElementById('result-emoji');
+            const title = document.getElementById('result-title');
+            const rank = document.getElementById('result-rank');
+
+            if (score >= 120) {
+                emoji.innerText = "👑🏆";
+                title.innerText = "Sempurna! Dewa FDP!";
+                rank.innerText = "Gelar: Raja Hitung Tercepat Kelas Dunia";
+                triggerConfetti();
+            } else if (score >= 80) {
+                emoji.innerText = "🛡️🚀";
+                title.innerText = "Ksatria Pecahan Hebat!";
+                rank.innerText = "Gelar: Detektif FDP Mandiri Berbakat";
+                triggerConfetti();
+            } else {
+                emoji.innerText = "🌱🎒";
+                title.innerText = "Tetap Semangat!";
+                rank.innerText = "Gelar: Petualang Matematika Pemberani";
+            }
+
+            // Build Review list content with beautiful math
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+            reviewList.forEach((res, i) => {
+                const item = document.createElement('div');
+                item.className = `p-4 rounded-xl border-l-8 ${res.directSuccess ? 'bg-emerald-50 border-emerald-500' : 'bg-red-50 border-red-400'} mb-2 text-xs md:text-sm`;
+                item.innerHTML = `
+                    <p class="font-bold text-gray-800">Misi ${i + 1} [${res.category}]: ${res.text}</p>
+                    <p class="mt-1 font-semibold">Jawaban Anda: <span class="${res.directSuccess ? 'text-emerald-700' : 'text-red-600'}">${res.userAnswer}</span> | Jawaban Benar: <span class="text-emerald-700 font-bold">${res.correctAnswer}</span></p>
+                    <p class="text-[11px] text-slate-500 italic mt-1 font-semibold">Trik Cepat: ${res.explanation}</p>
+                `;
+                reviewContainer.appendChild(item);
+            });
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function toggleReviewList() {
+            const container = document.getElementById('review-container');
+            container.classList.toggle('hidden');
+        }
+
+        function resetQuiz() {
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.remove('hidden');
+            score = 0;
+            document.getElementById('header-score').innerText = `0 XP`;
+        }
+
+        function showToast(text, bgClass) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toast.className = `fixed bottom-10 left-1/2 transform -translate-x-1/2 z-50 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce ${bgClass}`;
+            toastText.innerHTML = text;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
+
+        // --- 8. DOODLE CANVAS SYSTEM ---
+        function toggleScratchpad() {
+            const pad = document.getElementById('scratchpad');
+            pad.classList.toggle('hidden');
+            if (!pad.classList.contains('hidden')) {
+                resizeCanvas();
+            }
+        }
+
+        function initCanvas() {
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                ctx.beginPath();
+                const r = canvas.getBoundingClientRect();
+                ctx.moveTo(e.clientX - r.left, e.clientY - r.top);
+            });
+            canvas.addEventListener('mousemove', (e) => {
+                if (!isDrawing) return;
+                const r = canvas.getBoundingClientRect();
+                ctx.lineTo(e.clientX - r.left, e.clientY - r.top);
+                ctx.stroke();
+            });
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isDrawing = true;
+                ctx.beginPath();
+                const t = e.touches[0];
+                const r = canvas.getBoundingClientRect();
+                ctx.moveTo(t.clientX - r.left, t.clientY - r.top);
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!isDrawing) return;
+                const t = e.touches[0];
+                const r = canvas.getBoundingClientRect();
+                ctx.lineTo(t.clientX - r.left, t.clientY - r.top);
+                ctx.stroke();
+            });
+            canvas.addEventListener('touchend', () => isDrawing = false);
+        }
+
+        function resizeCanvas() {
+            const parent = canvas.parentNode;
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+            ctx.lineCap = 'round';
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#6366f1'; 
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // --- 9. CONFETTI CELEBRATION EFFECTS ---
+        function triggerConfetti() {
+            confettiActive = true;
+            confettiCanvas.classList.remove('hidden');
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            
+            particles = [];
+            for (let i = 0; i < 75; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: Math.random() * 5 + 4,
+                    d: Math.random() * confettiCanvas.height,
+                    color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                    tiltAngle: 0
+                });
+            }
+
+            animateConfetti();
+            setTimeout(() => {
+                confettiActive = false;
+                confettiCanvas.classList.add('hidden');
+            }, 2500);
+        }
+
+        function animateConfetti() {
+            if (!confettiActive) return;
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            
+            particles.forEach((p, idx) => {
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                p.x += Math.sin(p.tiltAngle);
+                p.tilt = Math.sin(p.tiltAngle - idx / 3) * 15;
+
+                confettiCtx.beginPath();
+                confettiCtx.lineWidth = p.r;
+                confettiCtx.strokeStyle = p.color;
+                confettiCtx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                confettiCtx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                confettiCtx.stroke();
+            });
+
+            requestAnimationFrame(animateConfetti);
+        }
+    </script>
+</body>
+</html>
