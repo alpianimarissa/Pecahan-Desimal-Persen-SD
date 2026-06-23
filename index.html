@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petualangan Operasi FDP Kelas 6 SD</title>
+    <title>Petualangan Operasi Campuran FDP - Kelas 6 SD</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- MathJax Configuration for Perfect Non-Formula Rendering -->
+    <!-- MathJax Configuration for Perfect Formula Rendering -->
     <script>
         window.MathJax = {
             tex: {
@@ -53,7 +53,7 @@
             </svg>
             <div>
                 <h1 class="heading-font text-xl md:text-2xl font-bold text-[#047857]">Mastery FDP</h1>
-                <p class="text-[10px] text-[#059669] font-black tracking-widest uppercase">Kurikulum Merdeka • Kelas 6 SD Ceria</p>
+                <p class="text-[10px] text-[#059669] font-black tracking-widest uppercase">Kurikulum Merdeka • Kelas 6 SD</p>
             </div>
         </div>
         
@@ -75,7 +75,7 @@
     <div id="scratchpad" class="hidden fixed inset-0 z-50 bg-white/95 flex flex-col p-4">
         <div class="flex justify-between items-center mb-2 border-b-2 border-gray-100 pb-2">
             <h3 class="heading-font text-lg font-bold text-[#4F46E5] flex items-center gap-2">
-                ✏️ Papan Coret Hitung Cakar (FDP)
+                ✏️ Papan Coret Hitung Cakar (Operasi FDP)
             </h3>
             <div class="flex items-center gap-2">
                 <button onclick="clearCanvas()" class="bg-red-50 hover:bg-red-100 text-red-600 font-bold px-3 py-1.5 rounded-xl text-xs">Bersihkan</button>
@@ -85,7 +85,7 @@
         <div class="flex-1 bg-amber-50/20 border-4 border-dashed border-[#818CF8] rounded-2xl relative cursor-crosshair overflow-hidden">
             <canvas id="scratch-canvas" class="absolute inset-0 w-full h-full"></canvas>
         </div>
-        <p class="text-xs text-gray-400 mt-2 text-center">Gunakan jari atau mouse untuk menghitung penyamaan penyebut pecahan atau penjumlahan desimal bersusun!</p>
+        <p class="text-xs text-gray-400 mt-2 text-center">Gunakan jari atau mouse untuk menyamakan penyebut pecahan atau mencakar perkalian bersusun!</p>
     </div>
 
     <!-- MAIN SLIDE WINDOW -->
@@ -95,7 +95,7 @@
             ◀
         </button>
 
-        <!-- Slide Body Wrapper -->
+        <!-- Slide Body wrapper -->
         <div id="slide-wrapper" class="w-full max-w-4xl bg-white rounded-3xl border-8 border-[#A7F3D0] shadow-xl overflow-hidden flex flex-col justify-between min-h-[520px] md:min-h-[580px] slide-transition">
             <!-- Top Progress Bar -->
             <div class="w-full bg-[#E8F5E9] h-3">
@@ -122,13 +122,13 @@
 
     <!-- FLOATING TOAST NOTIFICATION -->
     <div id="toast" class="hidden fixed bottom-12 left-1/2 transform -translate-x-1/2 z-50 bg-[#10B981] text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce">
-        <span id="toast-icon">✨</span> <span id="toast-text">Luar biasa! Jawabanmu tepat!</span>
+        <span id="toast-icon">✨</span> <span id="toast-text">Luar biasa! Penyelesaianmu tepat!</span>
     </div>
 
     <!-- CONFETTI CELEBRATION CANVAS -->
     <canvas id="confetti" class="fixed inset-0 pointer-events-none z-50 w-full h-full hidden"></canvas>
 
-    <!-- SYSTEM LOGIC & SLIDE DATABASE -->
+    <!-- INLINE JAVASCRIPT & SLIDE DATABASE -->
     <script>
         // --- 1. WEB AUDIO API SYNTHESIZER ---
         let audioCtx;
@@ -152,96 +152,97 @@
 
                 if (type === 'correct') {
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08); // E5
-                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16); // G5
-                    osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.24); // C6
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime); 
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08); 
+                    osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16); 
+                    osc.frequency.setValueAtTime(1046.50, ctx.currentTime + 0.24); 
                     gain.gain.setValueAtTime(0.12, ctx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45);
                     osc.start(ctx.currentTime);
                     osc.stop(ctx.currentTime + 0.45);
                 } else if (type === 'incorrect') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(160, ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.35);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(140, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(70, ctx.currentTime + 0.35);
                     gain.gain.setValueAtTime(0.08, ctx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
                     osc.start(ctx.currentTime);
                     osc.stop(ctx.currentTime + 0.35);
                 } else if (type === 'click') {
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(350, ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(250, ctx.currentTime + 0.08);
+                    osc.frequency.setValueAtTime(380, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(280, ctx.currentTime + 0.08);
                     gain.gain.setValueAtTime(0.04, ctx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
                     osc.start(ctx.currentTime);
                     osc.stop(ctx.currentTime + 0.08);
                 }
             } catch (e) {
-                console.log("Audio contexts require user interaction first.");
+                console.log("Audio not initialized yet.");
             }
         }
 
-        // --- 2. THE 30 SLIDES DATABASE ---
+        // --- STREAMING_CHUNK: Menyusun bank database slide materi dan kuis... -->
+        // --- 2. THE 30 DYNAMIC SLIDES (LaTeX Escaped) ---
         const slides = [
             // Slide 1: Cover
             {
-                section: "Tuning In",
-                title: "Operasi Hitung Pecahan, Desimal, & Persen (FDP)",
-                subtitle: "Menguasai Penjumlahan, Pengurangan, Perkalian & Pembagian • Kelas 6 SD",
-                icon: "🎂",
+                section: "Pembuka",
+                title: "Petualangan Operasi Campuran FDP",
+                subtitle: "Kunci Sukses Operasi Pecahan, Desimal, & Persen • Kelas 6 SD",
+                icon: "🚀",
                 render: () => `
                     <div class="text-center">
                         <div class="flex justify-center mb-4">
+                            <!-- SVG Pizza & FDP badges -->
                             <svg class="w-32 h-32 text-[#10B981] animate-pulse" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <ellipse cx="50" cy="65" rx="35" ry="20" fill="#FFE082" stroke="#FFB300" stroke-width="3"/>
-                                <path d="M 15 65 L 15 45 C 15 45, 50 60, 85 45 L 85 65 Z" fill="#FFD54F" stroke="#FFB300" stroke-width="3"/>
-                                <path d="M 50 45 L 85 45 L 50 65 Z" fill="#EF5350" opacity="0.8"/>
-                                <text x="32" y="40" fill="#3B82F6" font-family="'Fredoka'" font-size="12" font-weight="bold">0,5</text>
-                                <text x="56" y="36" fill="#10B981" font-family="'Fredoka'" font-size="12" font-weight="bold">50%</text>
-                                <text x="18" y="58" fill="#E11D48" font-family="'Fredoka'" font-size="12" font-weight="bold">1/2</text>
+                                <circle cx="50" cy="50" r="42" fill="#FFE082" stroke="#FFB300" stroke-width="4"/>
+                                <path d="M 50 50 L 50 8 A 42 42 0 0 1 92 50 Z" fill="#EF5350" opacity="0.8"/>
+                                <text x="18" y="42" fill="#2563EB" font-family="'Fredoka'" font-size="12" font-weight="bold">0,25</text>
+                                <text x="62" y="32" fill="#D97706" font-family="'Fredoka'" font-size="12" font-weight="bold">25%</text>
+                                <text x="56" y="70" fill="#E11D48" font-family="'Fredoka'" font-size="12" font-weight="bold">1/4</text>
                             </svg>
                         </div>
-                        <h2 class="heading-font text-3xl md:text-4xl font-extrabold text-[#065F46] mb-2">Operasi Hitung FDP</h2>
-                        <p class="text-base md:text-lg text-emerald-700 font-bold mb-6">Menguasai Operasi Campuran Pecahan, Desimal, dan Persen</p>
+                        <h2 class="heading-font text-3xl md:text-4xl font-extrabold text-[#065F46] mb-2">Operasi Campuran FDP</h2>
+                        <p class="text-base md:text-lg text-emerald-700 font-bold mb-6">Penjumlahan, Pengurangan, Perkalian & Pembagian Tiga Saudara Aljabar</p>
                         <div class="inline-block bg-[#F5F3FF] border-2 border-dashed border-[#A78BFA] rounded-2xl p-4 max-w-lg mx-auto">
-                            <p class="text-xs md:text-sm text-violet-900 font-semibold">Selamat datang, para penjelajah matematika kelas 6! Kita akan memantapkan cara berhitung penjumlahan, pengurangan, perkalian, hingga pembagian FDP!</p>
+                            <p class="text-xs md:text-sm text-violet-900 font-semibold">Selamat datang siswa kelas 6! Mari kita mantapkan pemahaman menghitung operasi gabungan FDP dengan langkah-langkah yang seru.</p>
                         </div>
                     </div>
                 `
             },
             // Slide 2: Tujuan Pembelajaran
             {
-                section: "Tuning In",
+                section: "Pembuka",
                 title: "Tujuan Pembelajaran Kita",
-                subtitle: "Capaian Pembelajaran Kurikulum Merdeka Fase C",
+                subtitle: "Capaian Belajar Kurikulum Merdeka Fase C",
                 icon: "🎯",
                 render: () => `
                     <div class="max-w-2xl mx-auto text-left">
-                        <p class="text-sm text-gray-500 font-bold mb-4">Di akhir petualangan FDP ini, kamu akan mampu:</p>
+                        <p class="text-sm text-gray-500 font-bold mb-4">Setelah menuntaskan petualangan belajar ini, kamu akan mampu:</p>
                         <ul class="space-y-3 text-xs md:text-sm">
                             <li class="bg-violet-50 border-l-8 border-[#8B5CF6] p-3 rounded-r-xl font-bold text-violet-950 flex items-center gap-3">
-                                <span class="text-lg">✓</span> Melakukan penjumlahan dan pengurangan pecahan, desimal, dan persen secara seimbang.
+                                <span class="text-lg">✓</span> Memahami aturan kekuatan operasi hitung campuran pada FDP.
                             </li>
                             <li class="bg-[#EFF6FF] border-l-8 border-[#3B82F6] p-3 rounded-r-xl font-bold text-blue-950 flex items-center gap-3">
-                                <span class="text-lg">✓</span> Mengalikan dan membagi berbagai bentuk pecahan serta pecahan desimal dengan presisi.
+                                <span class="text-lg">✓</span> Menyamakan berbagai bentuk pecahan, desimal, dan persen ke satu jenis yang sama sebelum menghitung.
                             </li>
                             <li class="bg-[#F0FDF4] border-l-8 border-[#10B981] p-3 rounded-r-xl font-bold text-emerald-950 flex items-center gap-3">
-                                <span class="text-lg">✓</span> Memecahkan masalah (soal cerita) transaksi keuangan, resep makanan, dan pengukuran sehari-hari menggunakan operasi FDP.
+                                <span class="text-lg">✓</span> Memecahkan soal cerita pengukuran belanja, takaran resep makanan, dan tabungan celengan.
                             </li>
                         </ul>
                     </div>
                 `
             },
-            // Slide 3: Peta Perjalanan
+            // Slide 3: Rute Perjalanan
             {
-                section: "Tuning In",
-                title: "Rute Perjalanan Belajar",
-                subtitle: "Pos-pos penting petualangan FDP",
+                section: "Pembuka",
+                title: "Peta Rute Misi Kita",
+                subtitle: "Langkah terarah menuju penguasaan FDP",
                 icon: "🗺️",
                 render: () => `
                     <div class="w-full">
-                        <p class="text-sm text-center text-gray-500 font-bold mb-6">Berikut adalah empat pos utama perjalanan kita:</p>
+                        <p class="text-sm text-center text-gray-500 font-bold mb-6">Ikuti empat stasiun penting di bawah ini:</p>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 text-center">
                                 <span class="text-3xl">🍕</span>
@@ -263,257 +264,257 @@
                     </div>
                 `
             },
-            // Slide 4: Warm-up 1
+            // Slide 4: Warm-up 1 (Mental Campuran)
             {
                 section: "Warm-Up",
-                title: "Teka-teki Pizza Separuh",
-                subtitle: "Mengingat kembali porsi pecahan pizza",
-                icon: "🍕",
+                title: "Tantangan Mental 1: Penggabungan Sederhana",
+                subtitle: "Melatih insting hitung cepat",
+                icon: "🧠",
                 render: () => `
                     <div class="text-center">
-                        <p class="text-sm font-bold text-gray-600 mb-4">Jika sebuah pizza utuh dipotong menjadi 8 bagian sama besar, lalu diambil 4 bagian. Berapa bagian pizza yang diambil jika ditulis dalam bentuk desimal?</p>
-                        <div class="flex justify-center items-center gap-3 text-2xl md:text-3xl font-black mb-6">
-                            <span class="bg-amber-100 px-4 py-2 rounded-xl text-amber-700">$\\frac{4}{8}$</span>
-                            <span>=</span>
-                            <span class="bg-emerald-100 text-emerald-700 px-6 py-2 rounded-xl">?</span>
-                        </div>
-                        <div class="grid grid-cols-3 gap-3 max-w-md mx-auto">
-                            <button onclick="checkSlideAnswer(this, false, 'Salah. 0,25 setara dengan 1/4 bagian.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,25</button>
-                            <button onclick="checkSlideAnswer(this, true, 'Hebat! 4/8 disederhanakan menjadi 1/2, yang setara dengan 0,5 desimal.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,5</button>
-                            <button onclick="checkSlideAnswer(this, false, 'Masih kurang tepat.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,75</button>
+                        <p class="text-sm font-bold text-gray-600 mb-4">Berapakah hasil dari operasi campuran mental berikut:<br><span class="text-indigo-600 text-xl font-black font-mono">$0,5 + \\frac{1}{2}$</span>?</p>
+                        <div class="grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Kurang tepat. 1/2 adalah 0,5 desimal.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,5</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Sempurna! 0,5 + 0,5 = 1.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">1</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Salah, hitung kembali secara perlahan.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">1,5</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 5: Warm-up 2
+            // Slide 5: Warm-up 2 (Mental Campuran)
             {
                 section: "Warm-Up",
-                title: "Jembatan Konversi Kilat",
-                subtitle: "Mengingat konversi FDP yang telah dipelajari",
-                icon: "🌉",
+                title: "Tantangan Mental 2: Pengurangan Persen",
+                subtitle: "Melatih insting operasi persen desimal",
+                icon: "🧠",
                 render: () => `
                     <div class="text-center">
-                        <p class="text-sm font-bold text-gray-600 mb-4">Manakah bentuk persen yang setara dengan pecahan <span class="font-bold">$\\frac{3}{5}$</span>?</p>
-                        <div class="grid grid-cols-3 gap-3 max-w-md mx-auto">
-                            <button onclick="checkSlideAnswer(this, false, 'Belum tepat. Pecahan 3/5 setara dengan 60%.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">30%</button>
-                            <button onclick="checkSlideAnswer(this, false, 'Bukan, coba kalikan pembilang dan penyebut dengan 20.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">50%</button>
-                            <button onclick="checkSlideAnswer(this, true, 'Luar biasa! 3/5 = 60/100, yang setara dengan 60%!', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">60%</button>
+                        <p class="text-sm font-bold text-gray-600 mb-4">Berapakah hasil akhir dari:<br><span class="text-indigo-600 text-xl font-black font-mono">$1 - 25\\%$</span>?</p>
+                        <div class="grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                            <button onclick="checkSlideAnswer(this, true, 'Luar biasa! 1 setara dengan 100%. Maka 100% - 25% = 75% atau desimal 0,75.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,75</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Masih belum tepat.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,5</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Salah.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,25</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 6: Warm-up 3
+            // Slide 6: Warm-up 3 (Mental Campuran)
             {
                 section: "Warm-Up",
-                title: "Perbandingan Nilai Terbesar",
-                subtitle: "Membandingkan porsi kue",
-                icon: "🔍",
+                title: "Tantangan Mental 3: Perkalian Campuran",
+                subtitle: "Melatih insting perkalian desimal pecahan",
+                icon: "🧠",
                 render: () => `
-                    <div class="grid md:grid-cols-2 gap-6 items-center">
-                        <div class="flex justify-center bg-violet-50 p-4 rounded-2xl border">
-                            <svg class="w-48 h-36" viewBox="0 0 100 80">
-                                <circle cx="50" cy="40" r="25" fill="#FFE082" stroke="#FFB300" stroke-width="2"/>
-                                <path d="M 50 40 L 50 15 A 25 25 0 1 1 25 40 Z" fill="#81C784"/>
-                                <text x="54" y="32" fill="#2E7D32" font-size="8" font-weight="bold">75%</text>
-                            </svg>
-                        </div>
-                        <div class="space-y-3">
-                            <p class="text-sm text-gray-600 font-semibold leading-relaxed">
-                                Kakak mendapat bagian kue sebesar $0,7$ sedangkan Adik mendapat bagian kue sebesar $75\%$. Siapa yang mendapat bagian kue lebih besar?
-                            </p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Kurang tepat. 0,7 setara dengan 70%.', 5)" class="bg-white hover:bg-gray-100 p-2.5 rounded-xl border text-xs font-bold">Kakak ($0,7$)</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Benar! 75% lebih besar daripada 70% ($0,7$).', 5)" class="bg-white hover:bg-gray-100 p-2.5 rounded-xl border text-xs font-bold">Adik ($75\%$)</button>
-                            </div>
+                    <div class="text-center">
+                        <p class="text-sm font-bold text-gray-600 mb-4">Tentukan hasil akhir dari:<br><span class="text-indigo-600 text-xl font-black font-mono">$0,2 \\times 5$</span>?</p>
+                        <div class="grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Bukan, hitung lagi letak koma desimal.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">0,1</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Belum tepat.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">10</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Hebat! 2/10 dikali 5 = 10/10 = 1.', 5)" class="bg-[#F3F4F6] hover:bg-gray-100 p-3 rounded-xl border font-bold text-sm">1</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 7: Real-world Connection 1
+            // Slide 7: Real-world 1
             {
                 section: "Koneksi Nyata",
                 title: "Aplikasi 1: Berburu Diskon Belanja",
-                subtitle: "Bagaimana cara kita menghitung potongan harga?",
+                subtitle: "Bagaimana cara kita menghitung pengeluaran belanja?",
                 icon: "🛍️",
                 render: () => `
                     <div class="grid md:grid-cols-2 gap-6 items-center">
                         <div>
                             <p class="text-sm text-gray-600 leading-relaxed font-semibold">
-                                Di mal, kita sering melihat diskon seperti:
+                                Di pasar swalayan, harga barang sering ditulis menggunakan diskon persen:
                                 <br><br>
-                                <strong class="text-violet-700 font-mono">$$\\text{Diskon } 25\\%$$</strong>
-                                <br>
-                                Ini berarti jika harga baju Rp100.000, potongan harganya adalah $25\\% \\times 100.000$. Mengetahui perkalian persen sangat membantu kita belanja lebih hemat!
+                                <strong class="text-[#8B5CF6]">Diskon 25%</strong> dari baju seharga Rp100.000,00.
+                                <br><br>
+                                Mengetahui perkalian persen membantu kita menghitung sisa kembalian uang jajan dengan cepat!
                             </p>
                         </div>
                         <div class="bg-sky-50 p-4 rounded-2xl border-2 border-sky-100 text-center flex flex-col items-center">
                             <span class="text-5xl block animate-bounce mb-2">🏷️👕</span>
                             <div class="text-xs font-mono font-bold bg-white p-2 rounded border border-sky-300">
-                                $25\\% \\text{ dari } 100.000 = 25.000$
+                                $25\\% \\times 100.000 = 25.000$
                             </div>
                         </div>
                     </div>
                 `
             },
-            // Slide 8: Real-world Connection 2
+            // Slide 8: Real-world 2
             {
                 section: "Koneksi Nyata",
                 title: "Aplikasi 2: Resep Kue Terlezat Ibu",
-                subtitle: "Menakar bahan kue secara akurat",
+                subtitle: "Menakar porsi adonan makanan",
                 icon: "🧁",
                 render: () => `
                     <div class="grid md:grid-cols-2 gap-6 items-center">
                         <div class="order-2 md:order-1 flex justify-center bg-[#F0FDF4] p-4 rounded-2xl border-2 border-emerald-200">
                             <svg class="w-44 h-36" viewBox="0 0 100 80">
                                 <rect x="35" y="50" w="30" h="20" fill="#E0F2F1" stroke="#009688" stroke-width="2"/>
-                                <path d="M 30 50 L 70 50" stroke="#009688" stroke-width="3"/>
                                 <circle cx="50" cy="35" r="10" fill="#E11D48"/>
-                                <text x="46" y="38" fill="white" font-size="8" font-weight="bold">1/2</text>
-                                <text x="15" y="75" fill="#374151" font-size="7" font-weight="bold">Tepung Terigu: $1\\frac{1}{2}$ kg</text>
+                                <text x="44" y="38" fill="white" font-size="8" font-weight="bold">1/2</text>
+                                <text x="15" y="75" fill="#374151" font-size="7" font-weight="bold">Adonan Terigu: $1\\frac{1}{2}$ kg</text>
                             </svg>
                         </div>
                         <div class="order-1 md:order-2">
                             <p class="text-sm text-gray-600 leading-relaxed font-semibold">
-                                Ibu ingin membuat kue dengan bahan $1\\frac{1}{2}$ kg tepung terigu. Jika Ibu ingin membuat **setengah resep** saja, berapa tepung terigu yang dibutuhkan?
+                                Ibu membutuhkan $1\\frac{1}{2}$ kg tepung terigu. Jika Ibu ingin mengurangi takaran adonan sebesar setengah porsi saja, berapa berat terigu yang dipakai?
                                 <br><br>
-                                Kita menyelesaikannya menggunakan pembagian pecahan atau perkalian desimal!
+                                Operasi pembagian pecahan ini sangat mudah diselesaikan jika kamu memahami konsep dasar FDP!
                             </p>
                         </div>
                     </div>
                 `
             },
-            // Slide 9: Real-world Connection 3
+            // Slide 9: Real-world 3
             {
                 section: "Koneksi Nyata",
                 title: "Aplikasi 3: Pengukuran Tinggi Badan",
-                subtitle: "Melihat pertumbuhan diri dalam desimal",
+                subtitle: "Melihat pertumbuhan tinggi badan",
                 icon: "📐",
                 render: () => `
                     <div class="text-center max-w-xl mx-auto space-y-3">
                         <p class="text-sm text-gray-600 font-semibold">
-                            Tinggi badan kita sering ditulis dalam bentuk desimal, misalnya $1,45$ meter. Jika tahun depan tinggimu bertambah $0,08$ meter, tinggi badan barumu dihitung menggunakan penjumlahan desimal!
+                            Tinggi badan kita sering diukur dalam desimal, misalnya $1,45$ meter. Jika tahun ini badanmu bertambah $0,05$ meter, tinggi terbarumu dihitung menggunakan penjumlahan desimal bersusun.
                         </p>
                         <div class="bg-amber-50 border border-amber-300 p-3 rounded-xl text-xs font-semibold text-amber-900 leading-relaxed inline-block">
-                            📏 <strong>FDP di sekeliling kita:</strong> dari nilai ujian, takaran obat dokter, hingga isi bensin kendaraan!
+                            📐 <strong>Penerapan FDP:</strong> menghitung isi bensin kendaraan, takaran air resep, hingga diskon mainan!
                         </div>
                     </div>
                 `
             },
-            // Slide 10: Konsep 1 (Penjumlahan & Pengurangan Pecahan)
+            // Slide 10: Konsep 1: Aturan Penyetaraan
             {
-                section: "Materi Pecahan",
-                title: "Penjumlahan & Pengurangan Pecahan",
-                subtitle: "Kuncinya: Samakan Penyebut dahulu!",
-                icon: "➕",
+                section: "Materi FDP",
+                title: "Aturan Emas 1: Samakan Jenis!",
+                subtitle: "Langkah awal sebelum memulai pengerjaan",
+                icon: "🌟",
                 render: () => `
                     <div class="space-y-4 max-w-2xl mx-auto text-xs md:text-sm">
                         <p class="text-gray-600 leading-relaxed">
-                            Untuk menjumlahkan atau mengurangkan pecahan biasa, kita wajib **menyamakan penyebut** menggunakan KPK dari penyebut-penyebutnya.
+                            Aturan terpenting dalam operasi hitung FDP adalah **menyamakan jenis bentuk bilangan**. Pilih bentuk yang paling mudah:
                         </p>
-                        <div class="bg-violet-50 border-2 border-violet-200 p-4 rounded-xl text-center font-mono font-bold text-violet-800">
-                            $$\\frac{1}{3} + \\frac{1}{2} = \\frac{2}{6} + \\frac{3}{6} = \\frac{5}{6}$$
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-blue-50 border-2 border-blue-200 p-3 rounded-xl">
+                                <strong class="text-blue-900 block mb-1">Metode Desimal</strong>
+                                Ubah semua angka menjadi desimal (disarankan bila tidak menghasilkan koma tak terhingga).
+                            </div>
+                            <div class="bg-emerald-50 border-2 border-emerald-200 p-3 rounded-xl">
+                                <strong class="text-emerald-900 block mb-1">Metode Pecahan</strong>
+                                Ubah semua angka menjadi pecahan biasa (sangat aman untuk semua tipe angka).
+                            </div>
                         </div>
-                        <p class="text-xs text-gray-500 text-center italic">"Jika pecahan berupa pecahan campuran, ubah dahulu menjadi pecahan biasa agar lebih mudah dihitung!"</p>
                     </div>
                 `
             },
-            // Slide 11: Konsep 2 (Perkalian & Pembagian Pecahan)
+            // Slide 11: Konsep 2: Aturan KUKABATAKU (Sederhana, Bersih, Rapi)
             {
-                section: "Materi Pecahan",
-                title: "Perkalian & Pembagian Pecahan",
-                subtitle: "Kali langsung atau balik dan kali!",
-                icon: "✖️",
+                section: "Materi FDP",
+                title: "Aturan Emas 2: KUKABATAKU",
+                subtitle: "Urutan kekuatan operasi matematika",
+                icon: "⚙️",
                 render: () => `
-                    <div class="grid md:grid-cols-2 gap-4 text-xs md:text-sm">
-                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
-                            <h4 class="font-bold text-blue-900 text-sm mb-2">1. Perkalian Pecahan</h4>
-                            <p class="text-gray-600 leading-relaxed mb-2">Kalikan pembilang dengan pembilang, penyebut dengan penyebut.</p>
-                            <p class="font-mono bg-white p-2 rounded text-center">
-                                $$\\frac{2}{3} \\times \\frac{3}{4} = \\frac{6}{12} = \\frac{1}{2}$$
-                            </p>
-                        </div>
-                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
-                            <h4 class="font-bold text-emerald-900 text-sm mb-2">2. Pembagian Pecahan</h4>
-                            <p class="text-gray-600 leading-relaxed mb-2">Balik pecahan kedua, lalu ubah operasi menjadi perkalian!</p>
-                            <p class="font-mono bg-white p-2 rounded text-center">
-                                $$\\frac{2}{5} \\div \\frac{3}{4} = \\frac{2}{5} \\times \\frac{4}{3} = \\frac{8}{15}$$
-                            </p>
+                    <div class="space-y-4 text-xs md:text-sm max-w-xl mx-auto text-left">
+                        <p class="text-gray-600 font-semibold mb-2">Ikuti tangga kekuatan pengerjaan operasi campuran:</p>
+                        <div class="flex flex-col gap-2">
+                            <div class="bg-blue-50 border-2 border-blue-200 p-3 rounded-xl flex items-center justify-between">
+                                <span class="bg-blue-500 text-white font-extrabold px-3 py-1 rounded-full text-xs">Level 1</span>
+                                <span class="font-bold text-blue-900">Kurung ( ... )</span>
+                                <span class="text-xs text-blue-700 font-semibold">Kerjakan paling awal</span>
+                            </div>
+                            <div class="bg-emerald-50 border-2 border-emerald-200 p-3 rounded-xl flex items-center justify-between">
+                                <span class="bg-emerald-500 text-white font-extrabold px-3 py-1 rounded-full text-xs">Level 2</span>
+                                <span class="font-bold text-emerald-900">Kali (x) & Bagi (:)</span>
+                                <span class="text-xs text-emerald-700 font-semibold">Kerjakan dari kiri</span>
+                            </div>
+                            <div class="bg-amber-50 border-2 border-amber-200 p-3 rounded-xl flex items-center justify-between">
+                                <span class="bg-amber-500 text-white font-extrabold px-3 py-1 rounded-full text-xs">Level 3</span>
+                                <span class="font-bold text-amber-900">Tambah (+) & Kurang (-)</span>
+                                <span class="text-xs text-amber-700 font-semibold">Kerjakan paling akhir</span>
+                            </div>
                         </div>
                     </div>
                 `
             },
-            // Slide 12: Konsep 3 (Operasi Desimal)
+            // Slide 12: Cara Kerja KUKABATAKU
             {
-                section: "Materi Desimal",
-                title: "Operasi Desimal: Luruskan Koma!",
-                subtitle: "Aturan hitung penjumlahan & pengurangan desimal bersusun",
+                section: "Materi FDP",
+                title: "Cara Kerja KUKABATAKU",
+                subtitle: "Menerapkan urutan dengan presisi",
+                icon: "🧠",
+                render: () => `
+                    <div class="space-y-3 text-xs md:text-sm max-w-xl mx-auto text-left">
+                        <p class="text-gray-600">Mari perhatikan urutan prioritas pengerjaan soal berikut:</p>
+                        <div class="bg-indigo-50 border-l-8 border-indigo-500 p-3 rounded-r-xl font-semibold text-indigo-950">
+                            Soal: $0,5 + \\frac{1}{4} \\times 2$
+                        </div>
+                        <p class="text-gray-500">Karena ada operasi tambah ($+$) dan kali ($\\times$), maka **perkalian harus didahulukan**!</p>
+                        <div class="bg-slate-50 p-3 rounded-xl border font-mono">
+                            Langkah 1: Selesaikan ($\\frac{1}{4} \\times 2 = \\frac{2}{4} = 0,5$)<br>
+                            Langkah 2: Hitung ($0,5 + 0,5 = 1$)
+                        </div>
+                    </div>
+                `
+            },
+            // Slide 13: Contoh Operasi 1 (Penjumlahan & Pengurangan)
+            {
+                section: "Materi FDP",
+                title: "Contoh 1: Penjumlahan & Pengurangan",
+                subtitle: "Kunci utama: Luruskan koma desimal",
                 icon: "📝",
                 render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <p class="text-gray-600 leading-relaxed">
-                            Saat menjumlahkan atau mengurangkan desimal secara bersusun, pastikan **tanda koma (,) diletakkan lurus sejajar vertikal**!
+                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm text-center">
+                        <p class="text-gray-600 leading-relaxed text-left">
+                            Tentukan hasil akhir dari: <strong class="text-[#8B5CF6]">$0,75 + \\frac{1}{2} - 25\\%$</strong>
                         </p>
-                        <div class="bg-amber-50 border-2 border-amber-300 p-4 rounded-xl text-center font-mono font-bold text-amber-900">
-                            $\\begin{array}{rcc}
-                            1,45 & \\\\
-                            0,30 & + \\\\
-                            \\hline
-                            1,75 &
-                            \\end{array}$
+                        <div class="bg-amber-50 border-2 border-amber-300 p-4 rounded-xl text-left font-mono font-bold text-amber-900 space-y-1">
+                            1. Ubah ke Desimal: $0,75 + 0,5 - 0,25$<br>
+                            2. Hitung dari Kiri:<br>
+                            $\\quad 0,75 + 0,5 = 1,25$<br>
+                            3. Kurangkan:<br>
+                            $\\quad 1,25 - 0,25 = 1$
                         </div>
-                        <p class="text-xs text-gray-500 text-center italic">"Untuk perkalian desimal, hitung total angka di belakang koma pada kedua angka asal untuk diletakkan di hasil akhir."</p>
                     </div>
                 `
             },
-            // Slide 13: Konsep 4 (Operasi Persen)
+            // Slide 14: Contoh Operasi 2 (Perkalian & Pembagian)
             {
-                section: "Materi Persen",
-                title: "Operasi Persen & Bagian Nilai",
-                subtitle: "Menghitung bagian dari keseluruhan",
-                icon: "📊",
+                section: "Materi FDP",
+                title: "Contoh 2: Perkalian & Pembagian",
+                subtitle: "Mengubah ke pecahan biasa agar aman",
+                icon: "✖️",
                 render: () => `
-                    <div class="space-y-3 text-xs md:text-sm max-w-xl mx-auto">
-                        <p class="text-gray-600 font-semibold">Persen artinya perseratus ($/100$). Untuk menghitung persen dari suatu nilai:</p>
-                        <div class="bg-[#FDF2F8] border-2 border-pink-200 p-4 rounded-xl text-center font-mono font-bold text-pink-900">
-                            $$20\\% \\text{ dari } 50.000 = \\frac{20}{100} \\times 50.000 = 10.000$$
-                        </div>
-                        <p class="text-xs text-gray-500 text-center">Trik kilat: Coret dua buah nol di belakang jika mengalikan persen dengan angka ratusan/ribuan!</p>
-                    </div>
-                `
-            },
-            // Slide 14: Konsep 5 (Operasi Campuran FDP)
-            {
-                section: "Materi Campuran",
-                title: "Aturan Emas Operasi Campuran FDP",
-                subtitle: "Samakan jenis bentuk angka terlebih dahulu!",
-                icon: "⚖️",
-                render: () => `
-                    <div class="space-y-3 text-xs md:text-sm max-w-xl mx-auto">
-                        <p class="text-gray-600 font-semibold">Bagaimana menyelesaikan $0,5 + \\frac{1}{4} - 20\\%$?</p>
-                        <div class="bg-violet-50 border-l-8 border-violet-500 p-4 rounded-r-xl space-y-2">
-                            <p><strong>Langkah 1:</strong> Pilih bentuk akhir yang diinginkan (misal desimal semua).</p>
-                            <p><strong>Langkah 2:</strong> Konversi semua elemen: $0,5 \\rightarrow 0,5$; $\\frac{1}{4} \\rightarrow 0,25$; $20\\% \\rightarrow 0,2$.</p>
-                            <p><strong>Langkah 3:</strong> Hitung berurutan: $0,5 + 0,25 - 0,2 = 0,75 - 0,2 = 0,55$.</p>
+                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm text-center">
+                        <p class="text-gray-600 leading-relaxed text-left">
+                            Tentukan hasil akhir dari: <strong class="text-[#8B5CF6]">$1,2 \\times \\frac{1}{4} \\div 10\\%$</strong>
+                        </p>
+                        <div class="bg-blue-50 border-2 border-blue-300 p-4 rounded-xl text-left font-mono font-bold text-blue-900 space-y-1">
+                            1. Ubah ke Pecahan Biasa: $\\frac{12}{10} \\times \\frac{1}{4} \\div \\frac{10}{100}$<br>
+                            2. Sederhanakan perkalian mula-mula:<br>
+                            $\\quad \\frac{12}{40} \\div \\frac{1}{10} \\rightarrow \\frac{3}{10} \\div \\frac{1}{10}$<br>
+                            3. Balik pecahan pembagi:<br>
+                            $\\quad \\frac{3}{10} \\times \\frac{10}{1} = 3$
                         </div>
                     </div>
                 `
             },
-            // Slide 15: INTERACTIVE PIZZA VISUALIZER
+            // Slide 15: Simulator Alur Hitung FDP
             {
                 section: "Eksplorasi",
-                title: "Simulator Pembagian Pizza Interaktif",
-                subtitle: "Ubah porsi potongan pizza dan amati nilai FDP-nya",
+                title: "Simulator Alur Konversi FDP",
+                subtitle: "Saksikan konversi simultan FDP secara real-time",
                 icon: "🍕",
                 render: () => `
                     <div class="grid md:grid-cols-2 gap-4 items-center">
                         <div class="space-y-3 bg-gray-50 p-4 rounded-xl border">
-                            <p class="text-[10px] text-gray-500 font-bold">Geser slider untuk memotong pizza!</p>
+                            <p class="text-[10px] text-gray-500 font-bold">Geser slider di bawah ini untuk mengambil porsi pizza!</p>
                             <div>
-                                <label class="text-xs font-bold text-gray-600 block">Jumlah Bagian Terambil: <span id="val-slice" class="text-emerald-600 font-extrabold">2</span> dari 8</label>
+                                <label class="text-xs font-bold text-gray-600 block">Potongan Terambil: <span id="val-slice" class="text-emerald-600 font-extrabold">2</span> dari 8</label>
                                 <input type="range" id="range-slice" min="1" max="8" step="1" value="2" oninput="drawPizza()" class="w-full accent-emerald-500">
                             </div>
-                            <div class="bg-white p-2.5 rounded border text-xs text-center font-mono mt-1">
-                                <span class="font-bold text-gray-700">Representasi FDP:</span><br>
+                            <div class="bg-white p-2 rounded border text-xs text-center font-mono mt-1 space-y-1">
+                                <span class="font-bold text-gray-700 block border-b pb-1">Nilai FDP Sejajar:</span>
                                 <span class="text-blue-600 font-bold">Pecahan: </span><span id="fdp-frac" class="font-bold">2/8 (1/4)</span><br>
                                 <span class="text-emerald-600 font-bold">Desimal: </span><span id="fdp-dec" class="font-bold">0,25</span><br>
                                 <span class="text-pink-600 font-bold">Persen: </span><span id="fdp-pct" class="font-bold">25%</span>
@@ -530,361 +531,240 @@
                     </div>
                 `
             },
-            // Slide 16: Latihan Pecahan - Perhitungan (5 Soal)
+            // --- SOAL MANDIRI: PERHITUNGAN LANGSUNG (7 SOAL - JAWABAN ACAK) ---
+            // Slide 16: Misi 1
             {
-                section: "Latihan Pecahan",
-                title: "Kuis 1: Perhitungan Pecahan",
-                subtitle: "Tuntaskan 5 soal hitungan pecahan biasa & campuran!",
-                icon: "✏️",
+                section: "Latihan Mandiri",
+                title: "Misi 1: Perkalian Terlebih Dahulu",
+                subtitle: "Latih kepasihan menjumlahkan dua jenis angka berbeda",
+                icon: "🏆",
                 render: () => `
-                    <div class="space-y-5 max-w-2xl mx-auto text-xs md:text-sm">
-                        <!-- Box 1 (Lebar, Rapih & Sempurna) -->
-                        <div class="bg-violet-50 p-5 rounded-2xl border border-violet-200 shadow-sm flex flex-col justify-between">
-                            <p class="font-bold text-violet-950 text-sm md:text-base mb-3">
-                                Soal 1: Berapakah hasil dari $\\frac{3}{4} + \\frac{1}{2}$?
-                            </p>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="checkSlideAnswer(this, false, 'Samakan penyebutnya menjadi 4.', 10)" class="bg-white hover:bg-violet-100 p-3 rounded-xl border border-violet-200 font-bold transition text-center flex items-center justify-center">
-                                    $1\\frac{1}{2}$
-                                </button>
-                                <button onclick="checkSlideAnswer(this, true, 'Sempurna! 3/4 + 2/4 = 5/4 = 1 1/4.', 10)" class="bg-white hover:bg-violet-100 p-3 rounded-xl border border-violet-200 font-bold transition text-center flex items-center justify-center">
-                                    $1\\frac{1}{4}$
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Box 2 -->
-                        <div class="bg-violet-50 p-5 rounded-2xl border border-violet-200 shadow-sm flex flex-col justify-between">
-                            <p class="font-bold text-violet-950 text-sm md:text-base mb-3">
-                                Soal 2: Tentukan hasil dari $\\frac{4}{5} - \\frac{1}{3}$!
-                            </p>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="checkSlideAnswer(this, true, 'Sangat Hebat! 12/15 - 5/15 = 7/15.', 10)" class="bg-white hover:bg-violet-100 p-3 rounded-xl border border-violet-200 font-bold transition text-center flex items-center justify-center">
-                                    $\\frac{7}{15}$
-                                </button>
-                                <button onclick="checkSlideAnswer(this, false, 'Penyebut KPK dari 5 dan 3 adalah 15.', 10)" class="bg-white hover:bg-violet-100 p-3 rounded-xl border border-violet-200 font-bold transition text-center flex items-center justify-center">
-                                    $\\frac{3}{15}$
-                                </button>
-                            </div>
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Berapakah hasil akhir dari operasi hitung campuran berikut:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$0,5 + \\frac{1}{4} \\times 20\\% $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Salah. Ingatlah untuk mengerjakan perkalian terlebih dahulu!', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,65</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Luar biasa! 0,5 + 0,25 * 0,2 = 0,5 + 0,05 = 0,55.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,55</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 17: Kunci Jawaban & Sisa Perhitungan Pecahan
+            // Slide 17: Misi 2
             {
-                section: "Latihan Pecahan",
-                title: "Kuis 1: Sisa Perhitungan Pecahan",
-                subtitle: "Tuntaskan soal perkalian & pembagian pecahan!",
-                icon: "✏️",
+                section: "Latihan Mandiri",
+                title: "Misi 2: Pembagian Terlebih Dahulu",
+                subtitle: "Latih presisi operasi pembagian campuran",
+                icon: "🏆",
                 render: () => `
-                    <div class="space-y-5 max-w-2xl mx-auto text-xs md:text-sm">
-                        <!-- Box 3 -->
-                        <div class="bg-blue-50 p-5 rounded-2xl border border-blue-200 shadow-sm flex flex-col justify-between">
-                            <p class="font-bold text-blue-950 text-sm md:text-base mb-3">
-                                Soal 3: Hasil dari $\\frac{2}{3} \\times \\frac{3}{5}$ adalah...
-                            </p>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="checkSlideAnswer(this, false, 'Kalikan langsung pembilang dan penyebut.', 10)" class="bg-white hover:bg-blue-100 p-3 rounded-xl border border-blue-200 font-bold transition text-center flex items-center justify-center">
-                                    $\\frac{6}{5}$
-                                </button>
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! Coret angka 3, hasil akhirnya 2/5.', 10)" class="bg-white hover:bg-blue-100 p-3 rounded-xl border border-blue-200 font-bold transition text-center flex items-center justify-center">
-                                    $\\frac{2}{5}$
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Box 4 & 5 -->
-                        <div class="bg-blue-50 p-5 rounded-2xl border border-blue-200 shadow-sm flex flex-col justify-between">
-                            <p class="font-bold text-blue-950 text-sm md:text-base mb-3">
-                                Soal 4 & 5: Hasil dari $\\frac{3}{8} \\div \\frac{1}{2}$ adalah...
-                            </p>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="checkSlideAnswer(this, true, 'Luar biasa! 3/8 * 2/1 = 6/8 = 3/4.', 10)" class="bg-white hover:bg-blue-100 p-3 rounded-xl border border-blue-200 font-bold transition text-center flex items-center justify-center">
-                                    $\\frac{3}{4}$
-                                </button>
-                                <button onclick="checkSlideAnswer(this, false, 'Balik pecahan kedua menjadi perkalian.', 10)" class="bg-white hover:bg-blue-100 p-3 rounded-xl border border-blue-200 font-bold transition text-center flex items-center justify-center">
-                                    $\\frac{3}{16}$
-                                </button>
-                            </div>
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Tentukan hasil akhir dari operasi campuran berikut:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$1,2 - \\frac{2}{5} \\div 50\\% $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, true, 'Sempurna! 1,2 - (0,4 : 0,5) = 1,2 - 0,8 = 0,4.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,4</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Belum tepat. Bagi dulu: 0,4 : 0,5 = 0,8. Lalu hitung 1,2 - 0,8.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,8</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 18: Latihan Pecahan - Soal Cerita (5 Soal)
+            // Slide 18: Misi 3
             {
-                section: "Latihan Pecahan",
-                title: "Kuis 2: Soal Cerita Pecahan (1-3)",
-                subtitle: "Tantangan logika pecahan dalam keseharian",
-                icon: "📖",
+                section: "Latihan Mandiri",
+                title: "Misi 3: Selesaikan dalam Kurung",
+                subtitle: "Sederhanakan angka sebelum dikalikan",
+                icon: "🏆",
                 render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                            <p class="font-bold text-emerald-950 mb-1">Kasus 1: Tepung Roti Ibu</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Ibu memiliki tepung terigu sebesar $2\\frac{1}{2}$ kg. Digunakan membuat donat $1\\frac{1}{4}$ kg. Sisa tepung Ibu adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">$1\\frac{3}{4}\\text{ kg}$</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! 2 1/2 - 1 1/4 = 1 1/4 kg.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">$1\\frac{1}{4}\\text{ kg}$</button>
-                            </div>
-                        </div>
-                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                            <p class="font-bold text-emerald-950 mb-1">Kasus 2 & 3: Air Minum Kakak</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Botol air kakak berisi $\\frac{3}{4}$ liter air. Kakak meminum sebanyak $\\frac{1}{2}$ liter air. Sisa air di botol adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Hebat! 3/4 - 2/4 = 1/4 liter.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">$\\frac{1}{4}\\text{ liter}$</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">$\\frac{1}{2}\\text{ liter}$</button>
-                            </div>
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Selesaikan perkalian berikut ke dalam desimal paling sederhana:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$75\\% \\times (0,8 - \\frac{1}{5}) $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Salah. Selesaikan dahulu angka di dalam kurung!', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,35</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Hebat! 0,75 * (0,8 - 0,2) = 0,75 * 0,6 = 0,45.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,45</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 19: Sisa Soal Cerita Pecahan
+            // Slide 19: Misi 4
             {
-                section: "Latihan Pecahan",
-                title: "Kuis 2: Soal Cerita Pecahan (4-5)",
-                subtitle: "Membagi bahan makanan secara merata",
-                icon: "📖",
+                section: "Latihan Mandiri",
+                title: "Misi 4: Pembagian Seri Kiri-Kanan",
+                subtitle: "Gunakan perkalian terbalik pada pecahan",
+                icon: "🏆",
                 render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-[#FFFDF5] p-3 rounded-xl border border-amber-200">
-                            <p class="font-bold text-amber-950 mb-1">Kasus 4 & 5: Pembagian Gula Pasir</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Pak Andi memiliki $\\frac{3}{4}$ kg gula pasir yang akan dikemas ke dalam beberapa kantong plastik kecil berkapasitas $\\frac{1}{8}$ kg. Berapa banyak kantong plastik yang dibutuhkan?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Balik pembaginya menjadi perkalian.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">4 kantong</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Sangat Hebat! 3/4 : 1/8 = 3/4 * 8 = 6 kantong plastik.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">6 kantong</button>
-                            </div>
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Selesaikan pembagian berseri berikut dari kiri ke kanan:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$2\\frac{1}{2} \\div 0,5 \\times 20\\% $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, true, 'Sangat Hebat! 2,5 : 0,5 = 5. Kemudian 5 * 0,2 = 1.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">1</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Kurang tepat. Cakar kembali pembagian dari arah kiri.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">2</button>
                         </div>
                     </div>
                 `
             },
-            // --- SUB-DESIMAL (10 SOAL) ---
-            // Slide 20: Latihan Desimal - Perhitungan (5 Soal)
+            // Slide 20: Misi 5
             {
-                section: "Latihan Desimal",
-                title: "Kuis 3: Perhitungan Desimal",
-                subtitle: "Tantangan menjumlahkan desimal secara bersusun",
-                icon: "✏️",
+                section: "Latihan Mandiri",
+                title: "Misi 5: Kurung Campuran",
+                subtitle: "Samakan semua jenis bilangan terlebih dahulu",
+                icon: "🏆",
+                render: () => `
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Berapakah hasil akhir dari:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$(0,6 + \\frac{2}{5}) \\div 25\\% $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Coba konversikan ke bentuk desimal terlebih dahulu.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">2,5</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Tepat! (0,6 + 0,4) : 0,25 = 1 : 0,25 = 4.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">4</button>
+                        </div>
+                    </div>
+                `
+            },
+            // Slide 21: Misi 6
+            {
+                section: "Latihan Mandiri",
+                title: "Misi 6: Perkalian dan Pengurangan",
+                subtitle: "Dahulukan operasi KABATAKU yang lebih kuat!",
+                icon: "🏆",
+                render: () => `
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Selesaikan operasi hitung berikut:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$\\frac{3}{5} \\times 1,5 - 60\\% $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, true, 'Sangat Hebat! 0,6 * 1,5 = 0,9. Kemudian 0,9 - 0,6 = 0,3.', 15)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,3</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Ubah 3/5 menjadi 0,6 dahulu, lalu kerjakan perkalian.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">0,5</button>
+                        </div>
+                    </div>
+                `
+            },
+            // Slide 22: Misi 7
+            {
+                section: "Latihan Mandiri",
+                title: "Misi 7: Pembagian Kurung Campuran",
+                subtitle: "Latih pemahaman dalam tanda kurung",
+                icon: "🏆",
+                render: () => `
+                    <div class="text-center w-full max-w-2xl mx-auto">
+                        <p class="text-base font-bold text-gray-600 mb-6 leading-relaxed">Selesaikan operasi campuran pembagian ini:<br><span class="text-[#8B5CF6] text-xl font-extrabold font-mono">$1,8 \\div (30\\% + \\frac{3}{5}) $</span>?</p>
+                        <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Ubah pecahan dan persen di dalam tanda kurung ke desimal.', 10)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">3</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Sempurna! 1,8 : (0,3 + 0,6) = 1,8 : 0,9 = 2.', 15)" class="bg-white hover:bg-violet-50 p-4 rounded-2xl border-2 border-violet-200 active:scale-95 transition text-base font-bold">2</button>
+                        </div>
+                    </div>
+                `
+            },
+            // --- SOAL MANDIRI: SOAL CERITA (3 SOAL - JAWABAN ACAK) ---
+            // Slide 23: Misi 8 (Soal Cerita 1)
+            {
+                section: "Latihan Mandiri",
+                title: "Misi 8: Sisa Telur Kue Ibu",
+                subtitle: "Aplikasi campuran FDP dalam menakar bahan kue",
+                icon: "🛍️",
                 render: () => `
                     <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-violet-50 p-3 rounded-xl border border-violet-100">
-                            <p class="font-bold text-violet-950 mb-2">Soal 1: Berapakah hasil dari $2,35 + 1,4$?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Salah, pastikan nilai tempat lurus seimbang.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">2,49</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! Luruskan koma menjadi 2,35 + 1,40 = 3,75.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">3,75</button>
-                            </div>
+                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
+                            <p class="font-bold text-blue-950">Kasus 1: Sisa Telur Kue Ibu</p>
+                            <p class="text-gray-600 mt-1 leading-relaxed">Ibu membeli $1,5\\text{ kg}$ telur. Sebanyak $40\\%$ dari telur digunakan membuat kue bolu. Esoknya Ibu membeli tambahan telur sebanyak $\\frac{3}{4}\\text{ kg}$. Berapa kg telur Ibu sekarang?</p>
                         </div>
-                        <div class="bg-violet-50 p-3 rounded-xl border border-violet-100">
-                            <p class="font-bold text-violet-950 mb-2">Soal 2: Tentukan hasil pengurangan dari $4,8 - 1,25$!</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Sempurna! 4,80 - 1,25 = 3,55.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">3,55</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Pinjam nilai dari 8 menjadi 7.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">3,65</button>
-                            </div>
+                        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Kurangkan dulu telur terpakai (1,5 - 0,6 = 0,9 kg).', 10)" class="bg-white hover:bg-blue-50 p-3.5 rounded-xl border-2 border-blue-200 active:scale-95 transition font-bold text-sm">1,25 kg</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Hebat! Terpakai kue: 1,5 * 0,4 = 0,6 kg. Sisa: 0,9 kg. Ditambah telur baru: 0,9 + 0,75 = 1,65 kg.', 15)" class="bg-white hover:bg-blue-50 p-3.5 rounded-xl border-2 border-blue-200 active:scale-95 transition font-bold text-sm">1,65 kg</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 21: Kunci Jawaban & Sisa Perhitungan Desimal
+            // Slide 24: Misi 9 (Soal Cerita 2)
             {
-                section: "Latihan Desimal",
-                title: "Kuis 3: Sisa Perhitungan Desimal",
-                subtitle: "Tantangan perkalian & pembagian desimal!",
-                icon: "✏️",
+                section: "Latihan Mandiri",
+                title: "Misi 9: Pembagian Kebun Paman",
+                subtitle: "Mengukur pembagian area lahan tanah",
+                icon: "🧁",
                 render: () => `
                     <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                            <p class="font-bold text-blue-950 mb-2">Soal 3 & 4: Hasil dari $1,2 \\times 0,3$ adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Kurang tepat.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">3,6</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! 12 * 3 = 36. Ada 2 angka di belakang koma, menjadi 0,36.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">0,36</button>
-                            </div>
+                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+                            <p class="font-bold text-emerald-950">Kasus 2: Pembagian Lahan Kebun</p>
+                            <p class="text-gray-600 mt-1 leading-relaxed">Paman memiliki tanah seluas $300\\text{ m}^2$. Sebanyak $\\frac{1}{3}$ bagian ditanami jagung, dan $25\\%$ bagian ditanami singkong. Sisanya ditanami sayuran. Berapa luas tanah yang ditanami sayuran?</p>
                         </div>
-                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                            <p class="font-bold text-blue-950 mb-2">Soal 5: Hasil pembagian dari $2,4 \\div 0,6$ adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Hebat! Kalikan kedua angka dengan 10: 24 : 6 = 4.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">4</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">0,4</button>
-                            </div>
+                        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, true, 'Sempurna! Jagung: 100 m2. Singkong: 75 m2. Sisa sayuran: 300 - (100+75) = 125 m2.', 15)" class="bg-white hover:bg-emerald-50 p-3.5 rounded-xl border-2 border-emerald-200 active:scale-95 transition font-bold text-sm">125 m²</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Cakar kembali pembagian areanya dengan teliti.', 10)" class="bg-white hover:bg-emerald-50 p-3.5 rounded-xl border-2 border-emerald-200 active:scale-95 transition font-bold text-sm">150 m²</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 22: Latihan Desimal - Soal Cerita (5 Soal)
+            // Slide 25: Misi 10 (Soal Cerita 3)
             {
-                section: "Latihan Desimal",
-                title: "Kuis 4: Soal Cerita Desimal (1-3)",
-                subtitle: "Logika desimal dalam pengukuran nyata",
-                icon: "📖",
+                section: "Latihan Mandiri",
+                title: "Misi 10: Sisa Celengan Andi",
+                subtitle: "Aplikasi campuran FDP dalam mengatur uang saku",
+                icon: "💰",
                 render: () => `
                     <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                            <p class="font-bold text-emerald-950 mb-1">Kasus 1: Panjang Pita Hias</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Dina memiliki pita sepanjang $2,5$ meter. Dipotong untuk membungkus kado sepanjang $1,25$ meter. Sisa panjang pita Dina adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Kurangkan dengan lurus koma.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">1,35 meter</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Sempurna! 2,50 - 1,25 = 1,25 meter.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">1,25 meter</button>
-                            </div>
+                        <div class="bg-purple-50 border border-purple-200 p-4 rounded-xl">
+                            <p class="font-bold text-purple-950">Kasus 3: Tabungan Celengan Andi</p>
+                            <p class="text-gray-600 mt-1 leading-relaxed">Andi memiliki uang sebesar Rp50.000,00. Sebanyak $0,25$ bagian dibelikan buku tulis, dan $30\\%$ dibelikan es krim manis. Berapakah sisa uang Andi yang bisa disimpan ke celengan?</p>
                         </div>
-                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                            <p class="font-bold text-emerald-950 mb-1">Kasus 2 & 3: Berat Buah Jeruk</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Kakak membeli $1,5$ kg jeruk. Ternyata di rumah masih ada sisa jeruk sebesar $0,75$ kg. Total berat seluruh jeruk kakak sekarang adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! 1,50 + 0,75 = 2,25 kg.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">2,25 kg</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">2,15 kg</button>
-                            </div>
+                        <div class="grid grid-cols-2 gap-3 max-w-md mx-auto">
+                            <button onclick="checkSlideAnswer(this, false, 'Buku tulis: Rp12.500. Es krim: Rp15.000. Jumlah belanja: Rp27.500.', 10)" class="bg-white hover:bg-purple-50 p-3.5 rounded-xl border-2 border-purple-200 active:scale-95 transition font-bold text-sm">Rp25.000,00</button>
+                            <button onclick="checkSlideAnswer(this, true, 'Sangat Hebat! Buku: Rp12.500. Es Krim: Rp15.000. Sisa celengan: Rp50.000 - Rp27.500 = Rp22.500.', 15)" class="bg-white hover:bg-purple-50 p-3.5 rounded-xl border-2 border-purple-200 active:scale-95 transition font-bold text-sm">Rp22.500,00</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 23: Sisa Soal Cerita Desimal
+            // Slide 26: Tips Sukses
             {
-                section: "Latihan Desimal",
-                title: "Kuis 4: Soal Cerita Desimal (4-5)",
-                subtitle: "Aplikasi perkalian dalam transaksi pasar",
-                icon: "📖",
+                section: "Rangkuman",
+                title: "Tips Sukses Mengerjakan FDP",
+                subtitle: "Trik rahasia pengerjaan cepat",
+                icon: "💡",
                 render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-[#FFFDF5] p-3 rounded-xl border border-amber-200">
-                            <p class="font-bold text-amber-950 mb-1">Kasus 4 & 5: Pembelian Apel Merah</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Ibu membeli $2,5$ kg apel merah. Jika harga 1 kg apel merah adalah Rp30.000, berapakah total harga yang harus dibayar Ibu?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">Rp60.000</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Luar biasa! 2,5 dikali 30.000 = Rp75.000.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">Rp75.000</button>
-                            </div>
-                        </div>
+                    <div class="max-w-xl mx-auto text-xs md:text-sm text-left">
+                        <ul class="space-y-3">
+                            <li class="bg-amber-50 p-3 rounded-xl border border-amber-300">
+                                💡 <strong>Tips 1:</strong> Selalu perhatikan apakah angka pecahan menghasilkan desimal berulang seperti $1/3$ ($0,333...$). Jika iya, ubahlah semua angka menjadi **pecahan biasa** agar hasil hitungan akurat!
+                            </li>
+                            <li class="bg-sky-50 p-3 rounded-xl border border-sky-300">
+                                💡 <strong>Tips 2:</strong> Manfaatkan skema coret silang pembilang dan penyebut saat melakukan perkalian pecahan guna menyederhanakan angka besar.
+                            </li>
+                        </ul>
                     </div>
                 `
             },
-            // --- SUB-PERSEN (10 SOAL) ---
-            // Slide 24: Latihan Persen - Perhitungan (5 Soal)
+            // Slide 27: Kesalahan Umum
             {
-                section: "Latihan Persen",
-                title: "Kuis 5: Perhitungan Persen",
-                subtitle: "Tantangan menghitung proporsi nilai persen",
-                icon: "✏️",
+                section: "Rangkuman",
+                title: "Kesalahan Umum yang Harus Dihindari",
+                subtitle: "Sering membuat keliru saat ujian!",
+                icon: "🛑",
                 render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-violet-50 p-3 rounded-xl border border-violet-100">
-                            <p class="font-bold text-violet-950 mb-2">Soal 1: Berapakah nilai dari 10% dari 150?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Coret nol di belakang.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">1,5</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! 10/100 * 150 = 15.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">15</button>
-                            </div>
+                    <div class="max-w-xl mx-auto text-xs md:text-sm text-left space-y-3">
+                        <p class="text-gray-500 font-bold">Waspadai poin-poin berikut:</p>
+                        <div class="bg-red-50 p-3 rounded-xl border border-red-200">
+                            ❌ Menjumlahkan pembilang dengan pembilang, penyebut dengan penyebut tanpa menyamakan penyebut terlebih dahulu.
                         </div>
-                        <div class="bg-violet-50 p-3 rounded-xl border border-violet-100">
-                            <p class="font-bold text-violet-950 mb-2">Soal 2: Tentukan nilai dari 25% dari 80!</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Sempurna! 25% setara dengan 1/4 bagian. 1/4 dari 80 adalah 20.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">20</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">25</button>
-                            </div>
+                        <div class="bg-red-50 p-3 rounded-xl border border-red-200">
+                            ❌ Tidak meluruskan tanda koma (,) saat menjumlahkan desimal bersusun.
                         </div>
                     </div>
                 `
             },
-            // Slide 25: Kunci Jawaban & Sisa Perhitungan Persen
+            // Slide 28: Evaluasi Cepat
             {
-                section: "Latihan Persen",
-                title: "Kuis 5: Sisa Perhitungan Persen",
-                subtitle: "Tantangan konversi operasi persen campuran!",
-                icon: "✏️",
+                section: "Rangkuman",
+                title: "Uji Evaluasi Cepat FDP",
+                subtitle: "Membuktikan ketajaman ingatan",
+                icon: "⚡",
                 render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                            <p class="font-bold text-blue-950 mb-2">Soal 3 & 4: Hasil dari 50% + 0,25 adalah...</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Ubah persen menjadi desimal dahulu.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">0,55</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! 0,5 + 0,25 = 0,75 desimal.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">0,75</button>
-                            </div>
-                        </div>
-                        <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                            <!-- Diperbaiki menggunakan penanda inline $ agar tidak memisahkan baris -->
-                            <p class="font-bold text-blue-950 mb-2">Soal 5: Berapakah hasil dari $120\\% - \\frac{1}{5}$?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Hebat! 1,2 - 0,2 = 1.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">1</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 10)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">0,8</button>
-                            </div>
+                    <div class="text-center">
+                        <p class="text-sm font-bold text-gray-600 mb-4">Selesaikan secara mental (di luar kepala):<br><strong class="text-emerald-600 font-mono text-base">$0,5 + 50\\% - \\frac{1}{2}$</strong>?</p>
+                        <div class="grid grid-cols-3 gap-2 max-w-xs mx-auto">
+                            <button onclick="checkSlideAnswer(this, true, 'Hebat! 0,5 + 0,5 - 0,5 = 0,5 (atau setara dengan 1/2).', 10)" class="bg-[#F3F4F6] hover:bg-gray-100 p-2.5 rounded-xl border text-xs font-bold font-mono">0,5</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Salah.', 10)" class="bg-[#F3F4F6] hover:bg-gray-100 p-2.5 rounded-xl border text-xs font-bold font-mono">1,0</button>
+                            <button onclick="checkSlideAnswer(this, false, 'Kurang tepat.', 10)" class="bg-[#F3F4F6] hover:bg-gray-100 p-2.5 rounded-xl border text-xs font-bold font-mono">0</button>
                         </div>
                     </div>
                 `
             },
-            // Slide 26: Latihan Persen - Soal Cerita (5 Soal)
-            {
-                section: "Latihan Persen",
-                title: "Kuis 6: Soal Cerita Persen (1-3)",
-                subtitle: "Menghitung tabungan dan diskon barang",
-                icon: "📖",
-                render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                            <p class="font-bold text-emerald-950 mb-1">Kasus 1: Diskon Tas Sekolah</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Sebuah tas sekolah seharga Rp200.000 mendapat diskon sebesar 20%. Berapa harga potongan diskon tas tersebut?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">Rp20.000</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Sempurna! 20/100 * 200.000 = Rp40.000.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">Rp40.000</button>
-                            </div>
-                        </div>
-                        <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                            <p class="font-bold text-emerald-950 mb-1">Kasus 2 & 3: Siswa Berkacamata</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Dalam satu kelas berisi 40 siswa. Jika 25% dari seluruh siswa menggunakan kacamata, berapa banyak anak yang berkacamata?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, true, 'Tepat! 25/100 * 40 = 10 anak.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">10 anak</button>
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">15 anak</button>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            // Slide 27: Sisa Soal Cerita Persen
-            {
-                section: "Latihan Persen",
-                title: "Kuis 6: Soal Cerita Persen (4-5)",
-                subtitle: "Menakar bagian tabungan celengan",
-                icon: "📖",
-                render: () => `
-                    <div class="space-y-4 max-w-xl mx-auto text-xs md:text-sm">
-                        <div class="bg-[#FFFDF5] p-3 rounded-xl border border-amber-200">
-                            <p class="font-bold text-amber-950 mb-1">Kasus 4 & 5: Menyimpan Uang Saku</p>
-                            <p class="text-[11px] text-gray-600 mb-2">Doni mendapat uang jajan Rp20.000 setiap hari. Doni berniat menabung sebanyak 30% ke dalam celengan. Berapa besar uang yang ditabung Doni?</p>
-                            <div class="flex gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Salah.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">Rp8.000</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Luar biasa! 30/100 * 20.000 = Rp6.000.', 15)" class="bg-white px-3 py-1.5 rounded-lg border font-bold flex-1 text-center select-none">Rp6.000</button>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            // Slide 28: Tantangan Super Campuran (HOTS)
-            {
-                section: "Misi Utama",
-                title: "Tantangan Master FDP (HOTS)",
-                subtitle: "Menyelesaikan kombinasi tiga bentuk FDP",
-                icon: "🧠",
-                render: () => `
-                    <div class="grid md:grid-cols-2 gap-4 items-center">
-                        <div>
-                            <p class="text-xs text-gray-600 leading-relaxed font-semibold">
-                                Kakak membeli kain sepanjang $3,5$ meter. Digunakan membuat baju pertama sepanjang $1\\frac{1}{2}$ meter and baju kedua sepanjang $40\%$ dari sisa kain sebelumnya. 
-                                <br><br>
-                                Berapakah sisa kain kakak sekarang?
-                            </p>
-                        </div>
-                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 text-center">
-                            <p class="text-xs font-bold text-blue-900 mb-2">Pilih Sisa Kain</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="checkSlideAnswer(this, false, 'Coba hitung perlahan menggunakan papan cakar.', 20)" class="bg-white py-2 rounded border text-xs font-bold select-none">1,5 meter</button>
-                                <button onclick="checkSlideAnswer(this, true, 'Sangat Jenius! Sisa setelah baju pertama: 3,5 - 1,5 = 2 meter. Baju kedua: 40% dari 2 meter = 0,8 meter. Sisa akhir: 2 - 0,8 = 1,2 meter!', 20)" class="bg-white py-2 rounded border text-xs font-bold select-none">1,2 meter</button>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            // Slide 29: Refleksi
+            // Slide 29: Refleksi Perasaan
             {
                 section: "Refleksi",
-                title: "Bagaimana Pemahaman Dirimu?",
-                subtitle: "Kurikulum Merdeka Self-Evaluation",
+                title: "Bagaimana Perasaan Belajarmu?",
+                subtitle: "Self-Evaluation Kurikulum Merdeka",
                 icon: "🌿",
                 render: () => `
                     <div class="text-center max-w-xl mx-auto">
-                        <p class="text-sm font-bold text-gray-600 mb-6">Pilih emotikon yang mewakili tingkat kepahaman FDP-mu hari ini:</p>
+                        <p class="text-sm font-bold text-gray-600 mb-6">Pilih emotikon yang mewakili pemahaman operasi FDP-mu hari ini:</p>
                         <div class="grid grid-cols-3 gap-3">
                             <button onclick="handleEmotionSelect(this, 'paham')" class="bg-white hover:bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl flex flex-col items-center transition active:scale-95">
                                 <span class="text-4xl mb-2">😎</span>
@@ -903,30 +783,30 @@
                     </div>
                 `
             },
-            // Slide 30: Kesimpulan
+            // Slide 30: Kesimpulan (Misi Selesai!)
             {
                 section: "Kesimpulan",
-                title: "Misi Operasi FDP Selesai!",
-                subtitle: "Kamu telah sukses menjadi Master Pecahan, Desimal, & Persen!",
+                title: "Misi Operasi FDP Tuntas!",
+                subtitle: "Selamat, kamu resmi menjadi Master Pecahan, Desimal, & Persen!",
                 icon: "🏆",
                 render: () => `
                     <div class="text-center">
                         <span class="text-7xl block mb-3 animate-bounce">👑🏆</span>
                         <h2 class="heading-font text-3xl font-extrabold text-[#065F46] mb-1">Misi Selesai dengan Gemilang!</h2>
-                        <p class="text-xs md:text-sm text-gray-600 max-w-md mx-auto mb-6">Luar biasa! Kamu telah melintasi dan menuntaskan 30 slide tantangan interaktif operasi pecahan, desimal, dan persen. Terus asah kemampuan hebatmu!</p>
+                        <p class="text-xs md:text-sm text-gray-600 max-w-md mx-auto mb-6">Kamu telah berhasil melintasi dan menaklukkan 30 slide tantangan interaktif Operasi Campuran FDP Kurikulum Merdeka. Terus asah kemampuan matematika hebatmu!</p>
                         <div onclick="resetAdventure()" class="inline-block bg-gradient-to-r from-[#10B981] to-emerald-600 text-white font-black px-8 py-3 rounded-2xl shadow-lg hover:scale-105 transition duration-300 cursor-pointer text-xs md:text-sm">
-                            🔄 ULANGI PETUALANGAN
+                            🔄 RESTART MISI
                         </div>
                     </div>
                 `
             }
         ];
 
-        // --- 3. SYSTEM STATE ---
+        // --- 3. STATE SYSTEM ---
         let currentSlide = 0;
         let score = 0;
 
-        // Canvas Drawing Context
+        // Canvas Sketchpad Context
         const canvas = document.getElementById('scratch-canvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
@@ -944,6 +824,7 @@
             setupTouchGestures();
         };
 
+        // --- STREAMING_CHUNK: Mengatur penayangan slide secara asinkron... -->
         // --- 5. RENDER CONTROL SYSTEM ---
         function loadSlide(index) {
             if (index < 0 || index >= slides.length) return;
@@ -1040,7 +921,7 @@
         function showToast(text, bgClass) {
             const toast = document.getElementById('toast');
             const toastText = document.getElementById('toast-text');
-            toast.className = `fixed bottom-12 left-1/2 transform -translate-x-1/2 z-50 text-white font-bold px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce ${bgClass}`;
+            toast.className = `fixed bottom-12 left-1/2 transform -translate-x-1/2 z-50 text-white font-black px-6 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce ${bgClass}`;
             toastText.innerHTML = text;
             toast.classList.remove('hidden');
             setTimeout(() => {
@@ -1160,6 +1041,7 @@
             }, false);
         }
 
+        // --- STREAMING_CHUNK: Memuat animasi letupan confetti kemenangan... -->
         // --- 10. CONFETTI CELEBRATION SYSTEM ---
         function triggerConfetti() {
             confettiActive = true;
