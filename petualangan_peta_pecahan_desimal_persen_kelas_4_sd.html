@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Peta Matematika: Pecahan, Desimal & Persen Kelas 4 SD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        fredoka: ['Fredoka', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            yellow: '#F59E0B',
+                            green: '#10B981',
+                            pink: '#EC4899',
+                            orange: '#F97316',
+                            indigo: '#6366F1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Formatting Pecahan Tegak (Susun Atas-Bawah) */
+        .fraction-ui, .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .fraction-numerator, .frac .top {
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 2px;
+            display: block;
+        }
+        .fraction-denominator, .frac .bottom {
+            padding-top: 2px;
+            display: block;
+        }
+
+        /* Map Paths and Animations */
+        .map-container {
+            background-image: radial-gradient(#e0e7ff 1.5px, transparent 1.5px), radial-gradient(#e0e7ff 1.5px, #f8fafc 1.5px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        .bounce-anim {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.9); }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen selection:bg-brand-purple selection:text-white flex flex-col justify-between">
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+            <!-- Brand Logo & Title -->
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-brand-blue via-brand-purple to-brand-pink text-white p-2.5 rounded-2xl shadow-md flex items-center justify-center">
+                    <i class="fa-solid fa-map-location-dot text-xl md:text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-fredoka text-base md:text-xl text-slate-800 font-bold leading-tight">Peta Petualangan Angka</h1>
+                    <p class="text-xs text-brand-purple font-semibold hidden sm:block">Pecahan, Desimal & Persen • Kelas 4 SD</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar (Stars & Score) -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Stars -->
+                <div class="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full text-amber-800 text-xs sm:text-sm font-bold shadow-sm">
+                    <i class="fa-solid fa-star text-amber-500 text-sm sm:text-base"></i>
+                    <span><span id="headerStars" class="text-brand-orange font-extrabold text-sm sm:text-base">0</span> / 90 ★</span>
+                </div>
+
+                <!-- Total Score -->
+                <div class="flex items-center gap-1.5 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-full text-indigo-800 text-xs sm:text-sm font-bold shadow-sm">
+                    <i class="fa-solid fa-trophy text-indigo-500 text-sm sm:text-base"></i>
+                    <span>Skor: <span id="headerScore" class="text-indigo-600 font-extrabold text-sm sm:text-base">0</span></span>
+                </div>
+
+                <!-- Reset Progress Button -->
+                <button onclick="confirmResetProgress()" title="Ulangi dari awal" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition border border-transparent hover:border-rose-200">
+                    <i class="fa-solid fa-rotate-left text-base"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-5xl mx-auto px-4 py-6 w-full flex-1">
+
+        <!-- VIEW 1: MAP LEVEL VIEW -->
+        <div id="mapView" class="space-y-6">
+            
+            <!-- Map Hero Banner -->
+            <div class="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-3xl p-6 md:p-8 text-white shadow-xl overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full border border-white/30 backdrop-blur-sm">
+                        🗺️ Mode Petualangan 30 Level
+                    </span>
+                    <h2 class="font-fredoka text-2xl md:text-4xl font-bold mt-2 leading-tight">
+                        Jajahi 30 Level Matematika! 🚀
+                    </h2>
+                    <p class="mt-2 text-indigo-100 text-xs md:text-sm leading-relaxed">
+                        Selesaikan setiap tantangan level untuk membuka jalan ke pulau berikutnya. Kumpulkan total <strong>90 Bintang Emas</strong>! Progress milikmu tersimpan otomatis di browser ini.
+                    </p>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mt-4 bg-white/20 rounded-full h-3 p-0.5 border border-white/30 max-w-md">
+                        <div id="mapProgressBar" class="bg-gradient-to-r from-amber-300 to-amber-500 h-2 rounded-full transition-all duration-500" style="width: 3.33%"></div>
+                    </div>
+                    <div class="flex justify-between max-w-md text-[11px] text-indigo-100 font-semibold mt-1">
+                        <span>Kemajuan Petualangan</span>
+                        <span id="progressText">Level 1 dari 30 Selesai</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- World Map Grid / Container -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-md map-container relative">
+                <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="font-fredoka text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-compass text-brand-purple"></i> Peta Wilayah Matematika
+                        </h3>
+                        <p class="text-slate-500 text-xs">Klik level yang terbuka untuk mulai menjawab soal interaktif!</p>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-2 text-xs font-semibold">
+                        <span class="inline-block w-3 h-3 rounded-full bg-emerald-500"></span> Selesai
+                        <span class="inline-block w-3 h-3 rounded-full bg-amber-500"></span> Terbuka
+                        <span class="inline-block w-3 h-3 rounded-full bg-slate-300"></span> Terkunci
+                    </div>
+                </div>
+
+                <!-- 30 Levels Map Displayed as Thematic Zones -->
+                <div id="mapZonesContainer" class="space-y-8">
+                    <!-- Zones & Nodes rendered dynamically by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: QUIZ / QUESTION SCREEN -->
+        <div id="quizView" class="hidden space-y-6">
+            
+            <!-- Quiz Header Bar -->
+            <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between flex-wrap gap-3">
+                <button onclick="returnToMap()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Peta
+                </button>
+                <div class="flex items-center gap-2">
+                    <span id="quizZoneBadge" class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Pulau Pecahan Senilai</span>
+                    <span id="quizLevelBadge" class="bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-full">Level 1 / 30</span>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-lg relative overflow-hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Tantangan Soal</span>
+                    <div class="flex items-center gap-1 text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Question Text -->
+                <h3 id="questionText" class="font-fredoka text-xl md:text-2xl font-bold text-slate-800 mb-6 leading-relaxed">
+                    <!-- Dynamic Question Text with Vertical Fractions -->
+                </h3>
+
+                <!-- Options List Grid -->
+                <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <!-- Options rendered dynamically -->
+                </div>
+
+                <!-- Action Button Container -->
+                <div id="quizActionContainer" class="pt-2 flex justify-end hidden">
+                    <button id="submitAnswerBtn" onclick="submitUserAnswer()" class="bg-gradient-to-r from-brand-blue to-brand-purple hover:from-blue-600 hover:to-purple-700 text-white font-fredoka text-base px-8 py-3 rounded-2xl shadow-md hover:shadow-lg transition transform active:scale-95 flex items-center gap-2">
+                        <span>Periksa Jawaban</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 3: RESULT & EXPLANATION PANEL (Shown after answering) -->
+            <div id="explanationPanel" class="hidden bg-white rounded-3xl p-6 md:p-8 border-2 shadow-xl space-y-5 transition-all">
+                <div class="flex items-center justify-between border-b pb-3">
+                    <div class="flex items-center gap-3">
+                        <div id="resultIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">
+                            <!-- Icon check or xmark -->
+                        </div>
+                        <div>
+                            <h4 id="resultTitle" class="font-fredoka text-2xl font-bold">Jawaban Tepat!</h4>
+                            <p id="resultSubtitle" class="text-xs text-slate-500">Kamu mendapatkan +10 Skor & 3 Bintang!</p>
+                        </div>
+                    </div>
+                    <div id="starsEarnedBox" class="text-2xl text-amber-400 font-bold">
+                        ★★★
+                    </div>
+                </div>
+
+                <!-- Detailed Explanation Box -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-sm leading-relaxed space-y-2">
+                    <p class="font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500 text-lg"></i> Pembahasan Langkah Demi Langkah:
+                    </p>
+                    <div id="explanationText" class="text-slate-700 pt-2 space-y-2">
+                        <!-- Dynamic explanation formatted with vertical fractions -->
+                    </div>
+                </div>
+
+                <!-- Return to Map Button -->
+                <div class="pt-2 flex justify-center">
+                    <button onclick="returnToMap()" class="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-fredoka text-base px-8 py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center gap-3 bounce-anim">
+                        <i class="fa-solid fa-map-marked-alt text-lg"></i>
+                        <span>Kembali ke Peta Level (Buka Level Berikutnya)</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COMPLETION CERTIFICATE / CONGRATS MODAL (Shown when level 30 completed) -->
+        <div id="completionModal" class="hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl text-center space-y-6 border border-amber-400/40 relative overflow-hidden">
+            <div class="absolute -right-16 -top-16 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="inline-block bg-amber-400 text-slate-900 p-5 rounded-full text-5xl shadow-xl bounce-anim">
+                👑
+            </div>
+            <h2 class="font-fredoka text-3xl md:text-5xl font-bold text-amber-300">Selamat! Petualangan Selesai!</h2>
+            <p class="text-slate-200 text-sm md:text-base max-w-xl mx-auto">
+                Luar biasa! Kamu telah berhasil menuntaskan seluruh 30 level tantangan Pecahan, Desimal, dan Persen!
+            </p>
+
+            <div class="bg-white/10 border border-white/20 p-6 rounded-2xl max-w-md mx-auto backdrop-blur-md text-center">
+                <span class="text-xs text-amber-300 font-bold uppercase tracking-widest block mb-1">Gelar Master Matematika</span>
+                <h3 class="font-fredoka text-2xl md:text-3xl font-bold text-white">Pahlawan Pecahan Kelas 4 SD</h3>
+                <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-around text-xs">
+                    <div>
+                        <span class="text-slate-400 block">Total Bintang</span>
+                        <span id="certStars" class="font-bold text-amber-400 text-lg">0 / 90 ★</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Total Skor</span>
+                        <span id="certScore" class="font-bold text-emerald-400 text-lg">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="returnToMapFromCompletion()" class="bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 font-fredoka font-bold text-base px-8 py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95">
+                Lihat Peta Petualangan
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <p>Petualangan Peta Matematika Kelas 4 SD • Pecahan, Desimal & Persen</p>
+    </footer>
+
+    <script>
+        /*
+         * REGEX HELPER UNTUK PECAHAN TEGAK (SUSUN ATAS-BAWAH)
+         * Mengubah penulisan seperti "1/2" atau " 3 / 5 " menjadi tag HTML susun tegak
+        */
+        function formatFracText(str) {
+            if (typeof str !== 'string') return str;
+            return str
+                // Tangani kasus pecahan campuran seperti 2 1/4
+                .replace(/(\d+)\s+(\d+|\.\.\.)\s*\/\s*(\d+|\.\.\.)/g, '$1 <span class="frac"><span class="top">$2</span><span class="bottom">$3</span></span>')
+                // Tangani pecahan biasa seperti 1/2 atau 3/5 atau .../10
+                .replace(/(\d+|\.\.\.)\s*\/\s*(\d+|\.\.\.)/g, '<span class="frac"><span class="top">$1</span><span class="bottom">$2</span></span>');
+        }
+
+        /* DATA 30 SOAL LENGKAP DENGAN 5 ZONA WILAYAH */
+        const zonesData = [
+            {
+                id: 1,
+                title: "Pulau Pecahan Senilai",
+                description: "Level 1 - 6: Memahami pecahan dasar, pecahan senilai, & membandingkan pecahan",
+                color: "indigo",
+                bgGradient: "from-indigo-500 to-blue-600",
+                levels: [1, 2, 3, 4, 5, 6]
+            },
+            {
+                id: 2,
+                title: "Pulau Desimal",
+                description: "Level 7 - 12: Konversi Pecahan ke Desimal & Desimal ke Pecahan",
+                color: "emerald",
+                bgGradient: "from-emerald-500 to-teal-600",
+                levels: [7, 8, 9, 10, 11, 12]
+            },
+            {
+                id: 3,
+                title: "Pulau Persen (%)",
+                description: "Level 13 - 18: Konversi Pecahan ke Persen & Persen ke Pecahan",
+                color: "purple",
+                bgGradient: "from-purple-500 to-pink-600",
+                levels: [13, 14, 15, 16, 17, 18]
+            },
+            {
+                id: 4,
+                title: "Pulau Konversi Desimal & Persen",
+                description: "Level 19 - 24: Konversi Langsung Desimal ke Persen & Persen ke Desimal",
+                color: "amber",
+                bgGradient: "from-amber-500 to-orange-600",
+                levels: [19, 20, 21, 22, 23, 24]
+            },
+            {
+                id: 5,
+                title: "Lembah Cerita & Aplikasi Nyata",
+                description: "Level 25 - 30: Tantangan Soal Cerita Kehidupan Sehari-hari",
+                color: "rose",
+                bgGradient: "from-rose-500 to-red-600",
+                levels: [25, 26, 27, 28, 29, 30]
+            }
+        ];
+
+        const questionsData = [
+            // ZONA 1: PECAHAN SENILAI & MEMBANDINGKAN (Level 1 - 6)
+            {
+                id: 1,
+                zoneId: 1,
+                question: "Manakah dari pecahan berikut yang senilai dengan 1/2?",
+                options: ["2/4", "1/3", "3/8", "2/5"],
+                answer: "2/4",
+                explanation: "<p>Pecahan senilai diperoleh dengan mengalikan pembilang dan penyebut dengan angka yang sama.</p><p>Jika 1/2 dikalikan 2: (1 × 2) / (2 × 2) = <strong>2/4</strong>.</p>"
+            },
+            {
+                id: 2,
+                zoneId: 1,
+                question: "Isilah titik-titik agar menjadi pecahan senilai: 3/5 = ... / 10",
+                options: ["5", "6", "7", "8"],
+                answer: "6",
+                explanation: "<p>Penyebut 5 dikali 2 menghasilkan 10. Maka pembilang 3 juga harus dikali 2.</p><p>3 × 2 = <strong>6</strong>. Jadi 3/5 = 6/10.</p>"
+            },
+            {
+                id: 3,
+                zoneId: 1,
+                question: "Bandingkan kedua pecahan berikut: 2/5 ... 4/5",
+                options: ["<", ">", "="],
+                answer: "<",
+                explanation: "<p>Kedua pecahan memiliki penyebut yang sama (5).</p><p>Kita cukup membandingkan pembilangnya: 2 lebih kecil dari 4, jadi <strong>2/5 < 4/5</strong>.</p>"
+            },
+            {
+                id: 4,
+                zoneId: 1,
+                question: "Bandingkan kedua pecahan berikut: 1/2 ... 1/4",
+                options: [">", "<", "="],
+                answer: ">",
+                explanation: "<p>Pembilang kedua pecahan sama (1).</p><p>Makin kecil penyebutnya, makin besar nilai satu potongnya! 1 potong dari 2 bagian tentu lebih besar daripada 1 potong dari 4 bagian. Jadi <strong>1/2 > 1/4</strong>.</p>"
+            },
+            {
+                id: 5,
+                zoneId: 1,
+                question: "Isilah titik-titik berikut: 4/8 = 1 / ...",
+                options: ["2", "3", "4", "6"],
+                answer: "2",
+                explanation: "<p>Pembilang 4 dibagi 4 menjadi 1. Maka penyebut 8 juga dibagi 4 menjadi <strong>2</strong>.</p><p>Pecahan sederhananya adalah 1/2.</p>"
+            },
+            {
+                id: 6,
+                zoneId: 1,
+                question: "Bandingkan dua pecahan berikut: 3/4 ... 6/8",
+                options: ["=", ">", "<"],
+                answer: "=",
+                explanation: "<p>Jika pecahan 3/4 dikalikan 2 (3×2 / 4×2), hasilnya adalah 6/8.</p><p>Artinya kedua pecahan tersebut nilainya <strong>SAMA BANYAK (=)</strong>!</p>"
+            },
+
+            // ZONA 2: PECAHAN & DESIMAL (Level 7 - 12)
+            {
+                id: 7,
+                zoneId: 2,
+                question: "Bentuk desimal dari pecahan 1/10 adalah...",
+                options: ["0,1", "0,01", "1,0", "0,100"],
+                answer: "0,1",
+                explanation: "<p>Penyebut 10 menunjukkan 1 angka di belakang koma (persepuluhan).</p><p>Jadi 1/10 = <strong>0,1</strong>.</p>"
+            },
+            {
+                id: 8,
+                zoneId: 2,
+                question: "Ubahlah pecahan 1/2 menjadi bentuk desimal!",
+                options: ["0,2", "0,5", "0,25", "0,12"],
+                answer: "0,5",
+                explanation: "<p>Ubah penyebut 2 menjadi 10 dengan mengalikan 5: (1×5)/(2×5) = 5/10.</p><p>5/10 ditulis dalam angka desimal sebagai <strong>0,5</strong>.</p>"
+            },
+            {
+                id: 9,
+                zoneId: 2,
+                question: "Ubahlah pecahan 3/5 menjadi bentuk desimal!",
+                options: ["0,3", "0,5", "0,6", "0,35"],
+                answer: "0,6",
+                explanation: "<p>Ubah penyebut 5 menjadi 10 (dikali 2): (3×2)/(5×2) = 6/10.</p><p>6/10 = <strong>0,6</strong>.</p>"
+            },
+            {
+                id: 10,
+                zoneId: 2,
+                question: "Ubahlah desimal 0,4 menjadi pecahan biasa paling sederhana!",
+                options: ["4/10", "2/5", "1/4", "4/5"],
+                answer: "2/5",
+                explanation: "<p>0,4 ada 1 angka di belakang koma ➡️ 4/10.</p><p>Sederhanakan pecahan 4/10 dengan membagi pembilang & penyebut dengan 2: (4:2)/(10:2) = <strong>2/5</strong>.</p>"
+            },
+            {
+                id: 11,
+                zoneId: 2,
+                question: "Bentuk desimal dari pecahan 1/4 adalah...",
+                options: ["0,14", "0,4", "0,25", "0,5"],
+                answer: "0,25",
+                explanation: "<p>Ubah penyebut 4 menjadi 100 dengan mengalikan 25: (1×25)/(4×25) = 25/100.</p><p>Karena penyebutnya 100 (2 angka di belakang koma), maka 25/100 = <strong>0,25</strong>.</p>"
+            },
+            {
+                id: 12,
+                zoneId: 2,
+                question: "Ubahlah desimal 0,75 menjadi pecahan biasa paling sederhana!",
+                options: ["75/10", "3/4", "7/5", "1/4"],
+                answer: "3/4",
+                explanation: "<p>0,75 ada 2 angka di belakang koma ➡️ 75/100.</p><p>Sederhanakan pecahan 75/100 dengan membagi 25: (75:25)/(100:25) = <strong>3/4</strong>.</p>"
+            },
+
+            // ZONA 3: PECAHAN & PERSEN (Level 13 - 18)
+            {
+                id: 13,
+                zoneId: 3,
+                question: "Persen artinya 'per seratus'. Jadi bentuk pecahan dari 25% adalah...",
+                options: ["25/10", "25/100", "2,5/100", "1/25"],
+                answer: "25/100",
+                explanation: "<p>Setiap angka dengan simbol % selalu berarti pecahan dengan penyebut 100.</p><p>Maka 25% = <strong>25/100</strong>.</p>"
+            },
+            {
+                id: 14,
+                zoneId: 3,
+                question: "Ubahlah pecahan 70/100 menjadi bentuk persen!",
+                options: ["7%", "70%", "0,7%", "700%"],
+                answer: "70%",
+                explanation: "<p>Karena penyebutnya sudah 100, pembilangnya langsung menjadi nilai persen.</p><p>70/100 = <strong>70%</strong>.</p>"
+            },
+            {
+                id: 15,
+                zoneId: 3,
+                question: "Ubahlah pecahan 1/2 menjadi bentuk persen!",
+                options: ["12%", "20%", "50%", "100%"],
+                answer: "50%",
+                explanation: "<p>Kalikan pecahan dengan 100%: (1/2) × 100% = 100% / 2 = <strong>50%</strong>.</p><p>Atau ubah penyebut jadi 100: 50/100 = 50%.</p>"
+            },
+            {
+                id: 16,
+                zoneId: 3,
+                question: "Bentuk persen dari pecahan 3/4 adalah...",
+                options: ["34%", "50%", "75%", "80%"],
+                answer: "75%",
+                explanation: "<p>Ubah penyebut 4 jadi 100 (dikali 25): (3×25)/(4×25) = 75/100 = <strong>75%</strong>.</p>"
+            },
+            {
+                id: 17,
+                zoneId: 3,
+                question: "Ubahlah 40% menjadi pecahan biasa paling sederhana!",
+                options: ["4/10", "2/5", "1/4", "4/5"],
+                answer: "2/5",
+                explanation: "<p>40% = 40/100.</p><p>Bagi pembilang dan penyebut dengan angka 20: (40:20)/(100:20) = <strong>2/5</strong>.</p>"
+            },
+            {
+                id: 18,
+                zoneId: 3,
+                question: "Ubahlah 80% menjadi pecahan biasa paling sederhana!",
+                options: ["8/10", "4/5", "2/5", "8/5"],
+                answer: "4/5",
+                explanation: "<p>80% = 80/100.</p><p>Bagi pembilang dan penyebut dengan angka 20: (80:20)/(100:20) = <strong>4/5</strong>.</p>"
+            },
+
+            // ZONA 4: DESIMAL & PERSEN (Level 19 - 24)
+            {
+                id: 19,
+                zoneId: 4,
+                question: "Ubahlah angka desimal 0,5 menjadi persen!",
+                options: ["5%", "50%", "0,5%", "500%"],
+                answer: "50%",
+                explanation: "<p>Kalikan dengan 100% (geser koma 2 langkah ke kanan):</p><p>0,5 × 100% = <strong>50%</strong>.</p>"
+            },
+            {
+                id: 20,
+                zoneId: 4,
+                question: "Bentuk persen dari desimal 0,85 adalah...",
+                options: ["8,5%", "85%", "0,85%", "850%"],
+                answer: "85%",
+                explanation: "<p>Geser koma 2 langkah ke kanan: 0,85 ➡️ <strong>85%</strong>.</p>"
+            },
+            {
+                id: 21,
+                zoneId: 4,
+                question: "Bentuk persen dari desimal 0,06 adalah...",
+                options: ["0,6%", "6%", "60%", "600%"],
+                answer: "6%",
+                explanation: "<p>0,06 = 6/100 = <strong>6%</strong>.</p>"
+            },
+            {
+                id: 22,
+                zoneId: 4,
+                question: "Ubahlah 30% menjadi bentuk desimal!",
+                options: ["0,03", "0,3", "3,0", "0,33"],
+                answer: "0,3",
+                explanation: "<p>30% = 30/100 = 0,30 = <strong>0,3</strong>.</p>"
+            },
+            {
+                id: 23,
+                zoneId: 4,
+                question: "Ubahlah 15% menjadi bentuk desimal!",
+                options: ["0,15", "1,5", "0,015", "15,0"],
+                answer: "0,15",
+                explanation: "<p>15% = 15/100. Geser koma 2 langkah ke kiri ➡️ <strong>0,15</strong>.</p>"
+            },
+            {
+                id: 24,
+                zoneId: 4,
+                question: "Bentuk desimal dari 7% adalah...",
+                options: ["0,7", "0,07", "0,007", "7,0"],
+                answer: "0,07",
+                explanation: "<p>7% = 7/100. Geser koma 2 langkah ke kiri dari angka 7 ➡️ <strong>0,07</strong>.</p>"
+            },
+
+            // ZONA 5: SOAL CERITA / APLIKASI NYATA (Level 25 - 30)
+            {
+                id: 25,
+                zoneId: 5,
+                question: "Budi memotong 1 loyang pizza menjadi 8 bagian sama besar. Ia memakan 2 potong. Berapa persen pizza yang dimakan Budi?",
+                options: ["20%", "25%", "40%", "50%"],
+                answer: "25%",
+                explanation: "<p>Pecahan pizza yang dimakan Budi = 2/8 = 1/4.</p><p>Ubah 1/4 ke persen: (1/4) × 100% = <strong>25%</strong>.</p>"
+            },
+            {
+                id: 26,
+                zoneId: 5,
+                question: "Sebuah toko pakaian memberikan diskon 50%. Diskon 50% ini nilainya sama dengan pecahan...",
+                options: ["1/4", "1/2", "3/4", "1/5"],
+                answer: "1/2",
+                explanation: "<p>50% = 50/100.</p><p>Sederhanakan dengan membagi 50: (50:50)/(100:50) = <strong>1/2</strong> (setengah harga!).</p>"
+            },
+            {
+                id: 27,
+                zoneId: 5,
+                question: "Sisa daya baterai HP milik Siti menunjukkan angka desimal 0,25. Sisa daya baterai tersebut sama dengan...",
+                options: ["25%", "2,5%", "50%", "25/10"],
+                answer: "25%",
+                explanation: "<p>0,25 = 25/100 = <strong>25%</strong>.</p>"
+            },
+            {
+                id: 28,
+                zoneId: 5,
+                question: "Eko minum air dari botol sebanyak 0,6 liter. Bentuk pecahan sederhana dari 0,6 liter air tersebut adalah...",
+                options: ["6/10", "3/5", "1/6", "4/5"],
+                answer: "3/5",
+                explanation: "<p>0,6 = 6/10.</p><p>Sederhanakan dibagi 2: (6:2)/(10:2) = <strong>3/5</strong> liter.</p>"
+            },
+            {
+                id: 29,
+                zoneId: 5,
+                question: "Dalam ujian matematika 100 soal, Ani berhasil menjawab benar 80 soal. Berapa bentuk desimal dari nilai Ani?",
+                options: ["0,08", "0,8", "8,0", "0,85"],
+                answer: "0,8",
+                explanation: "<p>Nilai Ani = 80 dari 100 = 80/100.</p><p>Dalam angka desimal, 80/100 = 0,80 = <strong>0,8</strong>.</p>"
+            },
+            {
+                id: 30,
+                zoneId: 5,
+                question: "Manakah pernyataan berikut yang bernilai SAMA BANYAK?",
+                options: [
+                    "1/2 = 0,5 = 50%",
+                    "1/4 = 0,4 = 40%",
+                    "3/5 = 0,35 = 35%",
+                    "1/10 = 0,01 = 1%"
+                ],
+                answer: "1/2 = 0,5 = 50%",
+                explanation: "<p>Pernyataan yang tepat adalah <strong>1/2 = 0,5 = 50%</strong>.</p><p>Ketiganya melambangkan nilai setengah bagian yang persis sama!</p>"
+            }
+        ];
+
+        /* LOCAL STORAGE STATE MANAGEMENT */
+        const STORAGE_KEY = "petualangan_peta_pecahan_progress_v2";
+
+        let userState = {
+            unlockedLevel: 1, // Default Level 1 unlocked
+            starsPerLevel: {}, // {1: 3, 2: 3, ...}
+            scoresPerLevel: {}, // {1: 10, ...}
+            selectedAnswers: {} // {1: "2/4", ...}
+        };
+
+        let currentActiveLevel = 1;
+        let selectedOption = null;
+
+        // Load progress from localStorage on startup
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    userState = { ...userState, ...parsed };
+                }
+            } catch (e) {
+                console.warn("Local storage error:", e);
+            }
+            updateHeaderStats();
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(userState));
+            } catch (e) {
+                console.warn("Could not save to local storage:", e);
+            }
+            updateHeaderStats();
+        }
+
+        // Calculate & Update header statistics
+        function updateHeaderStats() {
+            let totalStars = 0;
+            let totalScore = 0;
+
+            Object.values(userState.starsPerLevel || {}).forEach(s => totalStars += (s || 0));
+            Object.values(userState.scoresPerLevel || {}).forEach(sc => totalScore += (sc || 0));
+
+            document.getElementById('headerStars').innerText = totalStars;
+            document.getElementById('headerScore').innerText = totalScore;
+
+            // Update Progress Bar
+            const completedCount = Math.min(30, Object.keys(userState.starsPerLevel || {}).length);
+            const percentage = Math.max(3.33, (completedCount / 30) * 100);
+            
+            const progressBar = document.getElementById('mapProgressBar');
+            if (progressBar) progressBar.style.width = `${percentage}%`;
+
+            const progressText = document.getElementById('progressText');
+            if (progressText) progressText.innerText = `${completedCount} dari 30 Level Selesai`;
+        }
+
+        // Confirm Reset Progress
+        function confirmResetProgress() {
+            if (confirm("Apakah kamu yakin ingin mengulang petualangan dari Level 1? Semua bintang dan skor akan terhapus.")) {
+                userState = {
+                    unlockedLevel: 1,
+                    starsPerLevel: {},
+                    scoresPerLevel: {},
+                    selectedAnswers: {}
+                };
+                saveProgress();
+                renderMap();
+                returnToMap();
+            }
+        }
+
+        function renderMap() {
+            const container = document.getElementById('mapZonesContainer');
+            container.innerHTML = zonesData.map((zone) => `
+                <div class="bg-slate-50/80 rounded-2xl p-4 md:p-6 border border-slate-200">
+                    <!-- Zone Header -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-gradient-to-r ${zone.bgGradient} text-white font-fredoka font-bold text-xs md:text-sm px-3 py-1 rounded-xl shadow-sm">
+                            Zona ${zone.id}
+                        </div>
+                        <div>
+                            <h4 class="font-fredoka text-lg font-bold text-slate-800">${zone.title}</h4>
+                            <p class="text-xs text-slate-500">${zone.description}</p>
+                        </div>
+                    </div>
+
+                    <!-- Level Buttons Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        ${zone.levels.map(lvl => {
+                            const isUnlocked = lvl <= userState.unlockedLevel;
+                            const isCompleted = userState.starsPerLevel[lvl] !== undefined;
+                            const stars = userState.starsPerLevel[lvl] || 0;
+
+                            let btnStyle = "bg-slate-200 text-slate-400 border-slate-300 cursor-not-allowed";
+                            let iconHtml = `<i class="fa-solid fa-lock text-slate-400 text-xs"></i>`;
+                            let starDisplay = `<span class="text-[10px] text-slate-400">Terkunci</span>`;
+
+                            if (isCompleted) {
+                                btnStyle = "bg-emerald-500 text-white border-emerald-600 shadow-md hover:bg-emerald-600 cursor-pointer transform hover:-translate-y-1 transition";
+                                iconHtml = `<i class="fa-solid fa-check text-white text-sm"></i>`;
+                                starDisplay = `<span class="text-amber-300 font-bold text-xs">${"★".repeat(stars)}</span>`;
+                            } else if (isUnlocked) {
+                                btnStyle = "bg-amber-400 text-slate-900 border-amber-500 shadow-lg hover:bg-amber-500 cursor-pointer pulse-glow transform hover:-translate-y-1 transition";
+                                iconHtml = `<i class="fa-solid fa-play text-slate-900 text-xs"></i>`;
+                                starDisplay = `<span class="text-slate-900 font-bold text-[11px]">Mulai!</span>`;
+                            }
+
+                            return `
+                                <div onclick="${isUnlocked ? `openQuizLevel(${lvl})` : ''}" class="p-3 rounded-2xl border-2 flex flex-col items-center justify-between text-center min-h-[90px] ${btnStyle}">
+                                    <div class="flex items-center justify-between w-full text-xs font-fredoka font-bold">
+                                        <span>Lvl ${lvl}</span>
+                                        ${iconHtml}
+                                    </div>
+                                    <div class="my-1">
+                                        ${starDisplay}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openQuizLevel(levelNum) {
+            currentActiveLevel = levelNum;
+            selectedOption = null;
+
+            const qData = questionsData.find(q => q.id === levelNum);
+            const zData = zonesData.find(z => z.id === qData.zoneId);
+
+            if (!qData) return;
+
+            // Update Header & Badges
+            document.getElementById('quizZoneBadge').innerText = zData.title;
+            document.getElementById('quizLevelBadge').innerText = `Level ${levelNum} / 30`;
+
+            // Format Question Text with Vertical Fraction
+            document.getElementById('questionText').innerHTML = formatFracText(qData.question);
+
+            // Render Options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = qData.options.map((opt, idx) => `
+                <button onclick="selectOption('${opt}', ${idx})" id="optBtn-${idx}" class="quiz-opt-btn bg-slate-50 hover:bg-indigo-50 border-2 border-slate-200 hover:border-brand-purple text-slate-800 font-bold p-4 rounded-2xl text-base text-left transition flex items-center justify-between group">
+                    <span class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-xl bg-slate-200 text-slate-600 group-hover:bg-brand-purple group-hover:text-white flex items-center justify-center font-fredoka text-sm transition">
+                            ${String.fromCharCode(65 + idx)}
+                        </span>
+                        <span class="font-semibold text-slate-800">${formatFracText(opt)}</span>
+                    </span>
+                    <i class="fa-regular fa-circle text-slate-300 text-lg group-hover:text-brand-purple"></i>
+                </button>
+            `).join('');
+
+            // Reset UI States
+            document.getElementById('quizActionContainer').classList.add('hidden');
+            document.getElementById('explanationPanel').classList.add('hidden');
+
+            // Switch Views
+            document.getElementById('mapView').classList.add('hidden');
+            document.getElementById('quizView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectOption(optValue, index) {
+            selectedOption = optValue;
+
+            // Highlight selected option
+            document.querySelectorAll('.quiz-opt-btn').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.className = "quiz-opt-btn bg-indigo-50 border-2 border-brand-purple text-slate-900 font-bold p-4 rounded-2xl text-base text-left transition flex items-center justify-between shadow-md";
+                } else {
+                    btn.className = "quiz-opt-btn bg-slate-50 border-2 border-slate-200 opacity-60 text-slate-800 font-bold p-4 rounded-2xl text-base text-left transition flex items-center justify-between";
+                }
+            });
+
+            // Show submit button
+            document.getElementById('quizActionContainer').classList.remove('hidden');
+        }
+
+        function submitUserAnswer() {
+            if (!selectedOption) return;
+
+            const qData = questionsData.find(q => q.id === currentActiveLevel);
+            const isCorrect = selectedOption === qData.answer;
+
+            // Lock Options Buttons
+            document.querySelectorAll('.quiz-opt-btn').forEach(btn => btn.disabled = true);
+            document.getElementById('quizActionContainer').classList.add('hidden');
+
+            // Show explanation panel
+            const expPanel = document.getElementById('explanationPanel');
+            expPanel.classList.remove('hidden');
+
+            const resultIconBox = document.getElementById('resultIconBox');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultSubtitle = document.getElementById('resultSubtitle');
+            const starsEarnedBox = document.getElementById('starsEarnedBox');
+
+            if (isCorrect) {
+                expPanel.className = "bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-400 shadow-xl space-y-5 transition-all";
+                resultIconBox.className = "w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl font-bold";
+                resultIconBox.innerHTML = `<i class="fa-solid fa-check"></i>`;
+                resultTitle.className = "font-fredoka text-2xl font-bold text-emerald-600";
+                resultTitle.innerText = "Jawaban Tepat!";
+                resultSubtitle.innerText = "Kamu mendapatkan +10 Skor & 3 Bintang!";
+                starsEarnedBox.innerHTML = `<span class="text-amber-400">★★★</span>`;
+
+                // Save level state
+                userState.starsPerLevel[currentActiveLevel] = 3;
+                userState.scoresPerLevel[currentActiveLevel] = 10;
+                userState.selectedAnswers[currentActiveLevel] = selectedOption;
+
+                // Unlock Next Level
+                if (currentActiveLevel >= userState.unlockedLevel) {
+                    userState.unlockedLevel = Math.min(30, currentActiveLevel + 1);
+                }
+
+            } else {
+                expPanel.className = "bg-white rounded-3xl p-6 md:p-8 border-2 border-rose-400 shadow-xl space-y-5 transition-all";
+                resultIconBox.className = "w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-2xl font-bold";
+                resultIconBox.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+                resultTitle.className = "font-fredoka text-2xl font-bold text-rose-600";
+                resultTitle.innerText = "Kurang Tepat";
+                resultSubtitle.innerText = "Jangan berkecil hati, pelajari pembahasannya ya!";
+                starsEarnedBox.innerHTML = `<span class="text-amber-400">★☆☆</span>`;
+
+                // Record 1 star for attempt
+                userState.starsPerLevel[currentActiveLevel] = Math.max(userState.starsPerLevel[currentActiveLevel] || 0, 1);
+                userState.scoresPerLevel[currentActiveLevel] = Math.max(userState.scoresPerLevel[currentActiveLevel] || 0, 3);
+                
+                // Still unlock next level so student is not blocked
+                if (currentActiveLevel >= userState.unlockedLevel) {
+                    userState.unlockedLevel = Math.min(30, currentActiveLevel + 1);
+                }
+            }
+
+            // Save Progress
+            saveProgress();
+
+            // Set formatted explanation text with vertical fractions
+            document.getElementById('explanationText').innerHTML = formatFracText(qData.explanation);
+
+            expPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function returnToMap() {
+            renderMap();
+
+            document.getElementById('quizView').classList.add('hidden');
+            document.getElementById('mapView').classList.remove('hidden');
+
+            // Check if level 30 completed
+            if (Object.keys(userState.starsPerLevel).length >= 30) {
+                showCompletionModal();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function showCompletionModal() {
+            document.getElementById('mapView').classList.add('hidden');
+            document.getElementById('completionModal').classList.remove('hidden');
+
+            let totalStars = 0;
+            let totalScore = 0;
+            Object.values(userState.starsPerLevel || {}).forEach(s => totalStars += (s || 0));
+            Object.values(userState.scoresPerLevel || {}).forEach(sc => totalScore += (sc || 0));
+
+            document.getElementById('certStars').innerText = `${totalStars} / 90 ★`;
+            document.getElementById('certScore').innerText = `${totalScore}`;
+        }
+
+        function returnToMapFromCompletion() {
+            document.getElementById('completionModal').classList.add('hidden');
+            document.getElementById('mapView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* INITIALIZATION ON PAGE LOAD */
+        window.onload = function() {
+            loadProgress();
+            renderMap();
+        };
+    </script>
+</body>
+</html>

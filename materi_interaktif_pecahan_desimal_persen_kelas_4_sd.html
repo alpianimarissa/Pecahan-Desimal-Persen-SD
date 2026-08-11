@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Pecahan, Desimal, & Persen - Kelas 4 SD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Plus Jakarta Sans for playful typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        fredoka: ['Fredoka', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            yellow: '#F59E0B',
+                            green: '#10B981',
+                            pink: '#EC4899',
+                            orange: '#F97316'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        /* Style Pecahan Tegak (Susun Atas-Bawah) */
+        .fraction-ui, .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .fraction-numerator, .frac .top {
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 2px;
+            display: block;
+        }
+        .fraction-denominator, .frac .bottom {
+            padding-top: 2px;
+            display: block;
+        }
+        .floating-anim {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen selection:bg-brand-purple selection:text-white pb-20">
+
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-brand-blue to-brand-purple text-white p-2.5 rounded-2xl shadow-md">
+                    <i class="fa-solid fa-shapes text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-fredoka text-lg md:text-xl text-slate-800 font-bold leading-tight">Dunia Pecahan, Desimal & Persen</h1>
+                    <p class="text-xs text-brand-purple font-semibold">Matematika Kelas 4 SD</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full text-amber-800 text-sm font-bold shadow-sm">
+                <i class="fa-solid fa-star text-amber-500 text-base"></i>
+                <span>Bintang Kamu: <span id="starCounter" class="text-brand-orange text-base font-extrabold">0</span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 pt-6 space-y-10">
+
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-3xl p-6 md:p-10 text-white shadow-xl overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="relative z-10 max-w-2xl">
+                <span class="bg-white/20 text-white text-xs md:text-sm font-semibold px-3 py-1 rounded-full border border-white/30 backdrop-blur-sm">
+                    ✨ Modul Pembelajaran Interaktif
+                </span>
+                <h2 class="font-fredoka text-3xl md:text-5xl font-bold mt-3 leading-tight">
+                    Mari Berpetualang Mengenal Angka! 🚀
+                </h2>
+                <p class="mt-3 text-indigo-100 text-sm md:text-base leading-relaxed">
+                    Pernahkah kamu memotong pizza 🍕, melihat diskon baju 50% 🏷️, atau melihat sisa baterai HP 0,5 📱? Yuk, kita pelajari rahasia hubungan antara Pecahan, Desimal, dan Persen dengan cara yang seru!
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 1: TUJUAN PEMBELAJARAN -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-md">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-indigo-100 text-indigo-600 p-3 rounded-2xl">
+                    <i class="fa-solid fa-bullseye text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-fredoka text-2xl font-bold text-slate-800">1. Tujuan Pembelajaran</h2>
+                    <p class="text-slate-500 text-sm">Apa saja yang akan kamu kuasai setelah belajar modul ini?</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-blue-50 border border-blue-100 p-4 rounded-2xl flex items-start gap-3 hover:shadow-md transition">
+                    <span class="bg-blue-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">1</span>
+                    <p class="text-sm font-medium text-slate-700">Memahami konsep dasar pecahan, angka desimal, dan persen.</p>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-2xl flex items-start gap-3 hover:shadow-md transition">
+                    <span class="bg-emerald-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">2</span>
+                    <p class="text-sm font-medium text-slate-700">Mengingat kembali pecahan senilai dan membandingkan dua pecahan.</p>
+                </div>
+                <div class="bg-purple-50 border border-purple-100 p-4 rounded-2xl flex items-start gap-3 hover:shadow-md transition">
+                    <span class="bg-purple-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">3</span>
+                    <p class="text-sm font-medium text-slate-700">Mengubah pecahan ke desimal & persen secara rinci dan tepat.</p>
+                </div>
+                <div class="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-start gap-3 hover:shadow-md transition">
+                    <span class="bg-amber-500 text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm shrink-0 mt-0.5">4</span>
+                    <p class="text-sm font-medium text-slate-700">Menyelesaikan masalah sehari-hari menggunakan pecahan, desimal, dan persen.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WARM-UP (8 SOAL INTERAKTIF) -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-md">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-100 text-amber-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-fire text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-fredoka text-2xl font-bold text-slate-800">2. Warm-Up (Pemanasan)</h2>
+                        <p class="text-slate-500 text-sm">Coba selesaikan 8 soal ingatan ini untuk menguji pemahaman awalmu!</p>
+                    </div>
+                </div>
+                <div class="bg-amber-50 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-xl border border-amber-200">
+                    4 Soal Pecahan Senilai + 4 Soal Membandingkan
+                </div>
+            </div>
+
+            <!-- Warm Up Grid -->
+            <div id="warmupContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Warm Up Items dynamically rendered by JS -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: CONTOH NYATA SEKITAR KITA -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-md">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-emerald-100 text-emerald-600 p-3 rounded-2xl">
+                    <i class="fa-solid fa-earth-americas text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-fredoka text-2xl font-bold text-slate-800">3. Contoh Nyata di Sekitar Kita</h2>
+                    <p class="text-slate-500 text-sm">Tahukah kamu bahwa bentuk-bentuk ini sebenarnya sama nilainya?</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Item 1 -->
+                <div class="bg-orange-50 border border-orange-200 rounded-2xl p-5 text-center flex flex-col items-center hover:-translate-y-1 transition duration-200">
+                    <div class="text-5xl mb-3">🍕</div>
+                    <h3 class="font-fredoka text-lg font-bold text-slate-800">Pizza Setengah</h3>
+                    <p class="text-xs text-slate-600 mt-1">Satu pizza dipotong 2 bagian sama besar, kita mengambil 1 potong.</p>
+                    <div class="mt-4 bg-white px-3 py-2 rounded-xl border border-orange-200 w-full text-center">
+                        <span class="text-xs text-slate-400 font-bold block mb-1">Bentuk Pecahan:</span>
+                        <div class="frac font-fredoka text-xl text-orange-600">
+                            <span class="top">1</span>
+                            <span class="bottom">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-center flex flex-col items-center hover:-translate-y-1 transition duration-200">
+                    <div class="text-5xl mb-3">🥤</div>
+                    <h3 class="font-fredoka text-lg font-bold text-slate-800">Air Minum</h3>
+                    <p class="text-xs text-slate-600 mt-1">Botol terisi tepat di garis tengah persepuluhan (0,5 liter).</p>
+                    <div class="mt-4 bg-white px-3 py-2 rounded-xl border border-blue-200 w-full text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Bentuk Desimal:</span>
+                        <span class="font-fredoka text-xl text-blue-600 font-bold">0,5</span>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-pink-50 border border-pink-200 rounded-2xl p-5 text-center flex flex-col items-center hover:-translate-y-1 transition duration-200">
+                    <div class="text-5xl mb-3">🏷️</div>
+                    <h3 class="font-fredoka text-lg font-bold text-slate-800">Diskon Baju</h3>
+                    <p class="text-xs text-slate-600 mt-1">Potongan harga setengah dari harga asli (50 per 100).</p>
+                    <div class="mt-4 bg-white px-3 py-2 rounded-xl border border-pink-200 w-full text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Bentuk Persen:</span>
+                        <span class="font-fredoka text-xl text-pink-600 font-bold">50%</span>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="bg-purple-50 border border-purple-200 rounded-2xl p-5 text-center flex flex-col items-center hover:-translate-y-1 transition duration-200">
+                    <div class="text-5xl mb-3">💯</div>
+                    <h3 class="font-fredoka text-lg font-bold text-slate-800">Nilai Ujian</h3>
+                    <p class="text-xs text-slate-600 mt-1">Menjawab benar 80 dari total 100 soal ujian kelas.</p>
+                    <div class="mt-4 bg-white px-3 py-2 rounded-xl border border-purple-200 w-full text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Persen & Desimal:</span>
+                        <span class="font-fredoka text-lg text-purple-600 font-bold">80% = 0,8</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual equality banner -->
+            <div class="mt-6 p-4 bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl border border-teal-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-lightbulb text-teal-600 text-3xl"></i>
+                    <div>
+                        <h4 class="font-fredoka font-bold text-slate-800">Kesimpulan Penting:</h4>
+                        <p class="text-xs text-slate-600">Pecahan <span class="font-bold text-teal-700 frac"><span class="top">1</span><span class="bottom">2</span></span>, Desimal <span class="font-bold text-teal-700">0,5</span>, dan Persen <span class="font-bold text-teal-700">50%</span> melambangkan jumlah nilai yang <strong>SAMA BANYAK!</strong></p>
+                    </div>
+                </div>
+                <div class="bg-white font-fredoka text-lg font-bold text-teal-600 px-4 py-2 rounded-xl shadow-sm border border-teal-200 whitespace-nowrap flex items-center justify-center gap-2">
+                    <span class="frac"><span class="top">1</span><span class="bottom">2</span></span> = 0,5 = 50%
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: KONSEP & MATERI LENGKAP -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-md space-y-8">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-100 text-blue-600 p-3 rounded-2xl">
+                    <i class="fa-solid fa-book-open text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-fredoka text-2xl font-bold text-slate-800">4. Konsep & Materi Lengkap</h2>
+                    <p class="text-slate-500 text-sm">Memahami dasar-dasar ketiga bentuk bilangan.</p>
+                </div>
+            </div>
+
+            <!-- Concept tabs or cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Concept 1 -->
+                <div class="bg-gradient-to-b from-blue-50 to-white border border-blue-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg">Konsep A</span>
+                        <h3 class="font-fredoka text-lg font-bold text-slate-800">Pecahan Biasa & Campuran</h3>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Pecahan menyatakan bagian dari keseluruhan. Dituliskan tegak sebagai:
+                    </p>
+                    <div class="bg-white p-3 rounded-xl text-center border border-blue-100 mb-3">
+                        <div class="fraction-ui font-fredoka text-base text-blue-600 font-bold">
+                            <span class="fraction-numerator">Pembilang (Bagian yang diambil)</span>
+                            <span class="fraction-denominator">Penyebut (Total seluruh bagian)</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">
+                        *<strong>Pecahan Campuran</strong> punya angka bulat di depan pecahan biasa. Contoh: <span class="font-bold text-blue-600">2 <span class="frac"><span class="top">1</span><span class="bottom">4</span></span></span>.
+                    </p>
+                </div>
+
+                <!-- Concept 2 -->
+                <div class="bg-gradient-to-b from-emerald-50 to-white border border-emerald-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg">Konsep B</span>
+                        <h3 class="font-fredoka text-lg font-bold text-slate-800">Angka Desimal</h3>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Bilangan pecahan yang ditulis menggunakan tanda koma (<strong>,</strong>) berdasarkan nilai tempat persepuluhan, perseratusan, dst.
+                    </p>
+                    <ul class="text-xs text-slate-600 space-y-2 bg-white p-3 rounded-xl border border-emerald-100 mb-2">
+                        <li class="flex items-center gap-1.5 flex-wrap">
+                            • <strong>1 angka di belakang koma:</strong> persepuluhan (misal: 0,3 = <span class="frac"><span class="top">3</span><span class="bottom">10</span></span>)
+                        </li>
+                        <li class="flex items-center gap-1.5 flex-wrap">
+                            • <strong>2 angka di belakang koma:</strong> perseratusan (misal: 0,25 = <span class="frac"><span class="top">25</span><span class="bottom">100</span></span>)
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Concept 3 -->
+                <div class="bg-gradient-to-b from-purple-50 to-white border border-purple-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-purple-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg">Konsep C</span>
+                        <h3 class="font-fredoka text-lg font-bold text-slate-800">Persen (%)</h3>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        <strong>Persen</strong> artinya <em>"per seratus"</em>. Menggunakan simbol <strong>%</strong>.
+                    </p>
+                    <div class="bg-white p-3 rounded-xl text-center border border-purple-100">
+                        <div class="font-fredoka text-xl text-purple-600 font-bold inline-flex items-center justify-center gap-2">
+                            25% = <span class="frac"><span class="top">25</span><span class="bottom">100</span></span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Setiap angka dengan simbol % selalu berarti pecahan dengan penyebut 100!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step-by-Step Conversion Rules -->
+            <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-lg">
+                <h3 class="font-fredoka text-xl font-bold text-amber-400 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Peta Jurus Konversi Lengkap
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+                    <!-- Rule 1 -->
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                        <div class="text-amber-300 font-bold text-sm mb-2">1. Pecahan ↔ Desimal</div>
+                        <p class="text-slate-300 leading-relaxed mb-2">
+                            <strong>Pecahan ➡️ Desimal:</strong> Ubah penyebut jadi 10, 100, atau bagi pembilang dengan penyebut secara bersusun (porogapit).
+                        </p>
+                        <p class="text-slate-300 leading-relaxed">
+                            <strong>Desimal ➡️ Pecahan:</strong> Lihat jumlah angka di belakang koma. Jika 1 angka ➡️ persepuluhan (<span class="frac"><span class="top">...</span><span class="bottom">10</span></span>). Jika 2 angka ➡️ perseratusan (<span class="frac"><span class="top">...</span><span class="bottom">100</span></span>). Lalu sederhanakan!
+                        </p>
+                    </div>
+
+                    <!-- Rule 2 -->
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                        <div class="text-amber-300 font-bold text-sm mb-2">2. Pecahan ↔ Persen</div>
+                        <p class="text-slate-300 leading-relaxed mb-2">
+                            <strong>Pecahan ➡️ Persen:</strong> Kalikan pecahan tersebut dengan <strong>100%</strong> (atau ubah penyebut jadi 100).
+                        </p>
+                        <p class="text-slate-300 leading-relaxed">
+                            <strong>Persen ➡️ Pecahan:</strong> Tulis sebagai per 100 (misal 40% = <span class="frac"><span class="top">40</span><span class="bottom">100</span></span>), lalu bagi pembilang & penyebut dengan angka yang sama hingga paling sederhana.
+                        </p>
+                    </div>
+
+                    <!-- Rule 3 -->
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                        <div class="text-amber-300 font-bold text-sm mb-2">3. Desimal ↔ Persen</div>
+                        <p class="text-slate-300 leading-relaxed mb-2">
+                            <strong>Desimal ➡️ Persen:</strong> Geser koma 2 langkah ke kanan (atau kalikan 100). Contoh: 0,35 = 35%.
+                        </p>
+                        <p class="text-slate-300 leading-relaxed">
+                            <strong>Persen ➡️ Desimal:</strong> Geser koma 2 langkah ke kiri (atau bagi 100). Contoh: 75% = 0,75.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Conversion Calculator Widget -->
+            <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl p-6 shadow-md">
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-calculator text-2xl"></i>
+                    <h3 class="font-fredoka text-xl font-bold">Simulator Konversi Otomatis</h3>
+                </div>
+                <p class="text-xs text-amber-100 mb-4">Coba masukkan angka pembilang & penyebut untuk melihat pecahan tegak serta konversinya secara otomatis!</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-slate-800">
+                    <div class="bg-white p-3 rounded-xl text-center flex flex-col items-center justify-center">
+                        <label class="block text-xs font-bold text-slate-500 mb-2">Pecahan Tegak</label>
+                        <div class="inline-flex flex-col items-center">
+                            <input type="number" id="simNum" value="3" min="1" max="100" class="w-16 text-center border-2 border-slate-300 rounded-lg font-bold py-1 focus:border-amber-500 outline-none text-amber-700">
+                            <div class="w-full h-0.5 bg-slate-800 my-1"></div>
+                            <input type="number" id="simDen" value="4" min="1" max="100" class="w-16 text-center border-2 border-slate-300 rounded-lg font-bold py-1 focus:border-amber-500 outline-none text-amber-700">
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-xl text-center flex flex-col justify-center">
+                        <span class="text-xs font-bold text-slate-500 mb-1">Hasil Desimal</span>
+                        <span id="simDecResult" class="font-fredoka text-2xl font-bold text-blue-600">0,75</span>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-xl text-center flex flex-col justify-center">
+                        <span class="text-xs font-bold text-slate-500 mb-1">Hasil Persen</span>
+                        <span id="simPctResult" class="font-fredoka text-2xl font-bold text-emerald-600">75%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CONTOH SOAL PER KONSEP -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-md space-y-6">
+            <div class="flex items-center gap-3">
+                <div class="bg-purple-100 text-purple-600 p-3 rounded-2xl">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-fredoka text-2xl font-bold text-slate-800">5. Contoh Soal Per Konsep & Pembahasan Rinci</h2>
+                    <p class="text-slate-500 text-sm">Pelajari 2 contoh soal untuk setiap jenis pengubahan!</p>
+                </div>
+            </div>
+
+            <!-- Tab Navigation for Examples -->
+            <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3" id="exampleTabs">
+                <button onclick="switchExampleTab('pecahan-desimal')" id="tab-pecahan-desimal" class="example-tab-btn active font-fredoka text-xs md:text-sm px-4 py-2 rounded-xl bg-purple-600 text-white font-semibold transition">
+                    Pecahan ↔ Desimal
+                </button>
+                <button onclick="switchExampleTab('pecahan-persen')" id="tab-pecahan-persen" class="example-tab-btn font-fredoka text-xs md:text-sm px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">
+                    Pecahan ↔ Persen
+                </button>
+                <button onclick="switchExampleTab('desimal-persen')" id="tab-desimal-persen" class="example-tab-btn font-fredoka text-xs md:text-sm px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition">
+                    Desimal ↔ Persen
+                </button>
+            </div>
+
+            <!-- Tab Content 1: Pecahan <-> Desimal -->
+            <div id="content-pecahan-desimal" class="example-content space-y-4">
+                <!-- Soal 1 -->
+                <div class="bg-purple-50/60 border border-purple-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">Soal 1 (Pecahan ke Desimal)</span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm mb-3">Ubahlah pecahan <span class="text-purple-700 font-bold frac"><span class="top">3</span><span class="bottom">5</span></span> menjadi bentuk desimal!</p>
+                    <div class="bg-white p-4 rounded-xl border border-purple-100 text-xs leading-relaxed space-y-2">
+                        <p class="font-bold text-purple-900">💡 Cara Pengerjaan:</p>
+                        <p>1. Ubah penyebut <strong>5</strong> menjadi <strong>10</strong> (karena 5 × 2 = 10).</p>
+                        <p>2. Kalikan pembilang dan penyebut dengan angka 2:</p>
+                        <div class="bg-slate-50 p-2 rounded text-center font-mono font-bold text-slate-700 flex items-center justify-center gap-2">
+                            <span class="frac"><span class="top">3 × 2</span><span class="bottom">5 × 2</span></span> = <span class="frac"><span class="top">6</span><span class="bottom">10</span></span>
+                        </div>
+                        <p>3. Karena penyebutnya 10 (1 angka di belakang koma), maka <span class="frac"><span class="top">6</span><span class="bottom">10</span></span> = <strong>0,6</strong>.</p>
+                        <p class="text-emerald-600 font-bold pt-1">✅ Jawaban: 0,6</p>
+                    </div>
+                </div>
+
+                <!-- Soal 2 -->
+                <div class="bg-purple-50/60 border border-purple-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-purple-600 text-white text-xs font-bold px-2 py-0.5 rounded">Soal 2 (Desimal ke Pecahan)</span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm mb-3">Ubahlah bentuk desimal <span class="text-purple-700 font-bold">0,25</span> menjadi pecahan biasa paling sederhana!</p>
+                    <div class="bg-white p-4 rounded-xl border border-purple-100 text-xs leading-relaxed space-y-2">
+                        <p class="font-bold text-purple-900">💡 Cara Pengerjaan:</p>
+                        <p>1. Ada <strong>2 angka di belakang koma</strong> (25), berarti penyebutnya adalah 100 ➡️ <span class="frac"><span class="top">25</span><span class="bottom">100</span></span>.</p>
+                        <p>2. Sederhanakan pecahan <span class="frac"><span class="top">25</span><span class="bottom">100</span></span> dengan membagi pembilang dan penyebut dengan 25:</p>
+                        <div class="bg-slate-50 p-2 rounded text-center font-mono font-bold text-slate-700 flex items-center justify-center gap-2">
+                            <span class="frac"><span class="top">25 : 25</span><span class="bottom">100 : 25</span></span> = <span class="frac"><span class="top">1</span><span class="bottom">4</span></span>
+                        </div>
+                        <p class="text-emerald-600 font-bold pt-1 flex items-center gap-1">✅ Jawaban: <span class="frac"><span class="top">1</span><span class="bottom">4</span></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content 2: Pecahan <-> Persen -->
+            <div id="content-pecahan-persen" class="example-content space-y-4 hidden">
+                <!-- Soal 1 -->
+                <div class="bg-blue-50/60 border border-blue-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded">Soal 1 (Pecahan ke Persen)</span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm mb-3 flex items-center gap-1">Ubahlah pecahan <span class="text-blue-700 font-bold frac"><span class="top">7</span><span class="bottom">10</span></span> menjadi bentuk persen!</p>
+                    <div class="bg-white p-4 rounded-xl border border-blue-100 text-xs leading-relaxed space-y-2">
+                        <p class="font-bold text-blue-900">💡 Cara Pengerjaan:</p>
+                        <p>1. Kalikan pecahan dengan <strong>100%</strong>:</p>
+                        <div class="bg-slate-50 p-2 rounded text-center font-mono font-bold text-slate-700 flex items-center justify-center gap-2">
+                            <span class="frac"><span class="top">7</span><span class="bottom">10</span></span> × 100% = <span class="frac"><span class="top">7 × 100</span><span class="bottom">10</span></span> % = <span class="frac"><span class="top">700</span><span class="bottom">10</span></span> % = 70%
+                        </div>
+                        <p><em>Cara Cepat lain:</em> Ubah penyebut 10 jadi 100 (dikali 10) ➡️ <span class="frac"><span class="top">7 × 10</span><span class="bottom">10 × 10</span></span> = <span class="frac"><span class="top">70</span><span class="bottom">100</span></span> = 70%.</p>
+                        <p class="text-emerald-600 font-bold pt-1">✅ Jawaban: 70%</p>
+                    </div>
+                </div>
+
+                <!-- Soal 2 -->
+                <div class="bg-blue-50/60 border border-blue-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded">Soal 2 (Persen ke Pecahan)</span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm mb-3">Ubahlah bentuk persen <span class="text-blue-700 font-bold">40%</span> menjadi pecahan biasa paling sederhana!</p>
+                    <div class="bg-white p-4 rounded-xl border border-blue-100 text-xs leading-relaxed space-y-2">
+                        <p class="font-bold text-blue-900">💡 Cara Pengerjaan:</p>
+                        <p>1. Tulis 40% sebagai pecahan dengan penyebut 100 ➡️ <span class="frac"><span class="top">40</span><span class="bottom">100</span></span>.</p>
+                        <p>2. Bagi pembilang dan penyebut dengan angka 20:</p>
+                        <div class="bg-slate-50 p-2 rounded text-center font-mono font-bold text-slate-700 flex items-center justify-center gap-2">
+                            <span class="frac"><span class="top">40 : 20</span><span class="bottom">100 : 20</span></span> = <span class="frac"><span class="top">2</span><span class="bottom">5</span></span>
+                        </div>
+                        <p class="text-emerald-600 font-bold pt-1 flex items-center gap-1">✅ Jawaban: <span class="frac"><span class="top">2</span><span class="bottom">5</span></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content 3: Desimal <-> Persen -->
+            <div id="content-desimal-persen" class="example-content space-y-4 hidden">
+                <!-- Soal 1 -->
+                <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded">Soal 1 (Desimal ke Persen)</span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm mb-3">Ubahlah desimal <span class="text-emerald-700 font-bold">0,85</span> menjadi persen!</p>
+                    <div class="bg-white p-4 rounded-xl border border-emerald-100 text-xs leading-relaxed space-y-2">
+                        <p class="font-bold text-emerald-900">💡 Cara Pengerjaan:</p>
+                        <p>1. Geser tanda koma sebanyak 2 langkah ke kanan (atau kalikan dengan 100%).</p>
+                        <div class="bg-slate-50 p-2 rounded text-center font-mono font-bold text-slate-700">
+                            0,85 × 100% = 85%
+                        </div>
+                        <p class="text-emerald-600 font-bold pt-1">✅ Jawaban: 85%</p>
+                    </div>
+                </div>
+
+                <!-- Soal 2 -->
+                <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-emerald-600 text-white text-xs font-bold px-2 py-0.5 rounded">Soal 2 (Persen ke Desimal)</span>
+                    </div>
+                    <p class="font-semibold text-slate-800 text-sm mb-3">Ubahlah persen <span class="text-emerald-700 font-bold">6%</span> menjadi bentuk desimal!</p>
+                    <div class="bg-white p-4 rounded-xl border border-emerald-100 text-xs leading-relaxed space-y-2">
+                        <p class="font-bold text-emerald-900">💡 Cara Pengerjaan:</p>
+                        <p>1. 6% artinya <span class="frac"><span class="top">6</span><span class="bottom">100</span></span>.</p>
+                        <p>2. Karena dibagi 100, geser koma 2 langkah ke kiri dari angka 6 ➡️ <strong>0,06</strong>.</p>
+                        <p class="text-emerald-600 font-bold pt-1">✅ Jawaban: 0,06</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: LATIHAN SOAL INTERAKTIF -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-md space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-pink-100 text-pink-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-gamepad text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-fredoka text-2xl font-bold text-slate-800">6. Kuis Petualangan (Latihan Soal)</h2>
+                        <p class="text-slate-500 text-sm">Selesaikan 10 soal kuis berikut untuk mengumpulkan bintang emas!</p>
+                    </div>
+                </div>
+                
+                <div id="quizScoreBadge" class="bg-pink-50 border border-pink-200 text-pink-700 px-4 py-2 rounded-2xl font-fredoka font-bold text-sm">
+                    Skor Kuis: <span id="quizScore">0</span> / 100
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quizQuestionsContainer" class="space-y-6">
+                <!-- Quiz questions rendered dynamically -->
+            </div>
+
+            <!-- Submit/Reset Quiz Button -->
+            <div class="pt-4 flex flex-wrap gap-4 justify-center">
+                <button onclick="checkQuizResults()" class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-fredoka text-base px-8 py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Periksa Semua Jawaban Kuis
+                </button>
+            </div>
+        </section>
+
+        <!-- SECTION 7: RANGKUMAN & SERTIFIKAT PRESTASI -->
+        <section id="certSection" class="bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 text-white rounded-3xl p-6 md:p-10 shadow-2xl text-center relative overflow-hidden hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent)] pointer-events-none"></div>
+            
+            <div class="inline-block bg-amber-400 text-slate-900 p-4 rounded-full text-4xl mb-4 shadow-lg floating-anim">
+                🏆
+            </div>
+            <h2 class="font-fredoka text-3xl md:text-4xl font-bold text-amber-300">Selamat! Kamu Lulus Petualangan!</h2>
+            <p class="text-slate-300 text-sm md:text-base mt-2 max-w-xl mx-auto">
+                Hebat sekali! Kamu telah mempelajari pecahan, desimal, dan persen serta berhasil menyelesaikan kuis latihan.
+            </p>
+
+            <div class="mt-6 bg-white/10 border border-white/20 p-6 rounded-2xl max-w-md mx-auto backdrop-blur-md">
+                <span class="text-xs text-amber-300 font-bold uppercase tracking-wider block mb-1">Sertifikat Kelulusan</span>
+                <h3 id="certStudentName" class="font-fredoka text-2xl font-bold text-white">Juara Matematika Kelas 4</h3>
+                <p class="text-xs text-slate-300 mt-2">Telah menguasai Konversi Pecahan, Desimal, & Persen</p>
+                <div class="mt-4 pt-4 border-t border-white/10 flex items-center justify-around text-xs">
+                    <div>
+                        <span class="text-slate-400 block">Total Bintang</span>
+                        <span id="certTotalStars" class="font-bold text-amber-400 text-base">0 ★</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Nilai Kuis</span>
+                        <span id="certQuizScore" class="font-bold text-emerald-400 text-base">0 / 100</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let totalStars = 0;
+        let warmUpAnswered = {};
+        let quizSubmitted = false;
+
+        // Fungsi pembantu untuk memformat string pecahan 'a/b' atau 'a / b' menjadi pecahan tegak (susun atas-bawah)
+        function formatFracText(str) {
+            if (typeof str !== 'string') return str;
+            return str
+                .replace(/(\d+)\s+(\d+|\.\.\.)\s*\/\s*(\d+|\.\.\.)/g, '$1 <span class="frac"><span class="top">$2</span><span class="bottom">$3</span></span>')
+                .replace(/(\d+|\.\.\.)\s*\/\s*(\d+|\.\.\.)/g, '<span class="frac"><span class="top">$1</span><span class="bottom">$2</span></span>');
+        }
+
+        // Data 8 Soal Warm-Up
+        const warmupData = [
+            // Pecahan Senilai (1-4)
+            {
+                id: 1,
+                type: 'senilai',
+                title: 'Soal Warm-Up 1',
+                question: '1/2 senilai dengan pecahan berapa?',
+                options: ['2/4', '1/3', '3/8', '2/5'],
+                answer: '2/4',
+                explanation: 'Benar! Jika pembilang dan penyebut 1/2 dikalikan 2, maka (1×2)/(2×2) = 2/4.'
+            },
+            {
+                id: 2,
+                type: 'senilai',
+                title: 'Soal Warm-Up 2',
+                question: 'Isilah angka yang hilang: 3/5 = .../10',
+                options: ['5', '6', '7', '8'],
+                answer: '6',
+                explanation: 'Penyebut 5 dikali 2 jadi 10. Maka pembilang 3 juga dikali 2 = 6. Hasilnya 6/10!'
+            },
+            {
+                id: 3,
+                type: 'senilai',
+                title: 'Soal Warm-Up 3',
+                question: 'Manakah dari pecahan berikut yang senilai dengan 2/4?',
+                options: ['1/2', '3/4', '4/5', '1/4'],
+                answer: '1/2',
+                explanation: 'Tepat! Jika 2/4 disederhanakan (dibagi 2), maka hasilnya adalah 1/2.'
+            },
+            {
+                id: 4,
+                type: 'senilai',
+                title: 'Soal Warm-Up 4',
+                question: 'Isilah angka yang hilang: 4/8 = 1/...',
+                options: ['2', '3', '4', '6'],
+                answer: '2',
+                explanation: 'Pembilang 4 dibagi 4 jadi 1. Penyebut 8 dibagi 4 jadi 2. Hasilnya 1/2!'
+            },
+            // Membandingkan Pecahan (5-8)
+            {
+                id: 5,
+                type: 'banding',
+                title: 'Soal Warm-Up 5',
+                question: 'Bandingkan pecahan berikut: 2/5 ... 4/5',
+                options: ['<', '>', '='],
+                answer: '<',
+                explanation: 'Penyebutnya sama (5). Pembilang 2 lebih kecil dari 4, jadi 2/5 < 4/5.'
+            },
+            {
+                id: 6,
+                type: 'banding',
+                title: 'Soal Warm-Up 6',
+                question: 'Bandingkan pecahan berikut: 1/2 ... 1/4',
+                options: ['>', '<', '='],
+                answer: '>',
+                explanation: '1 potong dari 2 bagian (1/2) lebih BESAR daripada 1 potong dari 4 bagian (1/4).'
+            },
+            {
+                id: 7,
+                type: 'banding',
+                title: 'Soal Warm-Up 7',
+                question: 'Bandingkan pecahan berikut: 3/4 ... 6/8',
+                options: ['=', '>', '<'],
+                answer: '=',
+                explanation: '3/4 dan 6/8 nilainya SAMA (senilai)! Karena 3×2=6 dan 4×2=8.'
+            },
+            {
+                id: 8,
+                type: 'banding',
+                title: 'Soal Warm-Up 8',
+                question: 'Bandingkan pecahan berikut: 2/3 ... 1/3',
+                options: ['>', '<', '='],
+                answer: '>',
+                explanation: 'Penyebutnya sama (3). 2 bagian tentu lebih banyak daripada 1 bagian, jadi 2/3 > 1/3.'
+            }
+        ];
+
+        // Data 10 Soal Kuis Interaktif
+        const quizData = [
+            {
+                id: 1,
+                question: 'Pecahan 1/2 jika diubah ke bentuk desimal adalah...',
+                options: ['0,2', '0,5', '0,25', '0,12'],
+                answer: '0,5',
+                explanation: '1/2 = 5/10 = 0,5.'
+            },
+            {
+                id: 2,
+                question: 'Bentuk persen dari pecahan 3/4 adalah...',
+                options: ['30%', '50%', '75%', '80%'],
+                answer: '75%',
+                explanation: '(3/4) × 100% = 300/4 % = 75%.'
+            },
+            {
+                id: 3,
+                question: 'Angka desimal 0,25 jika diubah menjadi pecahan biasa paling sederhana adalah...',
+                options: ['1/4', '2/5', '1/2', '2/10'],
+                answer: '1/4',
+                explanation: '0,25 = 25/100. Sederhanakan dibagi 25 menjadi 1/4.'
+            },
+            {
+                id: 4,
+                question: 'Bentuk persen dari desimal 0,6 adalah...',
+                options: ['6%', '60%', '0,6%', '600%'],
+                answer: '60%',
+                explanation: '0,6 = 6/10 = 60/100 = 60%.'
+            },
+            {
+                id: 5,
+                question: 'Siswa kelas 4 yang suka buah mangga ada 40%. Nilai 40% jika diubah ke pecahan biasa sederhana adalah...',
+                options: ['4/10', '2/5', '1/4', '4/5'],
+                answer: '2/5',
+                explanation: '40% = 40/100. Bagi pembilang & penyebut dengan 20 ➡️ 2/5.'
+            },
+            {
+                id: 6,
+                question: 'Manakah dari pecahan berikut yang senilai dengan 5/10?',
+                options: ['1/2', '0,5', '50%', 'Semua Benar'],
+                answer: 'Semua Benar',
+                explanation: '5/10 = 1/2 = 0,5 = 50%. Semuanya memiliki nilai yang sama!'
+            },
+            {
+                id: 7,
+                question: 'Bentuk desimal dari 7% adalah...',
+                options: ['0,7', '0,07', '0,007', '7,0'],
+                answer: '0,07',
+                explanation: '7% = 7/100. Geser koma 2 langkah ke kiri ➡️ 0,07.'
+            },
+            {
+                id: 8,
+                question: 'Pecahan biasa dari 0,8 adalah...',
+                options: ['8/100', '4/5', '8/5', '1/8'],
+                answer: '4/5',
+                explanation: '0,8 = 8/10. Sederhanakan dibagi 2 ➡️ 4/5.'
+            },
+            {
+                id: 9,
+                question: 'Budi memakan 2 potong dari total 5 potong kue yang ada. Berapa persen kue yang dimakan Budi?',
+                options: ['20%', '40%', '25%', '50%'],
+                answer: '40%',
+                explanation: '2/5 × 100% = 200/5 % = 40%.'
+            },
+            {
+                id: 10,
+                question: 'Baterai HP tersisa 0,15. Berapa bentuk persen dari sisa baterai tersebut?',
+                options: ['1,5%', '15%', '150%', '0,15%'],
+                answer: '15%',
+                explanation: '0,15 × 100% = 15%.'
+            }
+        ];
+
+        function renderWarmup() {
+            const container = document.getElementById('warmupContainer');
+            container.innerHTML = warmupData.map((item) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-amber-300 transition shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${item.type === 'senilai' ? 'bg-indigo-100 text-indigo-700' : 'bg-emerald-100 text-emerald-700'}">
+                                ${item.title}
+                            </span>
+                            <span id="warmupBadge-${item.id}" class="text-xs font-bold text-slate-400">Belum dijawab</span>
+                        </div>
+                        <h3 class="font-fredoka text-base font-bold text-slate-800 mb-3 flex items-center flex-wrap gap-1">
+                            ${formatFracText(item.question)}
+                        </h3>
+                        
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            ${item.options.map(opt => `
+                                <button onclick="answerWarmup(${item.id}, '${opt}')" id="warmupOpt-${item.id}-${opt}" class="warmup-btn-${item.id} bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-400 text-slate-700 font-bold py-2 px-3 rounded-xl text-sm transition flex items-center justify-center min-h-[42px]">
+                                    ${formatFracText(opt)}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div id="warmupExp-${item.id}" class="hidden p-3 rounded-xl text-xs leading-relaxed mt-2 border"></div>
+                </div>
+            `).join('');
+        }
+
+        function answerWarmup(questionId, selectedOpt) {
+            if (warmUpAnswered[questionId]) return;
+
+            const item = warmupData.find(q => q.id === questionId);
+            const isCorrect = selectedOpt === item.answer;
+            warmUpAnswered[questionId] = isCorrect;
+
+            item.options.forEach(opt => {
+                const btn = document.getElementById(`warmupOpt-${questionId}-${opt}`);
+                btn.disabled = true;
+                if (opt === item.answer) {
+                    btn.className = "bg-emerald-500 text-white font-bold py-2 px-3 rounded-xl text-sm border border-emerald-600 shadow-sm flex items-center justify-center min-h-[42px]";
+                } else if (opt === selectedOpt) {
+                    btn.className = "bg-rose-500 text-white font-bold py-2 px-3 rounded-xl text-sm border border-rose-600 flex items-center justify-center min-h-[42px]";
+                } else {
+                    btn.className = "bg-slate-100 text-slate-400 font-bold py-2 px-3 rounded-xl text-sm opacity-60 flex items-center justify-center min-h-[42px]";
+                }
+            });
+
+            const badge = document.getElementById(`warmupBadge-${questionId}`);
+            const exp = document.getElementById(`warmupExp-${questionId}`);
+            exp.classList.remove('hidden');
+
+            if (isCorrect) {
+                badge.className = "text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded";
+                badge.innerText = "✨ Benar! (+5★)";
+                exp.className = "p-3 rounded-xl text-xs leading-relaxed mt-2 bg-emerald-50 border border-emerald-200 text-emerald-800";
+                exp.innerHTML = `<strong>Jawaban Tepat!</strong> ${formatFracText(item.explanation)}`;
+                addStars(5);
+            } else {
+                badge.className = "text-xs font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded";
+                badge.innerText = "❌ Kurang Tepat";
+                exp.className = "p-3 rounded-xl text-xs leading-relaxed mt-2 bg-rose-50 border border-rose-200 text-rose-800";
+                exp.innerHTML = `<strong>Jawaban Benar: ${formatFracText(item.answer)}</strong>. ${formatFracText(item.explanation)}`;
+            }
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizQuestionsContainer');
+            container.innerHTML = quizData.map((item, index) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-purple-200 transition">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-pink-500 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">Soal ${index + 1}</span>
+                    </div>
+                    <p class="font-fredoka text-base font-bold text-slate-800 mb-3 flex items-center flex-wrap gap-1">
+                        ${formatFracText(item.question)}
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                        ${item.options.map(opt => `
+                            <label class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 cursor-pointer hover:border-pink-300 transition">
+                                <input type="radio" name="quiz-${item.id}" value="${opt}" class="w-4 h-4 text-pink-600 focus:ring-pink-500">
+                                <span class="text-sm font-semibold text-slate-700 flex items-center gap-1">${formatFracText(opt)}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+
+                    <div id="quizExp-${item.id}" class="hidden p-3 rounded-xl text-xs leading-relaxed mt-2 border"></div>
+                </div>
+            `).join('');
+        }
+
+        function checkQuizResults() {
+            let correctCount = 0;
+
+            quizData.forEach(item => {
+                const selected = document.querySelector(`input[name="quiz-${item.id}"]:checked`);
+                const exp = document.getElementById(`quizExp-${item.id}`);
+                exp.classList.remove('hidden');
+
+                if (selected && selected.value === item.answer) {
+                    correctCount++;
+                    exp.className = "p-3 rounded-xl text-xs leading-relaxed mt-2 bg-emerald-50 border border-emerald-200 text-emerald-800";
+                    exp.innerHTML = `<strong>✅ Benar!</strong> ${formatFracText(item.explanation)}`;
+                } else {
+                    const userVal = selected ? formatFracText(selected.value) : "Belum dijawab";
+                    exp.className = "p-3 rounded-xl text-xs leading-relaxed mt-2 bg-rose-50 border border-rose-200 text-rose-800";
+                    exp.innerHTML = `<strong>❌ Jawabanmu: ${userVal}.</strong> Jawaban yang benar: <strong>${formatFracText(item.answer)}</strong>. (${formatFracText(item.explanation)})`;
+                }
+            });
+
+            const score = correctCount * 10;
+            document.getElementById('quizScore').innerText = score;
+            document.getElementById('certQuizScore').innerText = `${score} / 100`;
+
+            if (!quizSubmitted) {
+                addStars(score);
+                quizSubmitted = true;
+            }
+
+            const certSection = document.getElementById('certSection');
+            certSection.classList.remove('hidden');
+            certSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateSimulator() {
+            const num = parseFloat(document.getElementById('simNum').value) || 1;
+            const den = parseFloat(document.getElementById('simDen').value) || 1;
+
+            if (den === 0) return;
+
+            const dec = num / den;
+            const pct = dec * 100;
+
+            document.getElementById('simDecResult').innerText = dec.toLocaleString('id-ID', { maximumFractionDigits: 3 });
+            document.getElementById('simPctResult').innerText = `${pct.toLocaleString('id-ID', { maximumFractionDigits: 2 })}%`;
+        }
+
+        function switchExampleTab(tabKey) {
+            document.querySelectorAll('.example-tab-btn').forEach(btn => {
+                btn.className = "example-tab-btn font-fredoka text-xs md:text-sm px-4 py-2 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition";
+            });
+            document.querySelectorAll('.example-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            document.getElementById(`tab-${tabKey}`).className = "example-tab-btn active font-fredoka text-xs md:text-sm px-4 py-2 rounded-xl bg-purple-600 text-white font-semibold transition";
+            document.getElementById(`content-${tabKey}`).classList.remove('hidden');
+        }
+
+        // Initialize on window load
+        window.onload = function() {
+            renderWarmup();
+            renderQuiz();
+
+            document.getElementById('simNum').addEventListener('input', updateSimulator);
+            document.getElementById('simDen').addEventListener('input', updateSimulator);
+            updateSimulator();
+        };
+    </script>
+</body>
+</html>
