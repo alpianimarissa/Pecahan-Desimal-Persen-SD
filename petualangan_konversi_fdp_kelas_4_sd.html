@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Konversi FDP - Kelas 4 SD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Fredoka -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Fredoka', 'cursive'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            green: '#10B981',
+                            amber: '#F59E0B',
+                            pink: '#EC4899',
+                            bg: '#F0F9FF',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F0F9FF;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-display {
+            font-family: 'Fredoka', cursive;
+        }
+
+        /* Formating Pecahan Tegak (Stacked Fraction) */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            font-weight: 700;
+            line-height: 1;
+            margin: 0 3px;
+        }
+        .frac .num {
+            border-bottom: 2px solid currentColor;
+            padding: 0 3px 2px 3px;
+            display: block;
+        }
+        .frac .den {
+            padding: 2px 3px 0 3px;
+            display: block;
+        }
+
+        /* 100 Grid Sandbox */
+        .grid-100-box {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            background-color: #CBD5E1;
+            padding: 3px;
+            border-radius: 8px;
+        }
+        .grid-cell {
+            aspect-ratio: 1;
+            background-color: #FFFFFF;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .grid-cell.active {
+            background-color: #3B82F6;
+        }
+        .grid-cell:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-16">
+
+    <!-- Navigation / Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-200">
+                    <span class="frac text-sm leading-none">
+                        <span class="num">3</span>
+                        <span class="den">4</span>
+                    </span>
+                </div>
+                <div>
+                    <h1 class="font-display text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                        Petualangan FDP Interaktif
+                    </h1>
+                    <p class="text-xs text-slate-500 font-medium">Matematika Kelas 4 SD • Penguatan & Pendalaman Konsep</p>
+                </div>
+            </div>
+            
+            <!-- Quick Score Counter -->
+            <div class="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-xl">
+                <i class="fa-solid fa-star text-amber-500 text-lg"></i>
+                <span class="text-xs font-semibold text-amber-700">Skor Total:</span>
+                <span id="total-score" class="font-display font-bold text-amber-600 text-base">0</span>
+                <span class="text-xs text-amber-500">/ 16</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 pt-6 space-y-8">
+
+        <!-- Hero Card -->
+        <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl">
+            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="relative z-10 space-y-3 max-w-2xl">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-blue-100 backdrop-blur-sm border border-white/20">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Modul Penguatan Konsep Matematika
+                </span>
+                <h2 class="font-display text-2xl sm:text-4xl font-bold leading-tight">
+                    Satu Nilai, Tiga Wajah: Pecahan, Desimal & Persen!
+                </h2>
+                <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                    Kamu sudah belajar tentang FDP? Sekarang saatnya menjadi <strong>Master Konversi & Membandingkan FDP</strong>! Yuk pelajari trik cepat, visualisasi interaktif, dan cara membandingkan nilainya dengan mudah.
+                </p>
+            </div>
+        </section>
+
+        <!-- 1. TUJUAN PEMBELAJARAN -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <h2 class="font-display text-xl font-bold text-slate-800">1. Tujuan Pembelajaran Hari Ini</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div class="flex items-start space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                    <p class="text-sm text-slate-600"><strong>Memahami Kesetaraan Nilai:</strong> Menyadari bahwa Pecahan, Desimal, dan Persen adalah cara berbeda untuk mencatat jumlah yang sama.</p>
+                </div>
+                <div class="flex items-start space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                    <p class="text-sm text-slate-600"><strong>Trik Penyebut Istimewa:</strong> Menggunakan angka sahabat (10, 100, 1000) untuk konversi pecahan cepat.</p>
+                </div>
+                <div class="flex items-start space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                    <p class="text-sm text-slate-600"><strong>Membandingkan FDP:</strong> Mampu menentukan nilai mana yang lebih besar, lebih kecil, atau sama dengan.</p>
+                </div>
+                <div class="flex items-start space-x-3 p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                    <i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+                    <p class="text-sm text-slate-600"><strong>Penerapan Nyata:</strong> Menyelesaikan masalah belanja, diskon, dan pembagian makanan sehari-hari.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. WARM-UP (8 SOAL INTERAKTIF) -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-fire text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display text-xl font-bold text-slate-800">2. Warm-Up: Pemanasan Ingatan (8 Soal)</h2>
+                        <p class="text-xs text-slate-500">Ketik jawabanmu lalu klik tombol 'Cek' di setiap nomor!</p>
+                    </div>
+                </div>
+                <button onclick="resetWarmup()" class="text-xs text-blue-600 hover:text-blue-800 font-semibold bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200 transition">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Ulangi Warm-Up
+                </button>
+            </div>
+
+            <!-- Warm-up Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                <!-- Soal 1 -->
+                <div id="card-w1" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 1</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Pecahan 
+                            <span class="frac text-blue-600">
+                                <span class="num">1</span>
+                                <span class="den">2</span>
+                            </span> = ... %
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-1">
+                            <input type="text" id="w1" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                            <span class="font-bold text-slate-600">%</span>
+                        </div>
+                        <button onclick="checkAnswer('w1', ['50', '50%'], 'card-w1', 'msg-w1', 'Ingat: Setengah (1/2) dari 100% adalah 50%.')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w1" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 2 -->
+                <div id="card-w2" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 2</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Desimal <span class="text-blue-600 font-bold">0,25</span> = Pecahan?</p>
+                    </div>
+                    <div class="space-y-2">
+                        <input type="text" id="w2" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                        <button onclick="checkAnswer('w2', ['1/4'], 'card-w2', 'msg-w2', '0,25 = 25/100, jika disederhanakan dibagi 25 menjadi 1/4.')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w2" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 3 -->
+                <div id="card-w3" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 3</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Persen <span class="text-blue-600 font-bold">75%</span> = Desimal?</p>
+                    </div>
+                    <div class="space-y-2">
+                        <input type="text" id="w3" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                        <button onclick="checkAnswer('w3', ['0,75', '0.75'], 'card-w3', 'msg-w3', '75% = 75/100 = 0,75.')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w3" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 4 -->
+                <div id="card-w4" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 4</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Pecahan 
+                            <span class="frac text-blue-600">
+                                <span class="num">3</span>
+                                <span class="den">10</span>
+                            </span> = Desimal?
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <input type="text" id="w4" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                        <button onclick="checkAnswer('w4', ['0,3', '0.3'], 'card-w4', 'msg-w4', 'Penyebut 10 berarti 1 angka di belakang koma (0,3).')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w4" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 5 -->
+                <div id="card-w5" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 5</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Desimal <span class="text-blue-600 font-bold">0,6</span> = ... %</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-1">
+                            <input type="text" id="w5" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                            <span class="font-bold text-slate-600">%</span>
+                        </div>
+                        <button onclick="checkAnswer('w5', ['60', '60%'], 'card-w5', 'msg-w5', '0,6 = 6/10 = 60/100 = 60%.')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w5" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 6 -->
+                <div id="card-w6" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 6</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Persen <span class="text-blue-600 font-bold">10%</span> = Pecahan?</p>
+                    </div>
+                    <div class="space-y-2">
+                        <input type="text" id="w6" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                        <button onclick="checkAnswer('w6', ['1/10'], 'card-w6', 'msg-w6', '10% = 10/100 disederhanakan dibagi 10 jadi 1/10.')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w6" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 7 -->
+                <div id="card-w7" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 7</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Pecahan 
+                            <span class="frac text-blue-600">
+                                <span class="num">1</span>
+                                <span class="den">5</span>
+                            </span> = ... %
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-1">
+                            <input type="text" id="w7" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                            <span class="font-bold text-slate-600">%</span>
+                        </div>
+                        <button onclick="checkAnswer('w7', ['20', '20%'], 'card-w7', 'msg-w7', '1/5 x 20/20 = 20/100 = 20%.')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w7" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+
+                <!-- Soal 8 -->
+                <div id="card-w8" class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded">Soal 8</span>
+                        <p class="text-sm font-semibold mt-2 text-slate-700">Desimal <span class="text-blue-600 font-bold">0,05</span> = ... %</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-1">
+                            <input type="text" id="w8" placeholder="..." class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+                            <span class="font-bold text-slate-600">%</span>
+                        </div>
+                        <button onclick="checkAnswer('w8', ['5', '5%'], 'card-w8', 'msg-w8', '0,05 = 5/100 = 5% (geser koma 2 kali ke kanan).')" class="w-full py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition">Cek</button>
+                    </div>
+                    <p id="msg-w8" class="text-xs font-medium text-center hidden min-h-[1.5rem]"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. KONEKSI NYATA -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-store text-lg"></i>
+                </div>
+                <h2 class="font-display text-xl font-bold text-slate-800">3. Koneksi Dunia Nyata: Mengapa Kita Butuh Ketiganya?</h2>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+                Dalam kehidupan sehari-hari, orang menggunakan tiga bahasa matematika ini secara bergantian sesuai situasi:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <!-- Diskon Supermarket -->
+                <div class="p-4 rounded-2xl bg-gradient-to-br from-pink-50 to-rose-50 border border-pink-200 space-y-2 text-center">
+                    <div class="w-12 h-12 mx-auto rounded-full bg-pink-500 text-white flex items-center justify-center text-xl shadow-md">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-pink-900 text-base">Diskon Toko</h3>
+                    <div class="bg-white py-1 px-3 rounded-lg border border-pink-200 inline-block font-bold text-pink-600 text-lg">
+                        Diskon 50%
+                    </div>
+                    <p class="text-xs text-pink-700">Toko pakaian memakai <strong>Persen (%)</strong> karena lebih menarik & mudah dibayangkan pembeli!</p>
+                </div>
+
+                <!-- Potongan Pizza -->
+                <div class="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 space-y-2 text-center">
+                    <div class="w-12 h-12 mx-auto rounded-full bg-amber-500 text-white flex items-center justify-center text-xl shadow-md">
+                        <i class="fa-solid fa-pizza-slice"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-amber-900 text-base">Membagi Makanan</h3>
+                    <div class="bg-white py-1 px-3 rounded-lg border border-amber-200 inline-flex items-center justify-center font-bold text-amber-600 text-lg">
+                        Pecahan 
+                        <span class="frac text-base ml-1">
+                            <span class="num">1</span>
+                            <span class="den">2</span>
+                        </span>
+                    </div>
+                    <p class="text-xs text-amber-700">Saat memotong kue atau pizza, kita menggunakan <strong>Pecahan</strong> untuk membagi jumlah potongannya.</p>
+                </div>
+
+                <!-- Baterai HP / Pengukuran -->
+                <div class="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 space-y-2 text-center">
+                    <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl shadow-md">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-emerald-900 text-base">Pengukuran Presisi</h3>
+                    <div class="bg-white py-1 px-3 rounded-lg border border-emerald-200 inline-block font-bold text-emerald-600 text-lg">
+                        0,5 Liter
+                    </div>
+                    <p class="text-xs text-emerald-700">Dalam sains atau botol takar minuman, kita menggunakan <strong>Desimal</strong> karena akurat & mudah dihitung.</p>
+                </div>
+            </div>
+
+            <!-- Conclusion banner -->
+            <div class="p-4 bg-sky-50 rounded-xl border border-sky-200 text-center space-y-1">
+                <p class="text-xs uppercase font-bold text-sky-600 tracking-wider">Kesimpulan Kunci</p>
+                <p class="text-sm font-semibold text-slate-700">
+                    <span class="text-blue-600 font-bold">50%</span> sama nilainya dengan 
+                    <span class="frac text-amber-600">
+                        <span class="num">1</span>
+                        <span class="den">2</span>
+                    </span> 
+                    dan sama nilainya dengan <span class="text-emerald-600 font-bold">0,5</span>. Semuanya adalah <strong>jumlah yang persis sama!</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. MATERI LENGKAP & KONSEP MENDALAM -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-book-open text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="font-display text-xl font-bold text-slate-800">4. Materi Mendalam & Trik Cepat</h2>
+                    <p class="text-xs text-slate-500">Pahami rahasia di balik setiap perubahan bentuk FDP</p>
+                </div>
+            </div>
+
+            <!-- Interactive Grid 100 Sandbox Tool -->
+            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-2xl p-5 text-white space-y-4">
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-blue-400 font-bold">Laboratorium Visual Interaktif</span>
+                        <h3 class="font-display text-lg font-bold text-white">Grid 100 Live Visualizer</h3>
+                    </div>
+                    <div class="text-xs bg-white/10 px-3 py-1 rounded-full text-slate-300">
+                        Geser slider atau klik kotak pada grid!
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <!-- Grid Canvas -->
+                    <div class="md:col-span-5 flex justify-center">
+                        <div class="w-52 h-52">
+                            <div id="grid-interactive" class="grid-100-box">
+                                <!-- Grid cells generated via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Values Display -->
+                    <div class="md:col-span-7 space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Jumlah Kotak Diarsir (0 - 100):</label>
+                            <input type="range" id="grid-slider" min="0" max="100" value="40" class="w-full accent-blue-500 cursor-pointer">
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 text-center">
+                            <div class="bg-white/10 p-3 rounded-xl border border-white/10">
+                                <span class="block text-[10px] text-slate-400 uppercase font-bold">Pecahan</span>
+                                <div id="visual-fraction" class="font-display text-lg font-bold text-amber-400 my-1">
+                                    <span class="frac"><span class="num">40</span><span class="den">100</span></span>
+                                </div>
+                                <span id="visual-fraction-simple" class="block text-xs text-amber-200 font-semibold">
+                                    (= <span class="frac"><span class="num">2</span><span class="den">5</span></span>)
+                                </span>
+                            </div>
+
+                            <div class="bg-white/10 p-3 rounded-xl border border-white/10">
+                                <span class="block text-[10px] text-slate-400 uppercase font-bold">Desimal</span>
+                                <span id="visual-decimal" class="font-display text-xl font-bold text-emerald-400 block my-1">0,40</span>
+                                <span class="block text-xs text-emerald-200 font-semibold">0,4</span>
+                            </div>
+
+                            <div class="bg-white/10 p-3 rounded-xl border border-white/10">
+                                <span class="block text-[10px] text-slate-400 uppercase font-bold">Persen</span>
+                                <span id="visual-percent" class="font-display text-xl font-bold text-pink-400 block my-1">40%</span>
+                                <span class="block text-xs text-pink-200 font-semibold">Per 100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategi Konversi Card 1: Pasangan Pengali Istimewa -->
+            <div class="border border-blue-100 bg-blue-50/50 rounded-2xl p-5 space-y-3">
+                <div class="flex items-center space-x-2 text-blue-700">
+                    <i class="fa-solid fa-key text-lg"></i>
+                    <h3 class="font-display font-bold text-base">Trik 1: "Pasangan Pengali Istimewa" (Kunci Utama)</h3>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Untuk mengubah pecahan biasa ke desimal atau persen, ubah penyebutnya menjadi <strong>10, 100, atau 1000</strong> dengan menggunakan perkalian sahabat ini:
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center font-semibold text-sm">
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-200 shadow-sm">
+                        <span class="block text-blue-600 font-bold">2 × 5 = 10</span>
+                        <span class="text-[11px] text-slate-500">Penyebut 2 atau 5</span>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-200 shadow-sm">
+                        <span class="block text-blue-600 font-bold">4 × 25 = 100</span>
+                        <span class="text-[11px] text-slate-500">Penyebut 4 atau 25</span>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-200 shadow-sm">
+                        <span class="block text-blue-600 font-bold">5 × 20 = 100</span>
+                        <span class="text-[11px] text-slate-500">Penyebut 5 atau 20</span>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-200 shadow-sm">
+                        <span class="block text-blue-600 font-bold">8 × 125 = 1000</span>
+                        <span class="text-[11px] text-slate-500">Penyebut 8 atau 125</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strategi Konversi Card 2 & 3 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Desimal ke Pecahan & Persen -->
+                <div class="border border-emerald-100 bg-emerald-50/40 rounded-2xl p-4 space-y-2">
+                    <h3 class="font-display font-bold text-emerald-800 text-sm flex items-center">
+                        <i class="fa-solid fa-right-left text-emerald-600 mr-2"></i> Konversi Desimal
+                    </h3>
+                    <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                        <li class="bg-white p-2 rounded-lg border border-emerald-100">
+                            <strong>Ke Pecahan:</strong> Hitung angka di belakang koma.
+                            <br>• 1 angka = per 10 (contoh: 0,3 = <span class="frac"><span class="num">3</span><span class="den">10</span></span>)
+                            <br>• 2 angka = per 100 (contoh: 0,45 = <span class="frac"><span class="num">45</span><span class="den">100</span></span> = <span class="frac"><span class="num">9</span><span class="den">20</span></span>)
+                        </li>
+                        <li class="bg-white p-2 rounded-lg border border-emerald-100">
+                            <strong>Ke Persen:</strong> Geser tanda koma <strong>2 kali ke kanan</strong> (atau dikali 100%).
+                            <br>• 0,35 → 35%
+                            <br>• 0,7 → 70%
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Persen ke Pecahan & Desimal -->
+                <div class="border border-purple-100 bg-purple-50/40 rounded-2xl p-4 space-y-2">
+                    <h3 class="font-display font-bold text-purple-800 text-sm flex items-center">
+                        <i class="fa-solid fa-percent text-purple-600 mr-2"></i> Konversi Persen
+                    </h3>
+                    <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                        <li class="bg-white p-2 rounded-lg border border-purple-100">
+                            <strong>Ke Pecahan:</strong> Ganti simbol % jadi per 100, lalu sederhanakan.
+                            <br>• 60% = <span class="frac"><span class="num">60</span><span class="den">100</span></span> (dibagi 20) → <span class="frac"><span class="num">3</span><span class="den">5</span></span>
+                        </li>
+                        <li class="bg-white p-2 rounded-lg border border-purple-100">
+                            <strong>Ke Desimal:</strong> Geser tanda koma <strong>2 kali ke kiri</strong> (dibagi 100).
+                            <br>• 85% → 0,85
+                            <br>• 6% → 0,06
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CARA MEMBANDINGKAN FDP -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-5">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-scale-balanced text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="font-display text-xl font-bold text-slate-800">5. Cara Membandingkan Nilai FDP</h2>
+                    <p class="text-xs text-slate-500">Trik mudah menentukan bilangan mana yang lebih besar, kecil, atau sama</p>
+                </div>
+            </div>
+
+            <!-- Trik Membandingkan Card -->
+            <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 p-4 rounded-2xl border border-amber-200 space-y-3">
+                <h3 class="font-display font-bold text-amber-900 text-base flex items-center">
+                    <i class="fa-solid fa-lightbulb text-amber-500 mr-2"></i> Kunci Utama Membandingkan: "Ubah ke Bahasa yang Sama!"
+                </h3>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Sangat sulit membandingkan pecahan biasa dengan persen secara langsung. Caranya: <strong>Ubah semua bilangan ke dalam bentuk PERSEN (%) atau DESIMAL</strong> terlebih dahulu!
+                </p>
+
+                <div class="bg-white p-4 rounded-xl border border-amber-200 space-y-3">
+                    <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">Contoh Soal Membandingkan:</p>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Bandingkan bilangan 
+                        <span class="frac text-blue-600 text-base"><span class="num">3</span><span class="den">5</span></span>, 
+                        <span class="text-emerald-600 font-bold">0,65</span>, dan 
+                        <span class="text-purple-600 font-bold">55%</span>! Mana yang paling besar?
+                    </p>
+                    
+                    <div class="space-y-2 text-xs text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                        <p><strong>Langkah 1:</strong> Ubah semuanya menjadi bentuk <strong>Persen (%)</strong>:</p>
+                        <div class="grid grid-cols-3 gap-2 text-center py-1">
+                            <div class="bg-blue-50 p-2 rounded border border-blue-200">
+                                <span class="frac text-blue-700"><span class="num">3</span><span class="den">5</span></span>
+                                <span class="block text-[11px] font-bold text-blue-600 mt-1">= 60%</span>
+                            </div>
+                            <div class="bg-emerald-50 p-2 rounded border border-emerald-200">
+                                <span class="font-bold text-emerald-700">0,65</span>
+                                <span class="block text-[11px] font-bold text-emerald-600 mt-1">= 65%</span>
+                            </div>
+                            <div class="bg-purple-50 p-2 rounded border border-purple-200">
+                                <span class="font-bold text-purple-700">55%</span>
+                                <span class="block text-[11px] font-bold text-purple-600 mt-1">= 55%</span>
+                            </div>
+                        </div>
+
+                        <p><strong>Langkah 2:</strong> Urutkan persentasenya: <strong>55% &lt; 60% &lt; 65%</strong>.</p>
+                        <p class="text-emerald-700 font-bold"><strong>Kesimpulan:</strong> Urutan dari yang terkecil adalah 55%, <span class="frac"><span class="num">3</span><span class="den">5</span></span>, lalu 0,65 (paling besar)!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mini Quiz Membandingkan FDP (3 Soal Interaktif) -->
+            <div class="space-y-3 pt-2">
+                <h3 class="font-display font-bold text-slate-800 text-sm">Cobalah Membandingkan (Pilih Tanda &gt;, &lt;, atau =):</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <!-- Soal Comp 1 -->
+                    <div id="card-c1" class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center space-y-2">
+                        <span class="text-[10px] font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Soal A</span>
+                        <div class="flex items-center justify-center space-x-2 text-sm font-bold">
+                            <span class="frac text-blue-600"><span class="num">1</span><span class="den">4</span></span>
+                            <span id="c1-symbol" class="px-2 py-1 bg-white border border-slate-300 rounded min-w-[30px] text-center text-blue-600">?</span>
+                            <span class="text-purple-600">30%</span>
+                        </div>
+                        <div class="flex justify-center space-x-1">
+                            <button onclick="checkCompare(1, '<')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">&lt;</button>
+                            <button onclick="checkCompare(1, '=')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">=</button>
+                            <button onclick="checkCompare(1, '>')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">&gt;</button>
+                        </div>
+                        <p id="msg-c1" class="text-[11px] font-medium hidden min-h-[1.2rem]"></p>
+                    </div>
+
+                    <!-- Soal Comp 2 -->
+                    <div id="card-c2" class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center space-y-2">
+                        <span class="text-[10px] font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Soal B</span>
+                        <div class="flex items-center justify-center space-x-2 text-sm font-bold">
+                            <span class="text-emerald-600">0,7</span>
+                            <span id="c2-symbol" class="px-2 py-1 bg-white border border-slate-300 rounded min-w-[30px] text-center text-blue-600">?</span>
+                            <span class="frac text-blue-600"><span class="num">7</span><span class="den">10</span></span>
+                        </div>
+                        <div class="flex justify-center space-x-1">
+                            <button onclick="checkCompare(2, '<')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">&lt;</button>
+                            <button onclick="checkCompare(2, '=')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">=</button>
+                            <button onclick="checkCompare(2, '>')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">&gt;</button>
+                        </div>
+                        <p id="msg-c2" class="text-[11px] font-medium hidden min-h-[1.2rem]"></p>
+                    </div>
+
+                    <!-- Soal Comp 3 -->
+                    <div id="card-c3" class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center space-y-2">
+                        <span class="text-[10px] font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Soal C</span>
+                        <div class="flex items-center justify-center space-x-2 text-sm font-bold">
+                            <span class="text-purple-600">80%</span>
+                            <span id="c3-symbol" class="px-2 py-1 bg-white border border-slate-300 rounded min-w-[30px] text-center text-blue-600">?</span>
+                            <span class="text-emerald-600">0,75</span>
+                        </div>
+                        <div class="flex justify-center space-x-1">
+                            <button onclick="checkCompare(3, '<')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">&lt;</button>
+                            <button onclick="checkCompare(3, '=')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">=</button>
+                            <button onclick="checkCompare(3, '>')" class="px-3 py-1 bg-white hover:bg-amber-100 border border-slate-300 rounded font-bold text-xs">&gt;</button>
+                        </div>
+                        <p id="msg-c3" class="text-[11px] font-medium hidden min-h-[1.2rem]"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONTOH SOAL & PEMBAHASAN STEP-BY-STEP -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-lightbulb text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="font-display text-xl font-bold text-slate-800">6. Contoh Soal & Pembahasan Interaktif</h2>
+                    <p class="text-xs text-slate-500">Klik tombol "Buka Langkah" untuk melihat rahasia penyelesaian!</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 pt-2">
+                <!-- Contoh 1 -->
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded">Contoh 1</span>
+                            <h3 class="font-semibold text-slate-800 text-sm mt-1">Ubah pecahan 
+                                <span class="frac text-blue-600"><span class="num">3</span><span class="den">4</span></span> 
+                                menjadi Desimal dan Persen!
+                            </h3>
+                        </div>
+                        <button onclick="toggleExample('ex1')" class="px-3 py-1 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition">
+                            <i class="fa-solid fa-eye mr-1"></i> Buka Langkah
+                        </button>
+                    </div>
+
+                    <div id="ex1" class="hidden space-y-3 pt-2 border-t border-slate-200 text-xs text-slate-700">
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
+                            <p class="font-bold text-blue-600">Langkah 1 (Ke Desimal):</p>
+                            <p>Penyebutnya adalah 4. Pasangan 4 adalah 25 agar jadi 100.</p>
+                            <p class="font-mono bg-slate-100 p-1.5 rounded text-center font-bold">
+                                (3 × 25) / (4 × 25) = 75 / 100 = 0,75
+                            </p>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
+                            <p class="font-bold text-purple-600">Langkah 2 (Ke Persen):</p>
+                            <p>Karena pecahan per seratusnya sudah 75/100, pembilangnya langsung menjadi persen!</p>
+                            <p class="font-mono bg-slate-100 p-1.5 rounded text-center font-bold">75 / 100 = 75%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contoh 2 -->
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded">Contoh 2</span>
+                            <h3 class="font-semibold text-slate-800 text-sm mt-1">Nisa menjawab benar <span class="text-purple-600 font-bold">80%</span> soal kuis. Berapa pecahan paling sederhananya?</h3>
+                        </div>
+                        <button onclick="toggleExample('ex2')" class="px-3 py-1 bg-indigo-600 text-white rounded-lg text-xs font-bold hover:bg-indigo-700 transition">
+                            <i class="fa-solid fa-eye mr-1"></i> Buka Langkah
+                        </button>
+                    </div>
+
+                    <div id="ex2" class="hidden space-y-3 pt-2 border-t border-slate-200 text-xs text-slate-700">
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
+                            <p class="font-bold text-indigo-600">Langkah Penyelesaian:</p>
+                            <p>1. Ubah persen jadi per 100: <strong>80% = 80 / 100</strong></p>
+                            <p>2. Sederhanakan dengan membagi pembilang dan penyebut dengan angka 20 (FPB):</p>
+                            <p class="font-mono bg-slate-100 p-1.5 rounded text-center font-bold">
+                                (80 ÷ 20) / (100 ÷ 20) = 4 / 5
+                            </p>
+                            <p class="text-emerald-600 font-bold mt-1">
+                                Jadi, Nisa menjawab benar <span class="frac"><span class="num">4</span><span class="den">5</span></span> bagian soal.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. LATIHAN TERBIMBING (5 SOAL INTERAKTIF) -->
+        <section class="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-pen-ruler text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display text-xl font-bold text-slate-800">7. Latihan Terbimbing (5 Soal)</h2>
+                        <p class="text-xs text-slate-500">Gunakan hint jika kamu ragu, lalu periksa jawabanmu!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+
+                <!-- Soal Latihan 1 -->
+                <div id="guided-card-1" class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 transition">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2.5 py-1 rounded-full">Soal 1 • Pecahan ke Persen</span>
+                        <span id="g-status-1" class="text-xs font-semibold text-slate-400">Belum dijawab</span>
+                    </div>
+
+                    <p class="text-sm font-semibold text-slate-800 flex items-center">
+                        Ubah pecahan 
+                        <span class="frac text-blue-600 text-base mx-1"><span class="num">7</span><span class="den">20</span></span> 
+                        ke dalam bentuk <span class="text-pink-600 font-bold ml-1">Persen (%)</span>!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                        <div class="flex items-center space-x-2">
+                            <input type="text" id="g1" placeholder="..." class="px-4 py-2 border border-slate-300 rounded-xl font-bold text-center w-32 focus:ring-2 focus:ring-pink-500 focus:outline-none">
+                            <span class="font-bold text-slate-600">%</span>
+                        </div>
+                        <button onclick="checkGuided(1, ['35', '35%'], 'g-status-1', 'g-msg-1', '7/20 × 5/5 = 35/100 = 35%.')" class="px-5 py-2 bg-pink-600 text-white rounded-xl font-bold text-xs hover:bg-pink-700 transition">
+                            Cek Jawaban
+                        </button>
+                        <button onclick="toggleHint('hint-g1')" class="px-3 py-2 bg-amber-100 text-amber-800 rounded-xl font-bold text-xs hover:bg-amber-200 transition">
+                            💡 Hint
+                        </button>
+                    </div>
+
+                    <p id="g-msg-1" class="text-xs font-semibold hidden"></p>
+                    <div id="hint-g1" class="hidden p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                        <p><strong>Petunjuk:</strong> Penyebutnya adalah 20. Ingat pasangan pengali istimewa: 20 × 5 = 100.</p>
+                        <p>Kalikan pembilang (7) dan penyebut (20) dengan angka 5!</p>
+                    </div>
+                </div>
+
+                <!-- Soal Latihan 2 -->
+                <div id="guided-card-2" class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 transition">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2.5 py-1 rounded-full">Soal 2 • Desimal ke Pecahan</span>
+                        <span id="g-status-2" class="text-xs font-semibold text-slate-400">Belum dijawab</span>
+                    </div>
+
+                    <p class="text-sm font-semibold text-slate-800">
+                        Ubah bilangan desimal <span class="text-emerald-600 font-bold text-base">0,45</span> menjadi <span class="text-blue-600 font-bold">Pecahan Paling Sederhana</span>!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                        <input type="text" id="g2" placeholder="..." class="px-4 py-2 border border-slate-300 rounded-xl font-bold text-center w-40 focus:ring-2 focus:ring-pink-500 focus:outline-none">
+                        <button onclick="checkGuided(2, ['9/20'], 'g-status-2', 'g-msg-2', '0,45 = 45/100. Dibagi 5 pada pembilang dan penyebut -> 9/20.')" class="px-5 py-2 bg-pink-600 text-white rounded-xl font-bold text-xs hover:bg-pink-700 transition">
+                            Cek Jawaban
+                        </button>
+                        <button onclick="toggleHint('hint-g2')" class="px-3 py-2 bg-amber-100 text-amber-800 rounded-xl font-bold text-xs hover:bg-amber-200 transition">
+                            💡 Hint
+                        </button>
+                    </div>
+
+                    <p id="g-msg-2" class="text-xs font-semibold hidden"></p>
+                    <div id="hint-g2" class="hidden p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                        <p><strong>Petunjuk:</strong> Karena ada 2 angka di belakang koma, tulis dulu sebagai 45/100.</p>
+                        <p>Lalu sederhanakan pecahan tersebut dengan membagi atas dan bawah menggunakan angka 5.</p>
+                    </div>
+                </div>
+
+                <!-- Soal Latihan 3 -->
+                <div id="guided-card-3" class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 transition">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2.5 py-1 rounded-full">Soal 3 • Soal Cerita Botol Air</span>
+                        <span id="g-status-3" class="text-xs font-semibold text-slate-400">Belum dijawab</span>
+                    </div>
+
+                    <p class="text-sm font-semibold text-slate-800">
+                        Sebuah botol minum terisi air sebanyak <span class="text-emerald-600 font-bold">0,8 liter</span>. Nyatakan volume air tersebut dalam bentuk <span class="text-pink-600 font-bold">Persen (%)</span>!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                        <div class="flex items-center space-x-2">
+                            <input type="text" id="g3" placeholder="..." class="px-4 py-2 border border-slate-300 rounded-xl font-bold text-center w-32 focus:ring-2 focus:ring-pink-500 focus:outline-none">
+                            <span class="font-bold text-slate-600">%</span>
+                        </div>
+                        <button onclick="checkGuided(3, ['80', '80%'], 'g-status-3', 'g-msg-3', '0,8 = 8/10 = 80/100 = 80%.')" class="px-5 py-2 bg-pink-600 text-white rounded-xl font-bold text-xs hover:bg-pink-700 transition">
+                            Cek Jawaban
+                        </button>
+                        <button onclick="toggleHint('hint-g3')" class="px-3 py-2 bg-amber-100 text-amber-800 rounded-xl font-bold text-xs hover:bg-amber-200 transition">
+                            💡 Hint
+                        </button>
+                    </div>
+
+                    <p id="g-msg-3" class="text-xs font-semibold hidden"></p>
+                    <div id="hint-g3" class="hidden p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                        <p><strong>Petunjuk:</strong> 0,8 sama dengan pecahan 8/10.</p>
+                        <p>Kalikan pembilang dan penyebut dengan 10 agar menjadi per 100 (80/100).</p>
+                    </div>
+                </div>
+
+                <!-- Soal Latihan 4 -->
+                <div id="guided-card-4" class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 transition">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2.5 py-1 rounded-full">Soal 4 • Persen ke Desimal</span>
+                        <span id="g-status-4" class="text-xs font-semibold text-slate-400">Belum dijawab</span>
+                    </div>
+
+                    <p class="text-sm font-semibold text-slate-800">
+                        Di ruang perpustakaan, <span class="text-purple-600 font-bold">60%</span> dari total buku adalah buku dongeng. Nyatakan 60% tersebut ke dalam bentuk <span class="text-emerald-600 font-bold">Desimal</span>!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                        <input type="text" id="g4" placeholder="..." class="px-4 py-2 border border-slate-300 rounded-xl font-bold text-center w-40 focus:ring-2 focus:ring-pink-500 focus:outline-none">
+                        <button onclick="checkGuided(4, ['0,6', '0.6', '0,60', '0.60'], 'g-status-4', 'g-msg-4', '60% = 60/100 = 0,60 = 0,6.')" class="px-5 py-2 bg-pink-600 text-white rounded-xl font-bold text-xs hover:bg-pink-700 transition">
+                            Cek Jawaban
+                        </button>
+                        <button onclick="toggleHint('hint-g4')" class="px-3 py-2 bg-amber-100 text-amber-800 rounded-xl font-bold text-xs hover:bg-amber-200 transition">
+                            💡 Hint
+                        </button>
+                    </div>
+
+                    <p id="g-msg-4" class="text-xs font-semibold hidden"></p>
+                    <div id="hint-g4" class="hidden p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                        <p><strong>Petunjuk:</strong> Untuk mengubah persen ke desimal, geser tanda koma 2 kali ke kiri.</p>
+                        <p>60% → 0,60, yang disederhanakan menjadi 0,6.</p>
+                    </div>
+                </div>
+
+                <!-- Soal Latihan 5 -->
+                <div id="guided-card-5" class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-3 transition">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2.5 py-1 rounded-full">Soal 5 • Tantangan Sahabat 8</span>
+                        <span id="g-status-5" class="text-xs font-semibold text-slate-400">Belum dijawab</span>
+                    </div>
+
+                    <p class="text-sm font-semibold text-slate-800 flex items-center">
+                        Ubah pecahan tantangan 
+                        <span class="frac text-blue-600 text-base mx-1"><span class="num">1</span><span class="den">8</span></span> 
+                        ke bentuk <span class="text-emerald-600 font-bold ml-1">Desimal</span>!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                        <input type="text" id="g5" placeholder="..." class="px-4 py-2 border border-slate-300 rounded-xl font-bold text-center w-40 focus:ring-2 focus:ring-pink-500 focus:outline-none">
+                        <button onclick="checkGuided(5, ['0,125', '0.125'], 'g-status-5', 'g-msg-5', '1/8 × 125/125 = 125/1000 = 0,125.')" class="px-5 py-2 bg-pink-600 text-white rounded-xl font-bold text-xs hover:bg-pink-700 transition">
+                            Cek Jawaban
+                        </button>
+                        <button onclick="toggleHint('hint-g5')" class="px-3 py-2 bg-amber-100 text-amber-800 rounded-xl font-bold text-xs hover:bg-amber-200 transition">
+                            💡 Hint
+                        </button>
+                    </div>
+
+                    <p id="g-msg-5" class="text-xs font-semibold hidden"></p>
+                    <div id="hint-g5" class="hidden p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                        <p><strong>Petunjuk:</strong> Ingat pasangan pengali istimewa! 8 × 125 = 1000.</p>
+                        <p>Kalikan pembilang 1 dengan 125 → 125/1000 = 0,125.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Score State Tracking
+        const scores = {
+            warmup: {},
+            guided: {},
+            compare: {}
+        };
+
+        function updateScoreDisplay() {
+            const warmupScore = Object.values(scores.warmup).filter(Boolean).length;
+            const guidedScore = Object.values(scores.guided).filter(Boolean).length;
+            const compareScore = Object.values(scores.compare).filter(Boolean).length;
+            const total = warmupScore + guidedScore + compareScore;
+            document.getElementById('total-score').textContent = total;
+        }
+
+        // Helper function for checking Warmup answers
+        function checkAnswer(inputId, validAnswers, cardId, msgId, explanation) {
+            const rawVal = document.getElementById(inputId).value.trim().toLowerCase().replace(',', '.');
+            const card = document.getElementById(cardId);
+            const msg = document.getElementById(msgId);
+
+            const isCorrect = validAnswers.some(ans => {
+                const normalizedAns = ans.toLowerCase().replace(',', '.');
+                return rawVal === normalizedAns;
+            });
+
+            msg.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+            if (isCorrect) {
+                card.className = "p-4 bg-emerald-50 rounded-xl border-2 border-emerald-400 flex flex-col justify-between space-y-3 transition";
+                msg.textContent = "✅ Benar! " + explanation;
+                msg.classList.add('text-emerald-600');
+                scores.warmup[inputId] = true;
+            } else {
+                card.className = "p-4 bg-rose-50 rounded-xl border-2 border-rose-400 flex flex-col justify-between space-y-3 transition";
+                msg.textContent = "❌ Belum tepat. " + explanation;
+                msg.classList.add('text-rose-600');
+                scores.warmup[inputId] = false;
+            }
+            updateScoreDisplay();
+        }
+
+        function resetWarmup() {
+            for (let i = 1; i <= 8; i++) {
+                const inputId = 'w' + i;
+                const input = document.getElementById(inputId);
+                if (input) input.value = '';
+                const card = document.getElementById('card-w' + i);
+                if (card) card.className = "p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3 transition";
+                const msg = document.getElementById('msg-w' + i);
+                if (msg) {
+                    msg.classList.add('hidden');
+                    msg.textContent = '';
+                }
+                scores.warmup[inputId] = false;
+            }
+            updateScoreDisplay();
+        }
+
+        // Helper function for Compare Quiz
+        function checkCompare(num, userSymbol) {
+            const answers = { 1: '<', 2: '=', 3: '>' };
+            const correctSymbol = answers[num];
+            const symbolSpan = document.getElementById('c' + num + '-symbol');
+            const msg = document.getElementById('msg-c' + num);
+            const card = document.getElementById('card-c' + num);
+
+            symbolSpan.textContent = userSymbol;
+            msg.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+            if (userSymbol === correctSymbol) {
+                card.className = "p-3 bg-emerald-50 rounded-xl border-2 border-emerald-400 text-center space-y-2 transition";
+                msg.textContent = "✅ Benar!";
+                msg.classList.add('text-emerald-600');
+                scores.compare[num] = true;
+            } else {
+                card.className = "p-3 bg-rose-50 rounded-xl border-2 border-rose-400 text-center space-y-2 transition";
+                msg.textContent = "❌ Coba lagi!";
+                msg.classList.add('text-rose-600');
+                scores.compare[num] = false;
+            }
+            updateScoreDisplay();
+        }
+
+        // Helper function for Guided Practice
+        function checkGuided(qNum, validAnswers, statusId, msgId, explanation) {
+            const inputId = 'g' + qNum;
+            const rawVal = document.getElementById(inputId).value.trim().toLowerCase().replace(',', '.');
+            const card = document.getElementById('guided-card-' + qNum);
+            const status = document.getElementById(statusId);
+            const msg = document.getElementById(msgId);
+
+            const isCorrect = validAnswers.some(ans => {
+                const normalizedAns = ans.toLowerCase().replace(',', '.');
+                return rawVal === normalizedAns;
+            });
+
+            msg.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+            if (isCorrect) {
+                card.className = "p-5 bg-emerald-50/70 rounded-2xl border-2 border-emerald-400 space-y-3 transition";
+                status.textContent = "✅ Benar!";
+                status.className = "text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded";
+                msg.textContent = "🎉 Luar Biasa! " + explanation;
+                msg.classList.add('text-emerald-600');
+                scores.guided[qNum] = true;
+            } else {
+                card.className = "p-5 bg-rose-50/70 rounded-2xl border-2 border-rose-400 space-y-3 transition";
+                status.textContent = "❌ Belum tepat";
+                status.className = "text-xs font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded";
+                msg.textContent = "🤔 Coba lagi yuk! " + explanation;
+                msg.classList.add('text-rose-600');
+                scores.guided[qNum] = false;
+            }
+            updateScoreDisplay();
+        }
+
+        // Toggle Hint
+        function toggleHint(hintId) {
+            const hint = document.getElementById(hintId);
+            if (hint.classList.contains('hidden')) {
+                hint.classList.remove('hidden');
+            } else {
+                hint.classList.add('hidden');
+            }
+        }
+
+        // Toggle Step Examples
+        function toggleExample(exId) {
+            const ex = document.getElementById(exId);
+            if (ex.classList.contains('hidden')) {
+                ex.classList.remove('hidden');
+            } else {
+                ex.classList.add('hidden');
+            }
+        }
+
+        // Interactive Grid 100 Logic
+        const gridContainer = document.getElementById('grid-interactive');
+        const gridSlider = document.getElementById('grid-slider');
+        const visualFraction = document.getElementById('visual-fraction');
+        const visualFractionSimple = document.getElementById('visual-fraction-simple');
+        const visualDecimal = document.getElementById('visual-decimal');
+        const visualPercent = document.getElementById('visual-percent');
+
+        // Helper to find GCD for fraction simplification
+        function getGCD(a, b) {
+            return b === 0 ? a : getGCD(b, a % b);
+        }
+
+        function createGrid() {
+            gridContainer.innerHTML = '';
+            for (let i = 0; i < 100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.dataset.index = i;
+                cell.addEventListener('click', () => {
+                    gridSlider.value = i + 1;
+                    updateGridDisplay(i + 1);
+                });
+                gridContainer.appendChild(cell);
+            }
+        }
+
+        function updateGridDisplay(count) {
+            const cells = gridContainer.children;
+            for (let i = 0; i < 100; i++) {
+                if (i < count) {
+                    cells[i].classList.add('active');
+                } else {
+                    cells[i].classList.remove('active');
+                }
+            }
+
+            // Calculations & Vertical Fraction Output
+            visualFraction.innerHTML = `<span class="frac"><span class="num">${count}</span><span class="den">100</span></span>`;
+            
+            if (count === 0) {
+                visualFractionSimple.innerHTML = '(= 0)';
+            } else if (count === 100) {
+                visualFractionSimple.innerHTML = '(= 1 Utuh)';
+            } else {
+                const gcd = getGCD(count, 100);
+                const num = count / gcd;
+                const den = 100 / gcd;
+                visualFractionSimple.innerHTML = `(= <span class="frac"><span class="num">${num}</span><span class="den">${den}</span></span>)`;
+            }
+
+            const dec = (count / 100).toFixed(2).replace('.', ',');
+            visualDecimal.textContent = dec;
+            visualPercent.textContent = `${count}%`;
+        }
+
+        gridSlider.addEventListener('input', (e) => {
+            updateGridDisplay(parseInt(e.target.value));
+        });
+
+        // Initialize on load
+        window.onload = function() {
+            createGrid();
+            updateGridDisplay(40);
+        };
+    </script>
+</body>
+</html>
