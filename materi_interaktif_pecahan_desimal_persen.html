@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Pecahan, Desimal, & Persen - Kelas 4 SD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & Fredoka for Kid-friendly Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            background-color: #f0fdf4;
+        }
+        .tab-active {
+            background-color: #10b981;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .card-pop {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-pop:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .pulse-btn {
+            animation: pulse-subtle 2s infinite;
+        }
+
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            font-weight: 700;
+            line-height: 1.1;
+            margin: 0 4px;
+        }
+        .frac .num {
+            border-bottom: 2px solid currentColor;
+            padding: 0 4px;
+            display: block;
+        }
+        .frac .den {
+            padding: 0 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Utama -->
+    <header class="bg-emerald-500 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white text-emerald-600 p-2 rounded-2xl shadow">
+                    <i class="fa-solid fa-calculator text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold leading-tight">Matematika Seru Kelas 4</h1>
+                    <p class="text-xs text-emerald-100 font-sans">Membandingkan & Mengurutkan Bilangan</p>
+                </div>
+            </div>
+            <!-- Bintang / Skor Keseluruhan -->
+            <div class="bg-emerald-600 px-4 py-1.5 rounded-full flex items-center space-x-2 border border-emerald-400">
+                <i class="fa-solid fa-star text-yellow-300 text-lg"></i>
+                <span id="total-stars" class="font-bold text-lg">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigasi Tab Menu -->
+    <nav class="bg-white border-b border-emerald-100 shadow-sm sticky top-[61px] z-40">
+        <div class="max-w-5xl mx-auto px-2 flex justify-around overflow-x-auto py-2 text-sm font-semibold">
+            <button onclick="switchTab('tujuan')" id="tab-tujuan" class="tab-btn tab-active px-3 py-2 rounded-xl flex items-center space-x-1.5 transition whitespace-nowrap">
+                <i class="fa-solid fa-bullseye"></i><span>Tujuan</span>
+            </button>
+            <button onclick="switchTab('warmup')" id="tab-warmup" class="tab-btn px-3 py-2 rounded-xl flex items-center space-x-1.5 text-slate-600 hover:bg-emerald-50 transition whitespace-nowrap">
+                <i class="fa-solid fa-fire"></i><span>Warm-Up</span>
+            </button>
+            <button onclick="switchTab('koneksi')" id="tab-koneksi" class="tab-btn px-3 py-2 rounded-xl flex items-center space-x-1.5 text-slate-600 hover:bg-emerald-50 transition whitespace-nowrap">
+                <i class="fa-solid fa-earth-americas"></i><span>Dunia Nyata</span>
+            </button>
+            <button onclick="switchTab('materi')" id="tab-materi" class="tab-btn px-3 py-2 rounded-xl flex items-center space-x-1.5 text-slate-600 hover:bg-emerald-50 transition whitespace-nowrap">
+                <i class="fa-solid fa-book-open"></i><span>Materi & Contoh</span>
+            </button>
+            <button onclick="switchTab('latihan')" id="tab-latihan" class="tab-btn px-3 py-2 rounded-xl flex items-center space-x-1.5 text-slate-600 hover:bg-emerald-50 transition whitespace-nowrap">
+                <i class="fa-solid fa-pen-ruler"></i><span>Latihan Terbimbing</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- SECTION 1: TUJUAN PEMBELAJARAN -->
+        <section id="sec-tujuan" class="tab-content block space-y-6">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-2 border-emerald-100">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="bg-amber-100 text-amber-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-flag-checkered text-2xl"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-slate-800">Target Belajar Hari Ini!</h2>
+                </div>
+                <p class="text-slate-600 mb-6 font-sans">Setelah belajar modul ini, kamu pasti jago untuk:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Kartu 1 -->
+                    <div class="bg-sky-50 border-2 border-sky-200 p-5 rounded-2xl card-pop flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold text-xl mb-3 shadow">1</div>
+                        <h3 class="font-bold text-sky-900 mb-1">Mengubah Bentuk</h3>
+                        <p class="text-sm text-sky-700 font-sans">Mengubah Pecahan, Desimal, dan Persen agar bentuknya sama seragam!</p>
+                    </div>
+
+                    <!-- Kartu 2 -->
+                    <div class="bg-emerald-50 border-2 border-emerald-200 p-5 rounded-2xl card-pop flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center font-bold text-xl mb-3 shadow">2</div>
+                        <h3 class="font-bold text-emerald-900 mb-1">Membandingkan</h3>
+                        <p class="text-sm text-emerald-700 font-sans">Menentukan mana yang lebih besar, lebih kecil, atau sama dengan (<code>&gt;</code>, <code>&lt;</code>, <code>=</code>).</p>
+                    </div>
+
+                    <!-- Kartu 3 -->
+                    <div class="bg-purple-50 border-2 border-purple-200 p-5 rounded-2xl card-pop flex flex-col items-center text-center">
+                        <div class="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold text-xl mb-3 shadow">3</div>
+                        <h3 class="font-bold text-purple-900 mb-1">Mengurutkan</h3>
+                        <p class="text-sm text-purple-700 font-sans">Menyusun beberapa bilangan campuran dari yang terkecil atau terbesar.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-lightbulb text-amber-500 text-2xl"></i>
+                        <span class="text-sm font-sans text-amber-900">Sudah siap petualangan? Mulai dengan pemanasan dulu yuk!</span>
+                    </div>
+                    <button onclick="switchTab('warmup')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2.5 rounded-xl transition shadow pulse-btn">
+                        Lanjut Warm-Up <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WARM-UP (6 SOAL INTERAKTIF) -->
+        <section id="sec-warmup" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-emerald-100">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-orange-100 text-orange-600 p-3 rounded-2xl">
+                            <i class="fa-solid fa-fire text-2xl"></i>
+                        </span>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Pemanasan (Warm-Up)</h2>
+                            <p class="text-xs text-slate-500 font-sans">Jawab 6 pertanyaan kilat berikut!</p>
+                        </div>
+                    </div>
+                    <span id="warmup-score" class="text-sm font-bold bg-orange-100 text-orange-700 px-3 py-1 rounded-full">Progres: 0 / 6</span>
+                </div>
+
+                <!-- Grid Soal Warmup -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="warmup-container">
+                    <!-- Cards diproduksi secara dinamis via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KONEKSI NYATA (REAL WORLD) -->
+        <section id="sec-koneksi" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-emerald-100">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="bg-blue-100 text-blue-600 p-3 rounded-2xl">
+                        <i class="fa-solid fa-pizza-slice text-2xl"></i>
+                    </span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Koneksi Dunia Nyata</h2>
+                        <p class="text-xs text-slate-500 font-sans">Tahukah kamu? Mereka sebenarnya "Kembar Tiga"!</p>
+                    </div>
+                </div>
+
+                <!-- Card Cerita Singkat -->
+                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl p-5 mb-6 shadow-md">
+                    <p class="text-lg leading-relaxed font-medium flex flex-wrap items-center gap-1">
+                        Saat Budi makan <span class="bg-amber-400 text-slate-900 px-2 py-1 rounded font-bold inline-flex items-center"><span class="frac"><span class="num">1</span><span class="den">2</span></span></span> bagian pizza, 
+                        Siti mendapat diskon toko <span class="bg-emerald-400 text-slate-900 px-2 py-0.5 rounded font-bold">50%</span>, 
+                        dan baterai HP Doni tersisa <span class="bg-pink-400 text-slate-900 px-2 py-0.5 rounded font-bold">0.5</span>... 
+                        <br><strong class="text-yellow-300 w-full mt-1">Mereka bertiga sebenarnya memiliki jumlah nilai yang SAMA BESAR!</strong>
+                    </p>
+                </div>
+
+                <!-- Widget Visual Interaktif -->
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                    <h3 class="text-lg font-bold text-slate-700 mb-4 text-center">Laboratorium Visual Kembar Tiga</h3>
+                    <p class="text-sm text-center text-slate-500 font-sans mb-6">Geser slider di bawah ini untuk melihat hubungan langsungnya!</p>
+
+                    <!-- Interactive Slider -->
+                    <div class="max-w-md mx-auto mb-8">
+                        <input type="range" id="visual-slider" min="0" max="100" value="50" step="25" class="w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        <div class="flex justify-between text-xs font-bold text-slate-400 mt-2">
+                            <span>0%</span>
+                            <span>25%</span>
+                            <span>50%</span>
+                            <span>75%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+
+                    <!-- Display Panel -->
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <span class="text-xs text-slate-400 block font-sans">Pecahan</span>
+                            <span id="vis-frac" class="text-2xl font-bold text-amber-500">1/2</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <span class="text-xs text-slate-400 block font-sans">Desimal</span>
+                            <span id="vis-dec" class="text-2xl font-bold text-sky-500">0.5</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                            <span class="text-xs text-slate-400 block font-sans">Persen</span>
+                            <span id="vis-per" class="text-2xl font-bold text-emerald-500">50%</span>
+                        </div>
+                    </div>
+
+                    <!-- Bar Progress Visual -->
+                    <div class="mt-6 bg-slate-200 h-8 rounded-full overflow-hidden p-1">
+                        <div id="vis-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300 flex items-center justify-end pr-3 text-white text-xs font-bold" style="width: 50%;">
+                            50%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: MATERI LENGKAP & CONTOH SOAL -->
+        <section id="sec-materi" class="tab-content hidden space-y-6">
+            
+            <!-- KUNCI RAHASIA (TOP BANNER) -->
+            <div class="bg-amber-400 text-slate-900 p-5 rounded-2xl shadow-md border-2 border-amber-500 flex items-center space-x-4">
+                <i class="fa-solid fa-key text-3xl"></i>
+                <div>
+                    <h3 class="font-bold text-lg">Kunci Rahasia Jago Matematika:</h3>
+                    <p class="text-sm font-sans">
+                        Sebelum membandingkan / mengurutkan, <strong>UBAH SEMUA ke bentuk DESIMAL atau PERSEN!</strong> Ini cara tercepat dan paling aman.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SUB-MATERI 1: MEMBANDINGKAN PECAHAN & DESIMAL -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-emerald-100">
+                <div class="flex items-center space-x-2 border-b pb-3 mb-4">
+                    <span class="bg-sky-100 text-sky-600 px-3 py-1 rounded-full font-bold text-sm">Bagian A</span>
+                    <h3 class="text-xl font-bold text-slate-800">Membandingkan Pecahan & Desimal</h3>
+                </div>
+                
+                <p class="text-sm font-sans text-slate-600 mb-4">
+                    <strong>Trik:</strong> Ubah pecahan menjadi desimal dengan membagi pembilang oleh penyebut, atau mengubah penyebut jadi /10 atau /100.
+                </p>
+
+                <!-- Contoh Soal Grid (3 Contoh) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-sky-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 1</span>
+                        <p class="font-bold mt-2 text-slate-800 flex items-center">Bandingkan <span class="frac"><span class="num">3</span><span class="den">4</span></span> ... 0,6</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p class="flex items-center">1. <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 0,75</p>
+                            <p>2. Bandingkan: 0,75 vs 0,60</p>
+                            <p class="font-bold text-emerald-600 mt-1 flex items-center">Hasil: <span class="frac"><span class="num">3</span><span class="den">4</span></span> &gt; 0,6</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-sky-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 2</span>
+                        <p class="font-bold mt-2 text-slate-800 flex items-center">Bandingkan <span class="frac"><span class="num">1</span><span class="den">5</span></span> ... 0,25</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p class="flex items-center">1. <span class="frac"><span class="num">1</span><span class="den">5</span></span> = 0,20</p>
+                            <p>2. Bandingkan: 0,20 vs 0,25</p>
+                            <p class="font-bold text-emerald-600 mt-1 flex items-center">Hasil: <span class="frac"><span class="num">1</span><span class="den">5</span></span> &lt; 0,25</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-sky-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 3</span>
+                        <p class="font-bold mt-2 text-slate-800 flex items-center">Bandingkan <span class="frac"><span class="num">2</span><span class="den">5</span></span> ... 0,4</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p class="flex items-center">1. <span class="frac"><span class="num">2</span><span class="den">5</span></span> = 0,40</p>
+                            <p>2. Bandingkan: 0,40 vs 0,40</p>
+                            <p class="font-bold text-emerald-600 mt-1 flex items-center">Hasil: <span class="frac"><span class="num">2</span><span class="den">5</span></span> = 0,4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-MATERI 2: MEMBANDINGKAN DESIMAL & PERSEN -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-emerald-100">
+                <div class="flex items-center space-x-2 border-b pb-3 mb-4">
+                    <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full font-bold text-sm">Bagian B</span>
+                    <h3 class="text-xl font-bold text-slate-800">Membandingkan Desimal & Persen</h3>
+                </div>
+                
+                <p class="text-sm font-sans text-slate-600 mb-4">
+                    <strong>Trik:</strong> Ubah desimal ke persen (kalikan 100%) atau ubah persen ke desimal (bagi 100).
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-purple-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 1</span>
+                        <p class="font-bold mt-2 text-slate-800">Bandingkan 0,35 ... 40%</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p>1. 0,35 = 35%</p>
+                            <p>2. Bandingkan: 35% vs 40%</p>
+                            <p class="font-bold text-emerald-600 mt-1">Hasil: 0,35 &lt; 40%</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-purple-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 2</span>
+                        <p class="font-bold mt-2 text-slate-800">Bandingkan 0,8 ... 75%</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p>1. 0,8 = 80%</p>
+                            <p>2. Bandingkan: 80% vs 75%</p>
+                            <p class="font-bold text-emerald-600 mt-1">Hasil: 0,8 &gt; 75%</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-purple-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 3</span>
+                        <p class="font-bold mt-2 text-slate-800">Bandingkan 0,05 ... 5%</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p>1. 0,05 = 5%</p>
+                            <p>2. Bandingkan: 5% vs 5%</p>
+                            <p class="font-bold text-emerald-600 mt-1">Hasil: 0,05 = 5%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-MATERI 3: MENGURUTKAN CAMPURAN -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-emerald-100">
+                <div class="flex items-center space-x-2 border-b pb-3 mb-4">
+                    <span class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full font-bold text-sm">Bagian C</span>
+                    <h3 class="text-xl font-bold text-slate-800">Mengurutkan Campuran</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 1 (Terkecil)</span>
+                        <p class="font-bold mt-2 text-slate-800 flex items-center flex-wrap">Urutkan: 0,5 ; <span class="frac"><span class="num">1</span><span class="den">4</span></span> ; 30%</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p>• 0,5 = 0,50</p>
+                            <p class="flex items-center">• <span class="frac"><span class="num">1</span><span class="den">4</span></span> = 0,25</p>
+                            <p>• 30% = 0,30</p>
+                            <p class="font-bold text-emerald-600 mt-1 flex items-center flex-wrap">Urutan: <span class="frac"><span class="num">1</span><span class="den">4</span></span> ; 30% ; 0,5</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 2 (Terbesar)</span>
+                        <p class="font-bold mt-2 text-slate-800 flex items-center flex-wrap">Urutkan: 60% ; 0,75 ; <span class="frac"><span class="num">1</span><span class="den">2</span></span></p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p>• 60% = 0,60</p>
+                            <p>• 0,75 = 0,75</p>
+                            <p class="flex items-center">• <span class="frac"><span class="num">1</span><span class="den">2</span></span> = 0,50</p>
+                            <p class="font-bold text-emerald-600 mt-1 flex items-center flex-wrap">Urutan: 0,75 ; 60% ; <span class="frac"><span class="num">1</span><span class="den">2</span></span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <span class="bg-emerald-500 text-white text-xs px-2 py-0.5 rounded font-bold">Contoh 3 (Terkecil)</span>
+                        <p class="font-bold mt-2 text-slate-800 flex items-center flex-wrap">Urutkan: 0,15 ; <span class="frac"><span class="num">2</span><span class="den">5</span></span> ; 20%</p>
+                        <div class="text-xs font-sans mt-2 space-y-1 text-slate-600">
+                            <p>• 0,15 = 0,15</p>
+                            <p class="flex items-center">• <span class="frac"><span class="num">2</span><span class="den">5</span></span> = 0,40</p>
+                            <p>• 20% = 0,20</p>
+                            <p class="font-bold text-emerald-600 mt-1 flex items-center flex-wrap">Urutan: 0,15 ; 20% ; <span class="frac"><span class="num">2</span><span class="den">5</span></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: LATIHAN SOAL TERBIMBING -->
+        <section id="sec-latihan" class="tab-content hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-emerald-100">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-emerald-100 text-emerald-600 p-3 rounded-2xl">
+                            <i class="fa-solid fa-pen-ruler text-2xl"></i>
+                        </span>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Latihan Soal Terbimbing</h2>
+                            <p class="text-xs text-slate-500 font-sans">Gunakan tombol "Petunjuk Langkah" jika kamu bingung!</p>
+                        </div>
+                    </div>
+                    <span id="practice-score-badge" class="text-sm font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Selesai: 0/4</span>
+                </div>
+
+                <!-- Guided Practice Cards Container -->
+                <div id="practice-container" class="space-y-6">
+                    <!-- Cards diproduksi secara JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400 font-sans mt-8">
+        Modul Pembelajaran Interaktif Matematika SD Kelas 4 • Membandingkan & Mengurutkan Pecahan, Desimal, Persen
+    </footer>
+
+    <!-- Modal / Toast Alert Khusus -->
+    <div id="custom-toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div id="toast-body" class="bg-slate-800 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3">
+            <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
+            <span id="toast-msg" class="font-bold text-sm">Pesan toast di sini...</span>
+        </div>
+    </div>
+
+    <script>
+        // Data Global State
+        let totalStars = 0;
+        let warmupAnswered = 0;
+        let practiceAnswered = 0;
+
+        // Data Warmup (6 Soal Kilat)
+        const warmupData = [
+            { id: 1, q: 'Berapa bentuk persen dari <span class="frac"><span class="num">1</span><span class="den">2</span></span>?', options: ["25%", "50%", "75%"], ans: 1, hint: "Setengah dari 100% adalah 50%!" },
+            { id: 2, q: "Mana yang lebih besar: 0,7 atau 0,2?", options: ["0,7", "0,2", "Sama"], ans: 0, hint: "7 persepuluh lebih banyak dari 2 persepuluh." },
+            { id: 3, q: "25% jika diubah ke pecahan biasa adalah...", options: ['<span class="frac"><span class="num">1</span><span class="den">2</span></span>', '<span class="frac"><span class="num">1</span><span class="den">4</span></span>', '<span class="frac"><span class="num">3</span><span class="den">4</span></span>'], ans: 1, hint: "25/100 disederhanakan dibagi 25." },
+            { id: 4, q: 'Bentuk desimal dari <span class="frac"><span class="num">3</span><span class="den">10</span></span> adalah...', options: ["0,03", "0,3", "3,0"], ans: 1, hint: "Satu angka di belakang koma berarti persepuluh." },
+            { id: 5, q: "Mana yang lebih kecil: 10% atau 0,5?", options: ["10%", "0,5", "Sama"], ans: 0, hint: "0,5 itu sama dengan 50%." },
+            { id: 6, q: "Isi simbol yang tepat: 0,4 ... 40%", options: [">", "<", "="], ans: 2, hint: "0,4 = 40/100 = 40%." }
+        ];
+
+        // Data Latihan Soal Terbimbing (4 Soal Berstudi Kasus)
+        const practiceData = [
+            {
+                id: 1,
+                title: "Soal 1: Membandingkan Pecahan vs Desimal",
+                question: 'Isilah tanda perbandingan yang benar: <span class="frac"><span class="num">2</span><span class="den">5</span></span> ... 0,35',
+                stepHint: 'Langkah 1: Ubah <span class="frac"><span class="num">2</span><span class="den">5</span></span> jadi desimal. (2 ÷ 5 = 0,40). <br>Langkah 2: Bandingkan 0,40 dengan 0,35.',
+                options: [">", "<", "="],
+                ans: 0,
+                explain: '<span class="frac"><span class="num">2</span><span class="den">5</span></span> = 0,40. Karena 0,40 lebih besar dari 0,35, maka tanda yang tepat adalah >'
+            },
+            {
+                id: 2,
+                title: "Soal 2: Membandingkan Desimal vs Persen",
+                question: "Isilah tanda perbandingan yang benar: 0,6 ... 65%",
+                stepHint: "Langkah 1: Ubah 0,6 jadi persen (0,6 × 100% = 60%). <br>Langkah 2: Bandingkan 60% dengan 65%.",
+                options: [">", "<", "="],
+                ans: 1,
+                explain: "0,6 = 60%. Karena 60% lebih kecil dari 65%, maka tanda yang tepat adalah <"
+            },
+            {
+                id: 3,
+                title: "Soal 3: Mengurutkan dari TERKECIL",
+                question: 'Urutkan bilangan berikut dari yang TERKECIL: [ 0,7 ; 45% ; <span class="frac"><span class="num">1</span><span class="den">2</span></span> ]',
+                stepHint: 'Ubah ke bentuk persen semua: <br>• 0,7 = 70% <br>• 45% = 45% <br>• <span class="frac"><span class="num">1</span><span class="den">2</span></span> = 50% <br>Urutan persen dari terkecil: 45%, 50%, 70%.',
+                options: [
+                    '45% ; <span class="frac"><span class="num">1</span><span class="den">2</span></span> ; 0,7',
+                    '0,7 ; <span class="frac"><span class="num">1</span><span class="den">2</span></span> ; 45%',
+                    '<span class="frac"><span class="num">1</span><span class="den">2</span></span> ; 45% ; 0,7'
+                ],
+                ans: 0,
+                explain: '45% (45%) < <span class="frac"><span class="num">1</span><span class="den">2</span></span> (50%) < 0,7 (70%).'
+            },
+            {
+                id: 4,
+                title: "Soal 4: Mengurutkan dari TERBESAR",
+                question: 'Urutkan bilangan berikut dari yang TERBESAR: [ <span class="frac"><span class="num">3</span><span class="den">4</span></span> ; 0,8 ; 60% ]',
+                stepHint: 'Ubah ke desimal semua: <br>• <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 0,75 <br>• 0,8 = 0,80 <br>• 60% = 0,60 <br>Urutan desimal dari terbesar: 0,80 ; 0,75 ; 0,60.',
+                options: [
+                    '0,8 ; <span class="frac"><span class="num">3</span><span class="den">4</span></span> ; 60%',
+                    '60% ; <span class="frac"><span class="num">3</span><span class="den">4</span></span> ; 0,8',
+                    '<span class="frac"><span class="num">3</span><span class="den">4</span></span> ; 0,8 ; 60%'
+                ],
+                ans: 0,
+                explain: '0,8 (0,80) > <span class="frac"><span class="num">3</span><span class="den">4</span></span> (0,75) > 60% (0,60).'
+            }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderWarmup();
+            renderPractice();
+            initVisualLab();
+        });
+
+        // Tab Switcher Logic
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-slate-600');
+            });
+
+            document.getElementById(`sec-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-slate-600');
+        }
+
+        // Custom Toast Notification Function (No alerts)
+        function showToast(message, isSuccess = true) {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = message;
+            if (isSuccess) {
+                toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-xl";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-xmark text-rose-400 text-xl";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function addStar() {
+            totalStars += 10;
+            document.getElementById('total-stars').innerText = totalStars;
+            // Play confetti particle on score
+            confetti({
+                particleCount: 25,
+                spread: 50,
+                origin: { y: 0.8 }
+            });
+        }
+
+        // Render Warm-Up Cards
+        function renderWarmup() {
+            const container = document.getElementById('warmup-container');
+            container.innerHTML = '';
+
+            warmupData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col justify-between";
+                
+                let optionsHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <button onclick="checkWarmup(${index}, ${optIdx}, this)" 
+                                class="w-full bg-white hover:bg-emerald-50 text-slate-700 font-semibold border border-slate-200 py-2 px-3 rounded-xl transition text-sm text-left flex justify-between items-center mb-2">
+                            <span>${opt}</span>
+                            <i class="fa-regular fa-circle text-slate-300"></i>
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="bg-orange-200 text-orange-800 text-xs font-bold px-2 py-0.5 rounded-full">Soal ${item.id}</span>
+                        </div>
+                        <p class="font-bold text-slate-800 mb-3 text-sm">${item.q}</p>
+                    </div>
+                    <div>
+                        ${optionsHtml}
+                        <div id="warmup-hint-${index}" class="hidden text-xs text-amber-700 bg-amber-50 p-2 rounded-lg border border-amber-200 mt-1 font-sans">
+                            💡 <strong>Petunjuk:</strong> ${item.hint}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Check Warmup Logic
+        function checkWarmup(qIndex, selectedOpt, btn) {
+            const qData = warmupData[qIndex];
+            const parent = btn.parentElement;
+            const hintBox = document.getElementById(`warmup-hint-${qIndex}`);
+
+            // Disable all buttons in this card
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+
+            if (selectedOpt === qData.ans) {
+                btn.classList.remove('bg-white', 'hover:bg-emerald-50', 'text-slate-700');
+                btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+                btn.querySelector('i').className = "fa-solid fa-circle-check text-white";
+                showToast("Jawaban Benar! +10 Bintang ⭐");
+                addStar();
+            } else {
+                btn.classList.remove('bg-white', 'hover:bg-emerald-50');
+                btn.classList.add('bg-rose-500', 'text-white', 'border-rose-600');
+                btn.querySelector('i').className = "fa-solid fa-circle-xmark text-white";
+                hintBox.classList.remove('hidden');
+                showToast("Kurang tepat, pelajari petunjuknya ya!", false);
+            }
+
+            warmupAnswered++;
+            document.getElementById('warmup-score').innerText = `Progres: ${warmupAnswered} / 6`;
+        }
+
+        // Section 3: Visual Lab Slider Handler
+        function initVisualLab() {
+            const slider = document.getElementById('visual-slider');
+            const visFrac = document.getElementById('vis-frac');
+            const visDec = document.getElementById('vis-dec');
+            const visPer = document.getElementById('vis-per');
+            const visBar = document.getElementById('vis-bar');
+
+            const values = {
+                '0':   { frac: '0',    dec: '0.0', per: '0%' },
+                '25':  { frac: '<span class="frac"><span class="num">1</span><span class="den">4</span></span>',  dec: '0.25', per: '25%' },
+                '50':  { frac: '<span class="frac"><span class="num">1</span><span class="den">2</span></span>',  dec: '0.5',  per: '50%' },
+                '75':  { frac: '<span class="frac"><span class="num">3</span><span class="den">4</span></span>',  dec: '0.75', per: '75%' },
+                '100': { frac: '1',    dec: '1.0',  per: '100%' }
+            };
+
+            slider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                const data = values[val];
+
+                visFrac.innerHTML = data.frac;
+                visDec.innerText = data.dec;
+                visPer.innerText = data.per;
+                
+                visBar.style.width = `${val}%`;
+                visBar.innerText = `${val}%`;
+            });
+        }
+
+        // Render Guided Practice Cards
+        function renderPractice() {
+            const container = document.getElementById('practice-container');
+            container.innerHTML = '';
+
+            practiceData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border-2 border-slate-200 rounded-2xl p-5 card-pop";
+
+                let optionsHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    optionsHtml += `
+                        <button onclick="checkPractice(${index}, ${optIdx}, this)" 
+                                class="w-full bg-white hover:bg-emerald-50 text-slate-700 font-bold border-2 border-slate-200 py-2.5 px-4 rounded-xl transition text-left flex justify-between items-center mb-2">
+                            <span>${opt}</span>
+                            <i class="fa-regular fa-circle text-slate-300"></i>
+                        </button>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800 text-base">${item.title}</h3>
+                        <button onclick="toggleStepHint(${index})" class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-1.5 rounded-xl font-bold flex items-center space-x-1 transition">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Petunjuk Langkah</span>
+                        </button>
+                    </div>
+
+                    <p class="text-slate-700 font-medium mb-4 text-sm bg-white p-3 rounded-xl border border-slate-200">${item.question}</p>
+
+                    <!-- Hint Step Accordion -->
+                    <div id="practice-hint-${index}" class="hidden bg-amber-50 border border-amber-200 p-3.5 rounded-xl text-xs font-sans text-amber-900 mb-4 leading-relaxed">
+                        ${item.stepHint}
+                    </div>
+
+                    <div>
+                        ${optionsHtml}
+                    </div>
+
+                    <div id="practice-explain-${index}" class="hidden mt-3 p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-sans text-emerald-900">
+                        ✨ <strong>Penjelasan:</strong> ${item.explain}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleStepHint(index) {
+            const hintBox = document.getElementById(`practice-hint-${index}`);
+            hintBox.classList.toggle('hidden');
+        }
+
+        // Check Practice Logic
+        function checkPractice(pIndex, selectedOpt, btn) {
+            const pData = practiceData[pIndex];
+            const parent = btn.parentElement;
+            const explainBox = document.getElementById(`practice-explain-${pIndex}`);
+
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+
+            if (selectedOpt === pData.ans) {
+                btn.classList.remove('bg-white', 'hover:bg-emerald-50', 'text-slate-700');
+                btn.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+                btn.querySelector('i').className = "fa-solid fa-circle-check text-white";
+                showToast("Luar Biasa! Jawaban Benar ⭐");
+                addStar();
+            } else {
+                btn.classList.remove('bg-white', 'hover:bg-emerald-50');
+                btn.classList.add('bg-rose-500', 'text-white', 'border-rose-600');
+                btn.querySelector('i').className = "fa-solid fa-circle-xmark text-white";
+                showToast("Belum pas. Simak penjelasannya ya!", false);
+            }
+
+            explainBox.classList.remove('hidden');
+            practiceAnswered++;
+            document.getElementById('practice-score-badge').innerText = `Selesai: ${practiceAnswered}/4`;
+        }
+    </script>
+</body>
+</html>
