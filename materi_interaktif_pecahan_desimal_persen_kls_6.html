@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Pecahan, Desimal, dan Persen - Kelas 6 SD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0fdf4;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Fredoka', cursive;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .tab-active {
+            background-color: #16a34a;
+            color: white;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+        }
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+        }
+        .fraction-top {
+            border-bottom: 2px solid currentColor;
+            padding-bottom: 2px;
+        }
+        .fraction-bottom {
+            padding-top: 2px;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f59e0b;
+            top: 0;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-emerald-100 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-500 text-white p-2.5 rounded-2xl shadow-md">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-emerald-800 leading-none">Matematika Ceria</h1>
+                    <p class="text-xs text-emerald-600 font-semibold mt-1">Kelas 6 SD • Pecahan, Desimal & Persen (Edisi Lengkap)</p>
+                </div>
+            </div>
+
+            <!-- Nav Tabs -->
+            <nav class="flex items-center bg-emerald-50 p-1.5 rounded-2xl overflow-x-auto max-w-full">
+                <button onclick="switchTab('tujuan')" id="nav-tujuan" class="px-3 md:px-4 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap tab-active">
+                    <i class="fa-solid fa-bullseye mr-1.5"></i>Tujuan
+                </button>
+                <button onclick="switchTab('warmup')" id="nav-warmup" class="px-3 md:px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-700 transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-fire mr-1.5"></i>Warm-Up (+ - × ÷)
+                </button>
+                <button onclick="switchTab('materi')" id="nav-materi" class="px-3 md:px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-700 transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-book-open mr-1.5"></i>Materi & Contoh Lengkap
+                </button>
+                <button onclick="switchTab('latihan')" id="nav-latihan" class="px-3 md:px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-emerald-700 transition-all whitespace-nowrap">
+                    <i class="fa-solid fa-pen-ruler mr-1.5"></i>Latihan Terbimbing (10 Soal)
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- ================= BAGIAN 1: TUJUAN PEMBELAJARAN ================= -->
+        <section id="sec-tujuan" class="space-y-6">
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 md:p-10 text-white shadow-xl relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Modul Lengkap Matematika SD</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold mt-3 mb-4">Petualangan Pecahan, Desimal, dan Persen! 🚀</h2>
+                    <p class="text-emerald-50 text-base md:text-lg leading-relaxed">
+                        Selamat datang Teman-teman Kelas 6! Di modul super lengkap ini, kita akan melatih dasar operasi hitung pecahan, menguasai trik konversi angka, hingga mahir membandingkan dan mengurutkan berbagai jenis pecahan dalam kehidupan sehari-hari.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <button onclick="switchTab('warmup')" class="bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold px-6 py-3 rounded-2xl transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2">
+                            Mulai Warm-Up (Operasi Pecahan) <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <i class="fa-solid fa-pie-chart absolute -right-6 -bottom-10 text-9xl text-white/10 pointer-events-none"></i>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-3xl border border-emerald-100 card-shadow hover:border-emerald-300 transition-all">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl font-bold mb-4">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">1. Pemanasan Operasi Hitung</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Mengingat kembali penjumlahan, pengurangan, perkalian, dan pembagian pecahan biasa maupun campuran.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-emerald-100 card-shadow hover:border-emerald-300 transition-all">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl font-bold mb-4">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">2. Konversi & Trik Cepat</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Mengubah pecahan, desimal, dan persen secara cepat menggunakan metode penyebut 10/100/1000 atau porogapit.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-emerald-100 card-shadow hover:border-emerald-300 transition-all">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl font-bold mb-4">
+                        <i class="fa-solid fa-arrow-down-short-wide"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">3. Membandingkan & Mengurutkan</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Menentukan nilai mana yang lebih besar/kecil serta mengurutkannya dari yang terkecil atau terbesar.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BAGIAN 2: WARM-UP (OPERASI HITUNG PECAHAN: + - x :) ================= -->
+        <section id="sec-warmup" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-emerald-100 card-shadow">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                    <div>
+                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full uppercase">Pemanasan Otak</span>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">Warm-Up: Operasi Hitung Pecahan (+, -, ×, ÷)</h2>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-500 block">Skor Kamu</span>
+                        <span id="warmup-score" class="text-2xl font-black text-emerald-600">0 / 6</span>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 mb-6">Uji ingatan dasarmu pada operasi penjumlahan, pengurangan, perkalian, dan pembagian pecahan sebelum masuk ke materi konversi!</p>
+
+                <!-- Container 6 Soal Warm Up -->
+                <div class="space-y-6" id="warmup-container">
+                    <!-- Soal digenerate oleh JS -->
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button onclick="switchTab('materi')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-all hover:scale-105">
+                        Lanjut ke Materi & Contoh Soal Lengkap <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BAGIAN 3: MATERI LENGKAP & BANYAK CONTOH SOAL ================= -->
+        <section id="sec-materi" class="hidden space-y-8">
+            
+            <!-- Sub-Materi 1: Konversi -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-emerald-100 card-shadow space-y-6">
+                <div class="flex items-center space-x-3 text-emerald-700">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-2xl flex items-center justify-center font-bold text-lg">1</div>
+                    <h2 class="text-2xl font-bold">Mengubah (Konversi) Bentuk Pecahan</h2>
+                </div>
+
+                <p class="text-slate-600 leading-relaxed">
+                    Setiap nilai bilangan dapat dinyatakan dalam 3 bentuk utama: <strong>Pecahan Biasa/Campuran</strong>, <strong>Desimal</strong> (menggunakan koma), dan <strong>Persen</strong> (per seratus dengan lambang %).
+                </p>
+
+                <!-- Tiga Rumus / Metode Ringkas -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-emerald-700 text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-long text-amber-500"></i> Pecahan &rarr; Desimal
+                        </h3>
+                        <p class="text-xs text-slate-600 mb-2">Ubah penyebut ke 10, 100, 1000 atau gunakan pembagian porogapit (pembilang &divide; penyebut).</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-emerald-700 text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-long text-amber-500"></i> Pecahan &rarr; Persen
+                        </h3>
+                        <p class="text-xs text-slate-600 mb-2">Kalikan pecahan secara langsung dengan 100%, atau ubah penyebutnya menjadi 100.</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-emerald-700 text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-long text-amber-500"></i> Desimal &harr; Persen
+                        </h3>
+                        <p class="text-xs text-slate-600 mb-2">Desimal &rarr; Persen: Geser koma 2 kali ke KANAN.<br>Persen &rarr; Desimal: Geser koma 2 kali ke KIRI.</p>
+                    </div>
+                </div>
+
+                <!-- KOLEKSI CONTOH SOAL KONVERSI -->
+                <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 space-y-4">
+                    <h3 class="font-bold text-amber-900 text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Contoh Soal & Pembahasan Lengkap (Konversi):
+                    </h3>
+
+                    <!-- Contoh 1.1 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 1.1</span>
+                        <p class="font-bold text-slate-800">Ubah pecahan campuran 2 <span class="fraction"><span class="fraction-top">2</span><span class="fraction-bottom">5</span></span> ke bentuk desimal dan persen!</p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• Langkah 1: Ubah ke pecahan biasa &rarr; <span class="fraction"><span class="fraction-top">(2 &times; 5) + 2</span><span class="fraction-bottom">5</span></span> = <span class="fraction"><span class="fraction-top">12</span><span class="fraction-bottom">5</span></span></p>
+                            <p>• Ke Desimal: Kalikan pembilang dan penyebut dengan 2 agar penyebut jadi 10 &rarr; <span class="fraction"><span class="fraction-top">12 &times; 2</span><span class="fraction-bottom">5 &times; 2</span></span> = <span class="fraction"><span class="fraction-top">24</span><span class="fraction-bottom">10</span></span> = <strong class="text-emerald-700">2,4</strong></p>
+                            <p>• Ke Persen: Kalikan desimal dengan 100% &rarr; 2,4 &times; 100% = <strong class="text-emerald-700">240%</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Contoh 1.2 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 1.2</span>
+                        <p class="font-bold text-slate-800">Ubah pecahan <span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">8</span></span> menjadi bentuk desimal!</p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• Karena penyebut 8 tidak bisa diubah ke 10 atau 100, kita ubah ke 1000 (&times; 125):</p>
+                            <p>• <span class="fraction"><span class="fraction-top">3 &times; 125</span><span class="fraction-bottom">8 &times; 125</span></span> = <span class="fraction"><span class="fraction-top">375</span><span class="fraction-bottom">1000</span></span> = <strong class="text-emerald-700">0,375</strong></p>
+                            <p>• <em>Atau gunakan porogapit:</em> 3 &divide; 8 = <strong class="text-emerald-700">0,375</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Contoh 1.3 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 1.3</span>
+                        <p class="font-bold text-slate-800">Ubah 0,65 dan 120% menjadi pecahan biasa yang paling sederhana!</p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• 0,65 punyai 2 angka di belakang koma &rarr; <span class="fraction"><span class="fraction-top">65</span><span class="fraction-bottom">100</span></span></p>
+                            <p>&nbsp; Sederhanakan (bagi 5) &rarr; <span class="fraction"><span class="fraction-top">65 &divide; 5</span><span class="fraction-bottom">100 &divide; 5</span></span> = <strong class="text-emerald-700"><span class="fraction"><span class="fraction-top">13</span><span class="fraction-bottom">20</span></span></strong></p>
+                            <p>• 120% = <span class="fraction"><span class="fraction-top">120</span><span class="fraction-bottom">100</span></span> &rarr; Sederhanakan (bagi 20) &rarr; <span class="fraction"><span class="fraction-top">120 &divide; 20</span><span class="fraction-bottom">100 &divide; 20</span></span> = <strong class="text-emerald-700"><span class="fraction"><span class="fraction-top">6</span><span class="fraction-bottom">5</span></span></strong> (atau 1 <span class="fraction"><span class="fraction-top">1</span><span class="fraction-bottom">5</span></span>)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Materi 2: Membandingkan -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-emerald-100 card-shadow space-y-6">
+                <div class="flex items-center space-x-3 text-emerald-700">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-2xl flex items-center justify-center font-bold text-lg">2</div>
+                    <h2 class="text-2xl font-bold">Membandingkan Nilai (&gt;, &lt;, =)</h2>
+                </div>
+
+                <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-2xl">
+                    <p class="text-sm text-emerald-900 font-medium">
+                        💡 <strong>Kunci Utama:</strong> Untuk membandingkan dua atau lebih jenis bilangan berbeda, ubah seluruh bilangan ke <strong>bentuk yang SAMA</strong>. Paling disarankan diubah ke bentuk <strong>DESIMAL</strong> atau <strong>PERSEN</strong>!
+                    </p>
+                </div>
+
+                <!-- KOLEKSI CONTOH SOAL MEMBANDINGKAN -->
+                <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 space-y-4">
+                    <h3 class="font-bold text-amber-900 text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Contoh Soal & Pembahasan (Membandingkan):
+                    </h3>
+
+                    <!-- Contoh 2.1 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 2.1</span>
+                        <p class="font-bold text-slate-800">Isilah titik-titik berikut dengan tanda &gt;, &lt;, atau = : &nbsp; <strong><span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">4</span></span> ..... 0,72</strong></p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• Ubah <span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">4</span></span> ke desimal &rarr; <span class="fraction"><span class="fraction-top">3 &times; 25</span><span class="fraction-bottom">4 &times; 25</span></span> = <span class="fraction"><span class="fraction-top">75</span><span class="fraction-bottom">100</span></span> = 0,75</p>
+                            <p>• Bandingkan: 0,75 dengan 0,72</p>
+                            <p>• Karena 0,75 &gt; 0,72, maka jawabannya adalah <strong class="text-emerald-700"><span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">4</span></span> &gt; 0,72</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Contoh 2.2 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 2.2</span>
+                        <p class="font-bold text-slate-800">Isilah titik-titik berikut dengan tanda &gt;, &lt;, atau = : &nbsp; <strong>85% ..... <span class="fraction"><span class="fraction-top">7</span><span class="fraction-bottom">8</span></span></strong></p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• Ubah ke Persen:</p>
+                            <p>&nbsp; 85% = 85%</p>
+                            <p>&nbsp; <span class="fraction"><span class="fraction-top">7</span><span class="fraction-bottom">8</span></span> &times; 100% = <span class="fraction"><span class="fraction-top">700</span><span class="fraction-bottom">8</span></span>% = 87,5%</p>
+                            <p>• Karena 85% &lt; 87,5%, maka jawabannya adalah <strong class="text-emerald-700">85% &lt; <span class="fraction"><span class="fraction-top">7</span><span class="fraction-bottom">8</span></span></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Materi 3: Mengurutkan -->
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-emerald-100 card-shadow space-y-6">
+                <div class="flex items-center space-x-3 text-emerald-700">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-2xl flex items-center justify-center font-bold text-lg">3</div>
+                    <h2 class="text-2xl font-bold">Mengurutkan Pecahan, Desimal, & Persen</h2>
+                </div>
+
+                <ol class="list-decimal list-inside space-y-2 text-slate-700 font-medium text-sm">
+                    <li>Ubah semua bentuk bilangan menjadi desimal (disamakan jumlah digit belakang komanya, misal 2 angka desimal).</li>
+                    <li>Bandingkan nilai desimal tersebut.</li>
+                    <li>Tuliskan kembali urutannya dari yang diminta (terkecil/terbesar) menggunakan <strong>bentuk asal soal</strong>.</li>
+                </ol>
+
+                <!-- KOLEKSI CONTOH SOAL MENGURUTKAN -->
+                <div class="bg-amber-50 p-6 rounded-2xl border border-amber-200 space-y-4">
+                    <h3 class="font-bold text-amber-900 text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Contoh Soal & Pembahasan (Mengurutkan):
+                    </h3>
+
+                    <!-- Contoh 3.1 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 3.1</span>
+                        <p class="font-bold text-slate-800">Urutkan dari yang <strong>TERKECIL</strong>: <br><span class="bg-slate-100 p-1.5 rounded inline-block mt-1">0,4 ; &nbsp; 65% ; &nbsp; <span class="fraction"><span class="fraction-top">1</span><span class="fraction-bottom">2</span></span> ; &nbsp; 0,25</span></p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• Ubah semua ke desimal 2 digit:</p>
+                            <p>&nbsp; 0,4 &rarr; <strong>0,40</strong></p>
+                            <p>&nbsp; 65% &rarr; <strong>0,65</strong></p>
+                            <p>&nbsp; <span class="fraction"><span class="fraction-top">1</span><span class="fraction-bottom">2</span></span> &rarr; <strong>0,50</strong></p>
+                            <p>&nbsp; 0,25 &rarr; <strong>0,25</strong></p>
+                            <p>• Urutan nilai desimal (terkecil): 0,25 &lt; 0,40 &lt; 0,50 &lt; 0,65</p>
+                            <p>• Jawaban (bentuk awal): <strong class="text-emerald-700">0,25 &nbsp;;&nbsp; 0,4 &nbsp;;&nbsp; <span class="fraction"><span class="fraction-top">1</span><span class="fraction-bottom">2</span></span> &nbsp;;&nbsp; 65%</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Contoh 3.2 -->
+                    <div class="bg-white p-4 rounded-xl space-y-2 border border-amber-100 text-sm">
+                        <span class="bg-amber-200 text-amber-900 text-xs font-bold px-2.5 py-0.5 rounded-full">Contoh 3.2 (Soal Cerita)</span>
+                        <p class="font-bold text-slate-800">Dina membeli pita 0,8 meter, Siti membeli <span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">4</span></span> meter, dan Rini membeli 82% meter. Urutkan anak dari yang memiliki pita paling PANJANG!</p>
+                        <div class="text-slate-700 space-y-1 bg-slate-50 p-3 rounded-lg text-xs font-mono">
+                            <p>• Ubah semua pita ke desimal:</p>
+                            <p>&nbsp; Dina = 0,8 m = <strong>0,80 m</strong></p>
+                            <p>&nbsp; Siti = <span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">4</span></span> m = <strong>0,75 m</strong></p>
+                            <p>&nbsp; Rini = 82% m = <strong>0,82 m</strong></p>
+                            <p>• Bandingkan dari terbesar: 0,82 m &gt; 0,80 m &gt; 0,75 m</p>
+                            <p>• Jawaban urutan nama anak: <strong class="text-emerald-700">Rini (0,82 m) &rarr; Dina (0,8 m) &rarr; Siti (<span class="fraction"><span class="fraction-top">3</span><span class="fraction-bottom">4</span></span> m)</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center pt-4">
+                    <button onclick="switchTab('latihan')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 py-3.5 rounded-2xl shadow-lg transition-all hover:scale-105">
+                        Lanjut ke Latihan Soal Terbimbing (10 Soal) <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BAGIAN 4: LATIHAN SOAL TERBIMBING (10 SOAL) ================= -->
+        <section id="sec-latihan" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-emerald-100 card-shadow">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase">Uji Pemahaman Interaktif</span>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">Latihan Soal Terbimbing (10 Soal)</h2>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-500 block">Progres</span>
+                        <span id="latihan-progress" class="text-lg font-bold text-emerald-600">Soal 1 dari 10</span>
+                    </div>
+                </div>
+
+                <!-- Soal Container -->
+                <div id="latihan-card" class="space-y-6">
+                    <!-- Dynamic Question Area -->
+                </div>
+
+                <!-- Navigation Quiz Buttons -->
+                <div class="flex justify-between items-center pt-6 border-t border-slate-100">
+                    <button id="btn-prev" onclick="changeLatihan(-1)" class="px-5 py-2.5 rounded-xl border border-slate-300 font-bold text-slate-600 hover:bg-slate-50 transition-all disabled:opacity-50" disabled>
+                        <i class="fa-solid fa-arrow-left mr-2"></i>Sebelumnya
+                    </button>
+                    <button id="btn-next" onclick="changeLatihan(1)" class="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all">
+                        Selanjutnya <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-emerald-100 py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center text-xs text-slate-500">
+            <p>© 2026 Matematika Ceria Kelas 6 SD - Modul Pembelajaran Interaktif Edisi Lengkap</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const tabs = ['tujuan', 'warmup', 'materi', 'latihan'];
+            tabs.forEach(id => {
+                const section = document.getElementById(`sec-${id}`);
+                const navBtn = document.getElementById(`nav-${id}`);
+                if (id === tabId) {
+                    section.classList.remove('hidden');
+                    navBtn.classList.add('tab-active');
+                    navBtn.classList.remove('text-slate-600');
+                } else {
+                    section.classList.add('hidden');
+                    navBtn.classList.remove('tab-active');
+                    navBtn.classList.add('text-slate-600');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- WARM UP DATA: OPERASI HITUNG PECAHAN (+ - x :) (6 SOAL) ---
+        const warmupData = [
+            {
+                q: "Hasil dari Penjumlahan <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>4</span></span> + <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>4</span></span> adalah...",
+                options: [
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>8</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>4</span></span>"
+                ],
+                answer: 0,
+                hint: "Karena penyebutnya sudah SAMA (4), langsung jumlahkan pembilangnya: 1 + 2."
+            },
+            {
+                q: "Hasil dari Pengurangan <span class='fraction'><span class='fraction-top'>5</span><span class='fraction-bottom'>6</span></span> - <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>3</span></span> adalah...",
+                options: [
+                    "<span class='fraction'><span class='fraction-top'>4</span><span class='fraction-bottom'>3</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>4</span><span class='fraction-bottom'>6</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>3</span></span>"
+                ],
+                answer: 1,
+                hint: "Samakan penyebutnya menjadi 6. Pecahan 1/3 diubah menjadi 2/6. Lalu hitung 5/6 - 2/6 = 3/6 = 1/2."
+            },
+            {
+                q: "Hasil dari Perkalian <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>3</span></span> &times; <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>5</span></span> adalah...",
+                options: [
+                    "<span class='fraction'><span class='fraction-top'>5</span><span class='fraction-bottom'>8</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>6</span><span class='fraction-bottom'>15</span></span> (atau <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>5</span></span>)", 
+                    "<span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>5</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>5</span></span>"
+                ],
+                answer: 1,
+                hint: "Perkalian pecahan: Atas &times; Atas (2 &times; 3 = 6) dan Bawah &times; Bawah (3 &times; 5 = 15). Sederhanakan 6/15 menjadi 2/5."
+            },
+            {
+                q: "Hasil dari Pembagian <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span> &divide; <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span> adalah...",
+                options: [
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>8</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>6</span><span class='fraction-bottom'>4</span></span> (atau 1 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span>)", 
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>2</span></span> (atau 1 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span>)"
+                ],
+                answer: 3,
+                hint: "Ubah pembagian menjadi perkalian dengan membalik pecahan kedua: 3/4 &times; 2/1 = 6/4 = 3/2 = 1 1/2."
+            },
+            {
+                q: "Hasil Penjumlahan Pecahan Campuran 1 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span> + 2 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>4</span></span> adalah...",
+                options: [
+                    "3 <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>6</span></span>", 
+                    "3 <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span>", 
+                    "3 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>4</span></span>", 
+                    "4"
+                ],
+                answer: 1,
+                hint: "Jumlahkan bilangan bulatnya: 1 + 2 = 3. Lalu jumlahkan pecahannya: 1/2 + 1/4 = 2/4 + 1/4 = 3/4. Hasil = 3 3/4."
+            },
+            {
+                q: "Hasil dari 2 &times; <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span> adalah...",
+                options: [
+                    "<span class='fraction'><span class='fraction-top'>6</span><span class='fraction-bottom'>8</span></span>", 
+                    "1 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>2</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>5</span><span class='fraction-bottom'>4</span></span>", 
+                    "2 <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span>"
+                ],
+                answer: 1,
+                hint: "2 &times; 3/4 = (2 &times; 3) / 4 = 6/4. Disederhanakan menjadi 3/2 atau 1 1/2."
+            }
+        ];
+
+        let warmupUserAnswers = Array(warmupData.length).fill(null);
+
+        function renderWarmup() {
+            const container = document.getElementById('warmup-container');
+            container.innerHTML = '';
+
+            warmupData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3";
+                
+                let optionsHTML = item.options.map((opt, optIdx) => {
+                    const isSelected = warmupUserAnswers[index] === optIdx;
+                    return `
+                        <button onclick="selectWarmup(${index}, ${optIdx})" 
+                            class="w-full text-left p-3 rounded-xl border transition-all text-sm font-semibold flex items-center justify-between ${
+                                isSelected 
+                                ? 'bg-emerald-100 border-emerald-500 text-emerald-900 shadow-sm' 
+                                : 'bg-white border-slate-200 hover:bg-slate-100 text-slate-700'
+                            }">
+                            <span>${String.fromCharCode(65 + optIdx)}. ${opt}</span>
+                            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600"></i>' : ''}
+                        </button>
+                    `;
+                }).join('');
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <h3 class="font-bold text-slate-800 text-base">Soal ${index + 1}: ${item.q}</h3>
+                        <button onclick="toggleHint(${index})" class="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-lg font-bold hover:bg-amber-200 transition-all shrink-0">
+                            <i class="fa-regular fa-lightbulb mr-1"></i>Petunjuk
+                        </button>
+                    </div>
+                    <div id="hint-${index}" class="hidden p-3 bg-amber-50 text-amber-900 text-xs rounded-xl border border-amber-200">
+                        💡 ${item.hint}
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-2">
+                        ${optionsHTML}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectWarmup(qIdx, optIdx) {
+            warmupUserAnswers[qIdx] = optIdx;
+            renderWarmup();
+            calculateWarmupScore();
+        }
+
+        function toggleHint(index) {
+            const hintElem = document.getElementById(`hint-${index}`);
+            hintElem.classList.toggle('hidden');
+        }
+
+        function calculateWarmupScore() {
+            let score = 0;
+            warmupUserAnswers.forEach((ans, idx) => {
+                if (ans === warmupData[idx].answer) {
+                    score++;
+                }
+            });
+            document.getElementById('warmup-score').innerText = `${score} / ${warmupData.length}`;
+        }
+
+        // --- LATIHAN SOAL TERBIMBING DATA (10 SOAL LENGKAP) ---
+        const latihanData = [
+            {
+                q: "Ubahlah pecahan <span class='fraction'><span class='fraction-top'>4</span><span class='fraction-bottom'>5</span></span> menjadi bentuk desimal dan persen!",
+                options: ["0,8 dan 80%", "0,4 dan 40%", "0,5 dan 50%", "0,85 dan 85%"],
+                answer: 0,
+                explanation: "4/5 diubah ke penyebut 10 menjadi 8/10 = 0,8. Dalam persen: 0,8 &times; 100% = 80%."
+            },
+            {
+                q: "Bentuk desimal dari pecahan campuran 2 <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>4</span></span> adalah...",
+                options: ["2,14", "2,25", "2,50", "2,75"],
+                answer: 1,
+                explanation: "2 1/4 = 2 + (1/4). Karena 1/4 = 0,25, maka 2 + 0,25 = 2,25."
+            },
+            {
+                q: "Bandingkan dua bilangan berikut: &nbsp; 0,75 ..... <span class='fraction'><span class='fraction-top'>4</span><span class='fraction-bottom'>5</span></span>",
+                options: [">", "<", "="],
+                answer: 1,
+                explanation: "4/5 = 0,80. Bandingkan 0,75 dengan 0,80. Karena 0,75 < 0,80, maka tanda yang tepat adalah '<'."
+            },
+            {
+                q: "Tanda perbandingan yang tepat untuk: &nbsp; 65% ..... 0,6 adalah...",
+                options: [">", "<", "="],
+                answer: 0,
+                explanation: "Ubah ke desimal: 65% = 0,65. Bandingkan 0,65 dengan 0,60. Karena 0,65 > 0,60, maka tanda yang tepat adalah '>'."
+            },
+            {
+                q: "Urutkan bilangan berikut dari yang TERKECIL: <br><span class='font-bold text-emerald-800 bg-emerald-50 px-2 py-1 rounded border border-emerald-200 inline-block mt-2'>70% ; &nbsp; 0,5 ; &nbsp; <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span> ; &nbsp; 0,2</span>",
+                options: [
+                    "0,2 &nbsp;;&nbsp; 0,5 &nbsp;;&nbsp; 70% &nbsp;;&nbsp; <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span>",
+                    "0,2 &nbsp;;&nbsp; 70% &nbsp;;&nbsp; 0,5 &nbsp;;&nbsp; <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span>",
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span> &nbsp;;&nbsp; 70% &nbsp;;&nbsp; 0,5 &nbsp;;&nbsp; 0,2",
+                    "0,5 &nbsp;;&nbsp; 0,2 &nbsp;;&nbsp; 70% &nbsp;;&nbsp; <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>4</span></span>"
+                ],
+                answer: 0,
+                explanation: "Desimal: 70% = 0,70 ; 0,5 = 0,50 ; 3/4 = 0,75 ; 0,2 = 0,20. Urutan dari terkecil: 0,20 &rarr; 0,50 &rarr; 0,70 &rarr; 0,75."
+            },
+            {
+                q: "Ibu membeli gula 1,5 kg, Andi membeli <span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>2</span></span> kg, dan Budi membeli 125% kg. Siapakah yang membeli gula paling SEDIKIT?",
+                options: ["Ibu", "Andi", "Budi", "Ibu dan Andi sama banyak"],
+                answer: 2,
+                explanation: "Ubah ke desimal: Ibu = 1,5 kg ; Andi = 3/2 = 1,5 kg ; Budi = 125% = 1,25 kg. Budi membeli gula paling sedikit (1,25 kg)."
+            },
+            {
+                q: "Urutkan bilangan berikut dari yang TERBESAR: <br><span class='font-bold text-emerald-800 bg-emerald-50 px-2 py-1 rounded border border-emerald-200 inline-block mt-2'>0,8 ; &nbsp; 85% ; &nbsp; <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>5</span></span> ; &nbsp; 0,65</span>",
+                options: [
+                    "85% &nbsp;;&nbsp; 0,8 &nbsp;;&nbsp; 0,65 &nbsp;;&nbsp; <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>5</span></span>",
+                    "0,8 &nbsp;;&nbsp; 85% &nbsp;;&nbsp; 0,65 &nbsp;;&nbsp; <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>5</span></span>",
+                    "<span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>5</span></span> &nbsp;;&nbsp; 0,65 &nbsp;;&nbsp; 0,8 &nbsp;;&nbsp; 85%",
+                    "85% &nbsp;;&nbsp; 0,65 &nbsp;;&nbsp; 0,8 &nbsp;;&nbsp; <span class='fraction'><span class='fraction-top'>2</span><span class='fraction-bottom'>5</span></span>"
+                ],
+                answer: 0,
+                explanation: "Desimal: 0,8 = 0,80 ; 85% = 0,85 ; 2/5 = 0,40 ; 0,65 = 0,65. Urutan terbesar: 0,85 (85%) &rarr; 0,80 (0,8) &rarr; 0,65 &rarr; 0,40 (2/5)."
+            },
+            {
+                q: "Bentuk persen dari pecahan <span class='fraction'><span class='fraction-top'>7</span><span class='fraction-bottom'>20</span></span> adalah...",
+                options: ["35%", "70%", "14%", "3,5%"],
+                answer: 0,
+                explanation: "Ubah penyebut ke 100 dengan dikali 5: (7 &times; 5) / (20 &times; 5) = 35/100 = 35%."
+            },
+            {
+                q: "Sebuah kue dipotong menjadi beberapa bagian. Ani mendapat 0,3 bagian, Boni mendapat 40% bagian, dan Cici mendapat <span class='fraction'><span class='fraction-top'>1</span><span class='fraction-bottom'>4</span></span> bagian. Siapa yang mendapat potong kue paling BANYAK?",
+                options: ["Ani", "Boni", "Cici", "Semua sama banyak"],
+                answer: 1,
+                explanation: "Ubah ke persen: Ani = 0,3 = 30% ; Boni = 40% ; Cici = 1/4 = 25%. Boni mendapat bagian paling banyak (40%)."
+            },
+            {
+                q: "Pecahan biasa paling sederhana dari 0,35 adalah...",
+                options: [
+                    "<span class='fraction'><span class='fraction-top'>35</span><span class='fraction-bottom'>100</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>7</span><span class='fraction-bottom'>20</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>3</span><span class='fraction-bottom'>5</span></span>", 
+                    "<span class='fraction'><span class='fraction-top'>7</span><span class='fraction-bottom'>10</span></span>"
+                ],
+                answer: 1,
+                explanation: "0,35 = 35/100. Disederhanakan dengan membagi pembilang dan penyebut dengan 5: (35 &divide; 5) / (100 &divide; 5) = 7/20."
+            }
+        ];
+
+        let currentLatihanIdx = 0;
+        let latihanAnswers = Array(latihanData.length).fill(null);
+
+        function renderLatihanCard() {
+            const container = document.getElementById('latihan-card');
+            const data = latihanData[currentLatihanIdx];
+            const selectedOpt = latihanAnswers[currentLatihanIdx];
+
+            document.getElementById('latihan-progress').innerText = `Soal ${currentLatihanIdx + 1} dari ${latihanData.length}`;
+
+            let optionsHTML = data.options.map((opt, idx) => {
+                let borderStyle = "border-slate-200 bg-white hover:bg-slate-50";
+                if (selectedOpt !== null) {
+                    if (idx === data.answer) {
+                        borderStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold";
+                    } else if (selectedOpt === idx) {
+                        borderStyle = "border-rose-500 bg-rose-50 text-rose-900 font-bold";
+                    }
+                }
+
+                return `
+                    <button onclick="selectLatihan(${idx})" ${selectedOpt !== null ? 'disabled' : ''} 
+                        class="w-full text-left p-4 rounded-2xl border ${borderStyle} transition-all flex items-center justify-between text-slate-800">
+                        <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                        ${selectedOpt !== null && idx === data.answer ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : ''}
+                        ${selectedOpt !== null && selectedOpt === idx && idx !== data.answer ? '<i class="fa-solid fa-circle-xmark text-rose-500 text-lg"></i>' : ''}
+                    </button>
+                `;
+            }).join('');
+
+            let explanationHTML = '';
+            if (selectedOpt !== null) {
+                explanationHTML = `
+                    <div class="mt-4 p-4 rounded-2xl ${selectedOpt === data.answer ? 'bg-emerald-100 border border-emerald-300 text-emerald-900' : 'bg-amber-50 border border-amber-300 text-amber-900'} space-y-1 text-sm">
+                        <div class="font-bold flex items-center gap-2">
+                            <i class="fa-solid ${selectedOpt === data.answer ? 'fa-circle-check text-emerald-600' : 'fa-triangle-exclamation text-amber-600'}"></i>
+                            ${selectedOpt === data.answer ? 'Hebat! Jawabanmu Benar!' : 'Kurang Tepat, Yuk Pelajari Pembahasannya:'}
+                        </div>
+                        <p class="pt-1 leading-relaxed">${data.explanation}</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 leading-relaxed">${data.q}</h3>
+                    <div class="space-y-3 pt-2">
+                        ${optionsHTML}
+                    </div>
+                    ${explanationHTML}
+                </div>
+            `;
+
+            document.getElementById('btn-prev').disabled = currentLatihanIdx === 0;
+            const nextBtn = document.getElementById('btn-next');
+            if (currentLatihanIdx === latihanData.length - 1) {
+                nextBtn.innerHTML = `Selesai <i class="fa-solid fa-flag-checkered ml-2"></i>`;
+            } else {
+                nextBtn.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right ml-2"></i>`;
+            }
+        }
+
+        function selectLatihan(optIdx) {
+            latihanAnswers[currentLatihanIdx] = optIdx;
+            renderLatihanCard();
+        }
+
+        function changeLatihan(step) {
+            if (currentLatihanIdx + step >= 0 && currentLatihanIdx + step < latihanData.length) {
+                currentLatihanIdx += step;
+                renderLatihanCard();
+            } else if (currentLatihanIdx + step >= latihanData.length) {
+                alert("Selamat! Kamu telah menyelesaikan seluruh 10 soal latihan terbimbing 🎉");
+            }
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderWarmup();
+            renderLatihanCard();
+        };
+    </script>
+</body>
+</html>
